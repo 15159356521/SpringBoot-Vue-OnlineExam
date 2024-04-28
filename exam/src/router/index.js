@@ -66,7 +66,7 @@ export default new Router({
           component: () => import('@/components/teacher/studentManage')
         },
         {
-          path: '/addStudent', //添加学生
+          path: '/addStudent', //添加学生  的设置
           component: () => import('@/components/teacher/addStudent')
         },
         {

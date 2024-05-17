@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f32b3d36-a832-4a76-8415-9fbdd0570e46" name="更改" comment="修复删除store引起的bug">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exam/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/exam/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/springboot/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/springboot/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exam/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/exam/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exam/src/components/common/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/exam/src/components/common/login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/exam/controller/AnswerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/exam/controller/AnswerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/exam/vo/AnswerVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/exam/vo/AnswerVO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +49,7 @@
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wei&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -103,7 +102,8 @@
       <workItem from="1714112095244" duration="3637000" />
       <workItem from="1714197967480" duration="4867000" />
       <workItem from="1714306301701" duration="373000" />
-      <workItem from="1714306764594" duration="304000" />
+      <workItem from="1714306764594" duration="3112000" />
+      <workItem from="1715311676695" duration="623000" />
     </task>
     <task id="LOCAL-00001" summary="修复删除store引起的bug">
       <option name="closed" value="true" />

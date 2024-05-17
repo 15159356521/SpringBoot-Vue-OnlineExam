@@ -7,9 +7,9 @@ import com.exam.serviceimpl.AnswerServiceImpl;
 import com.exam.util.ApiResultHandler;
 import com.exam.vo.AnswerVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;  //这个是get请求
+import org.springframework.web.bind.annotation.PathVariable; //这个是获取路径参数
+import org.springframework.web.bind.annotation.RestController; //这个是返回json数据
 
 
 @RestController

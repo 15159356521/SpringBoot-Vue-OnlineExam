@@ -33,9 +33,6 @@
       </el-col>
     </el-row>
     <el-row class="footer">
-      <el-col>
-        <p class="msg2">版权所有 ©2019 <!--重庆文理学院计科2班余晓江--> 保留所有权利  <a href="http://beian.miit.gov.cn/" target="_blank">渝ICP备19001371号</a></p>
-      </el-col>
     </el-row>
     <section class="remind">
       <span>管理员账号：9527</span>
@@ -101,11 +98,11 @@ export default {
         }
       })
     },
-    clickTag(key) {
+    clickTag(key) { //点击切换角色
       this.role = key
     }
   },
-  computed: mapState(["userInfo"]),
+  computed: mapState(["userInfo"]), //获取用户信息
   mounted() {
 
   }

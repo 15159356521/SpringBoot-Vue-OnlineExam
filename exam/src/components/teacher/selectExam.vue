@@ -43,17 +43,33 @@
             <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="所属学院">
-            <el-input v-model="form.institute"></el-input>
+            <!-- <el-input v-model="form.institute"></el-input> -->
+            <el-select v-model="form.institute" placeholder="请选择所属学院">
+              <el-option
+                v-for="item in collegeName"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="所属专业">
-            <el-input v-model="form.major"></el-input>
+          <!--   <el-input v-model="form.major"></el-input> -->
+            <el-select v-model="form.major" placeholder="请选择所属专业">
+              <el-option
+                v-for="item in speciality"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="年级">
             <el-input v-model="form.grade"></el-input>
           </el-form-item>
           <el-form-item label="考试日期">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="form.examDate" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions()" v-model="form.examDate" style="width: 185px;"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="持续时间">
@@ -63,7 +79,15 @@
             <el-input v-model="form.totalScore"></el-input>
           </el-form-item>
           <el-form-item label="试卷类型">
-            <el-input v-model="form.type"></el-input>
+           <!--  <el-input v-model="form.type"></el-input> -->
+            <el-select v-model="form.type" placeholder="请选择试卷类型">
+              <el-option
+                v-for="item in examType"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="考生提示">
             <el-input type="textarea" v-model="form.tips"></el-input>
@@ -88,11 +112,18 @@ export default {
         total: null, //记录条数
         size: 4 //每页条数
       },
+      speciality:[],
+
+      collegeName:[],
+      examType:["期末考试","期中考试","课堂小测"],
+
       dialogVisible: false
     }
   },
   created() {
     this.getExamInfo()
+    this.getSpeciality()
+
   },
   methods: {
     edit(examCode) { //编辑试卷
@@ -101,6 +132,18 @@ export default {
         if(res.data.code == 200) {
           this.form = res.data.data
         }
+      })
+    },
+    getSpeciality() {
+      this.$axios('/api/specialities').then(res => {
+        console.log(res.data.data);
+        for(let i = 0; i < res.data.data.length; i++) {
+          this.speciality.push(res.data.data[i].speciality)
+          this.collegeName.push(res.data.data[i].collegeName)
+        }
+        this.speciality = [...new Set(this.speciality)]
+        this.collegeName = [...new Set(this.collegeName)]
+        
       })
     },
     handleClose(done) { //关闭提醒
@@ -159,6 +202,15 @@ export default {
       this.pagination.current = val
       this.getExamInfo()
     },
+    pickerOptions(){
+    
+      return {
+        disabledDate(date) {
+         
+          return date.getTime() < new Date().getTime() - 24 * 60 * 60 * 1000;
+        }
+      }
+    }
   },
 };
 </script>

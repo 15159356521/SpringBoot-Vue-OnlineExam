@@ -19,7 +19,8 @@
       </el-form-item>
       <el-form-item label="考试日期">
         <el-col :span="11">
-          <el-date-picker placeholder="选择日期" v-model="form.examDate" style="width: 100%;"></el-date-picker>
+          <el-date-picker placeholder="选择日期" v-model="form.examDate" 
+          style="width: 100%;":picker-options="pickerOptions()" ></el-date-picker>
         </el-col>
       </el-form-item>
       <el-form-item label="持续时间">
@@ -95,8 +96,18 @@ export default {
       })
     },
     cancel() { //取消按钮
+      console.log("取消");
       this.form = {}
     },
+    pickerOptions(){
+      console.log("sjian");
+      return {
+        disabledDate(date) {
+         
+          return date.getTime() < new Date().getTime() - 24 * 60 * 60 * 1000;
+        }
+      }
+    }
     
   }
 };

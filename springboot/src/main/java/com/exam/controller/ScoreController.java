@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.ApiResult;
 import com.exam.entity.Message;
 import com.exam.entity.Score;
+import com.exam.entity.TableExcel;
 import com.exam.serviceimpl.ScoreServiceImpl;
 import com.exam.util.ApiResultHandler;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,4 +59,10 @@ public class ScoreController {
         List<Score> scores = scoreService.findByExamCode(examCode);
         return ApiResultHandler.buildApiResult(200,"查询成功",scores);
     }
+
+
+
+
+
+
 }

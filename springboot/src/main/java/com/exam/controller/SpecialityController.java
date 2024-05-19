@@ -16,6 +16,7 @@ public class SpecialityController {
        private SpecialityServiceImpl specialityService;
     @GetMapping("/specialities")
     public ApiResult findAll() {
+        System.out.println("查询所有专业");
         List<Speciality> res = specialityService.findAll();
         return ApiResultHandler.buildApiResult(200,"查询所有专业",res);
     }

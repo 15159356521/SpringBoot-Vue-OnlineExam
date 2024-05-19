@@ -68,7 +68,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="final" @click="commit()">结束考试</div>
+              <div class="final" v-if="isPractice" @click="commit()">结束考试</div>
             </div>
           </div>
         </transition>  

@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 public class Item {
 
-    private String subject;
+    private String subject; //科目
 
-    private Integer paperId;
+    private Integer paperId; //试卷id
 
-    private Integer changeNumber;
+    private Integer changeNumber; //变更题号
 
-    private Integer fillNumber;
+    private Integer fillNumber; //填空题号
 
-    private Integer judgeNumber;
+    private Integer judgeNumber; //判断题号
 }

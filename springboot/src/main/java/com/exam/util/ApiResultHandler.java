@@ -16,7 +16,7 @@ public class ApiResultHandler {
         return success(null);
     }
 
-    public static <T> ApiResult buildApiResult(Integer code, String message, T data) {
+    public static <T> ApiResult buildApiResult(Integer code, String message, T data) { //buildApiResult是将数据封装到ApiResult对象中
         ApiResult apiResult = new ApiResult();
 
 

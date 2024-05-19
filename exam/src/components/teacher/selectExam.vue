@@ -12,9 +12,10 @@
       <el-table-column prop="totalScore" label="总分" width="120"></el-table-column>
       <el-table-column prop="type" label="试卷类型" width="120"></el-table-column>
       <el-table-column prop="tips" label="考生提示" width="400"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row.examCode)" type="primary" size="small">编辑</el-button>
+          <el-button  @click="edit(scope.row.examCode)" type="primary" size="small" style="margin-left: 10px ;">编辑</el-button>
+          <el-button @click="toAnswer(scope.row.examCode)" type="success"  size="small">查看试卷</el-button>
           <el-button @click="deleteRecord(scope.row.examCode)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
@@ -117,7 +118,8 @@ export default {
       collegeName:[],
       examType:["期末考试","期中考试","课堂小测"],
 
-      dialogVisible: false
+      dialogVisible: false,
+      examData:{}
     }
   },
   created() {
@@ -202,6 +204,8 @@ export default {
       this.pagination.current = val
       this.getExamInfo()
     },
+
+    //禁止日期之前
     pickerOptions(){
     
       return {
@@ -210,7 +214,12 @@ export default {
           return date.getTime() < new Date().getTime() - 24 * 60 * 60 * 1000;
         }
       }
-    }
+    },
+    toAnswer(id) {
+      let isPractice = true
+      this.$store.commit("practice", isPractice)
+      this.$router.push({path:"/answer",query:{examCode: id}})
+    },
   },
 };
 </script>
@@ -226,5 +235,11 @@ export default {
   .edit{
     margin-left: 20px;
   }
+  .cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 }
 </style>

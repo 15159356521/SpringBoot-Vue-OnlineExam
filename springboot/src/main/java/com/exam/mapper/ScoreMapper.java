@@ -37,4 +37,5 @@ public interface ScoreMapper {
      */
     @Select("select max(etScore) as etScore from score where examCode = #{examCode} group by studentId")
     List<Score> findByExamCode(Integer examCode);
+
 }

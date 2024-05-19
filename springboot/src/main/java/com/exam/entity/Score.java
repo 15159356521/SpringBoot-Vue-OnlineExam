@@ -2,8 +2,6 @@ package com.exam.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class Score {
     private Integer examCode;
@@ -21,4 +19,12 @@ public class Score {
     private Integer scoreId;
 
     private String answerDate;
+
+    @Data
+    public static class StudentScore {
+        private String StudentName;
+        private Integer Score;
+        private String Subject;
+
+    }
 }

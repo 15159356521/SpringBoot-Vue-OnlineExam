@@ -68,7 +68,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="final" v-if="isPractice" @click="commit()">结束考试</div>
+              <div class="final" v-if="!isPractice" @click="commit()">结束考试</div>
             </div>
           </div>
         </transition>  
@@ -360,6 +360,7 @@ export default {
         case 3:
           this.judge(this.index)
           break
+          
       }
     },
     mark() { //标记功能

@@ -18,10 +18,16 @@ public class AnswerController {
     @Autowired
     private AnswerServiceImpl answerService;
 
-    @GetMapping("/answers/{page}/{size}")
-    public ApiResult findAllQuestion(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+    @GetMapping("/answers/{page}/{size}/{subject}/{type}")
+    public ApiResult findAllQuestion(@PathVariable("page") Integer page, @PathVariable("size") Integer size ,@PathVariable("subject") String subject,@PathVariable("type") String type){
        Page<AnswerVO> answerVOPage = new Page<>(page,size);
-       IPage<AnswerVO> answerVOIPage = answerService.findAll(answerVOPage);
+       if(("null").equals(subject)){
+           subject = null;
+       }
+       if(("null").equals(type)){
+           type = "全部";
+       }
+       IPage<AnswerVO> answerVOIPage = answerService.findAll(answerVOPage,subject,type);
        return ApiResultHandler.buildApiResult(200,"查询所有题库",answerVOIPage);
 
     }

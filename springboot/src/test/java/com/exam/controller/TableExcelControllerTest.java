@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.net.HttpRetryException;
+
 @RunWith(SpringRunner.class) // 使用SpringRunner进行测试
 public class TableExcelControllerTest {
 
@@ -19,7 +21,7 @@ public class TableExcelControllerTest {
 
      @Test
      public void testGetTableExcel() {
-//          tableExcelController.getTableExcel(20190001);
+//        tableExcelController.getTableExcel( );
      }
 
 }

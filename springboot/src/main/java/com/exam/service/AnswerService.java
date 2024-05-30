@@ -6,5 +6,5 @@ import com.exam.vo.AnswerVO;
 
 public interface AnswerService {
 
-    IPage<AnswerVO> findAll(Page<AnswerVO> page); //查询所有答题信息
+    IPage<AnswerVO> findAll(Page<AnswerVO> page,String subject,String type); //查询所有答题信息
 }

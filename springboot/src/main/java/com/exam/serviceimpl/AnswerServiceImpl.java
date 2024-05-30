@@ -15,7 +15,7 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerMapper answerMapper;
 
     @Override
-    public IPage<AnswerVO> findAll(Page<AnswerVO> page) {
-        return answerMapper.findAll(page);
+    public IPage<AnswerVO> findAll(Page<AnswerVO> page, String subject, String type) {
+        return answerMapper.findAll(page, subject, type);
     }
 }

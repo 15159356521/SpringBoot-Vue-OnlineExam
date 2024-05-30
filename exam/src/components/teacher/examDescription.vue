@@ -6,8 +6,34 @@
       有考试安排表以后,才能给该次考试添加题目,对应数据表是exammanage。
       该表保存该次考试,课程名称,考试时间,所属专业,学院等等信息。
     </p>
+    <el-button @click="up">提交</el-button>
   </section>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      data: {}
+    }
+  },
+  methods: {
+    up() {
+      console.log(4564456);
+
+      this.$axios({
+          url: '/api/autoScore',
+          method: 'post',
+          data: {
+            successAnswer:"dfgsdg",
+        userAnswer:"sdfsdgfsd"
+          }
+        }).then(res => {
+          console.log(res.data.data);
+        })
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 .description {

@@ -3,12 +3,14 @@ package com.exam.controller;
 import com.exam.entity.ApiResult;
 import com.exam.entity.PaperManage;
 import com.exam.service.PaperService;
+import com.exam.service.ShortQuestionServer;
 import com.exam.serviceimpl.FillQuestionServiceImpl;
 import com.exam.serviceimpl.JudgeQuestionServiceImpl;
 import com.exam.serviceimpl.MultiQuestionServiceImpl;
 import com.exam.util.ApiResultHandler;
 import com.exam.vo.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,9 @@ public class ItemController {
 
     @Autowired
     PaperService paperService;
-
+//    @Qualifier("shortQuestionServer")
+    @Autowired
+  private ShortQuestionServer shortQuestionServer;
 
 
     @PostMapping("/item")
@@ -40,6 +44,8 @@ public class ItemController {
         Integer fillNumber = item.getFillNumber();
         // 判断题
         Integer judgeNumber = item.getJudgeNumber();
+        // 简答题
+      Integer shortNumber = item.getShortNumber();
         //出卷id
         Integer paperId = item.getPaperId();
 
@@ -75,7 +81,16 @@ public class ItemController {
             if(index==0)
                 return ApiResultHandler.buildApiResult(400,"判断题题组卷保存失败",null);
         }
-
+//        简答题
+        List<Integer> shortlist = shortQuestionServer.findBySubject(item.getSubject(), shortNumber);
+        if(fills==null)
+            return ApiResultHandler.buildApiResult(400,"判断题数据库获取失败",null);
+        for (Integer shorts : shortlist) {
+            PaperManage paperManage = new PaperManage(paperId,3,shorts);
+            int index = paperService.add(paperManage);
+            if(index==0)
+                return ApiResultHandler.buildApiResult(400,"判断题题组卷保存失败",null);
+        }
 
           return ApiResultHandler.buildApiResult(200,"试卷组卷成功",null);
     }

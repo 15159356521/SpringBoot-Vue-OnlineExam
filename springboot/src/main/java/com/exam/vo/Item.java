@@ -15,4 +15,5 @@ public class Item {
     private Integer fillNumber; //填空题号
 
     private Integer judgeNumber; //判断题号
+   private Integer shortNumber; //简答题号
 }

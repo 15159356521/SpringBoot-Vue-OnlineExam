@@ -308,8 +308,6 @@ export default {
       
       subjectList: [], //存储所有科目的数组（用于分科目 —— 选择）
       subjects: null, //所属科目
-     
-
       activeName: 'first',  //活动选项卡，初始化为“添加试卷”界面，“second”为“随即组卷”界面
       options: [ //手动组卷的题库类型
         {

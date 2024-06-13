@@ -77,7 +77,7 @@ public class ItemController {
         if (totalScore != (totalChangeScore + totalFillScore + totalJudgeScore + totalShortScore)) {
             return ApiResultHandler.buildApiResult(400, "试卷总分应为" + totalScore + "分!", null);
         }
-
+        paperService.deleteAll(paperId);
         // 简单选择题数据库获取
         List<Integer> esayChangeIds = multiQuestionService.findBySubjectEsayChange(item.getSubject(), esayChangeNumber);
         if (esayChangeIds == null) {
@@ -224,10 +224,8 @@ public class ItemController {
         Integer esayShorNumber = 4;
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
-        int flag=paperService.deleteAll(paperId);
-        if(flag==0){
-            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
-        }
+        paperService.deleteAll(paperId);
+
         // 简单选择题数据库获取
         List<Integer> esayChangeIds = multiQuestionService.findBySubjectEsayChange(item.getSubject(), esayChangeNumber);
         if (esayChangeIds == null) {
@@ -281,10 +279,8 @@ public class ItemController {
         Integer commonShorNumber = 4;
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
-        int flag=paperService.deleteAll(paperId);
-        if(flag==0){
-            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
-        }
+      paperService.deleteAll(paperId);
+
         // 一般选择题数据库获取
         List<Integer> commonChangeIds = multiQuestionService.findBySubjectCommonChange(item.getSubject(), commonChangeNumber);
         if (commonChangeIds == null) {
@@ -338,9 +334,7 @@ public class ItemController {
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
         int flag=paperService.deleteAll(paperId);
-        if(flag==0){
-            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
-        }
+
         // 困难选择题数据库获取
         List<Integer> difficultyChangeIds = multiQuestionService.findBySubjectDifficultyChange(item.getSubject(), difficultyChangeNumber);
         if (difficultyChangeIds == null) {

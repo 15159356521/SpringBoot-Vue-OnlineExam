@@ -109,6 +109,15 @@
                 </el-option>
               </el-select>
             </li>
+            <el-upload 
+  class="upload-demo"
+  action="action"
+  :http-request="uploadBpmn"
+  :show-file-list="false"
+  :before-upload="beforeUpload">
+  
+  <el-button size="small" type="primary">上传题库</el-button>
+</el-upload>
           </ul>
           <!-- 选择题部分 -->
           <div class="change" v-if="optionValue == '选择题'">
@@ -415,7 +424,7 @@ export default {
     // handleClick(tab, event) {
     //   console.log(tab, event);
     // },
-    // 随即组卷发送axios请求
+    // 获取路由参数
     getParams() {
       let subject = this.$route.query.subject //获取试卷名称
       this.subject = subject
@@ -438,19 +447,6 @@ export default {
           })
           this.postChange = {}
         }
-      }).then(() => {
-        this.$axios(`/api/multiQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 1
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     fillSubmit() { //填空题提交
@@ -471,19 +467,6 @@ export default {
           })
           this.postFill = {}
         }
-      }).then(() => {
-        this.$axios(`/api/fillQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 2
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     judgeSubmit() { //判断题提交
@@ -503,19 +486,6 @@ export default {
           })
           this.postJudge = {}
         }
-      }).then(() => {
-        this.$axios(`/api/judgeQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 3
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     shortSubmit() { //简答题提交
@@ -535,7 +505,8 @@ export default {
           })
           this.postShort = {}
         }
-      }).then(() => {
+      })
+/*       .then(() => {
         this.$axios(`/api/shortQuestionId`).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
@@ -548,8 +519,45 @@ export default {
             }
           })
         })
-      })
+      }) */
     },
+    beforeUpload (file) { // 上传文件之前钩子
+  const type = file.name.split('.')[1]
+  if (type !== 'xlsx') {
+    this.$message({ type: 'error', message: '只支持xlsx文件格式！' })
+    return false
+  }
+},
+    uploadBpmn(file) {
+      console.log(file)
+      const formData = new FormData()
+      formData.append('file', file.file)
+      let url=''
+      if(this.optionValue=='选择题'){
+        url='/api/importMultiQuestion'
+      }else if(this.optionValue=='填空题'){
+        url='/api/importFillQuestion'
+      }else if(this.optionValue=='判断题'){
+        url='/api/importJudgeQuestion'
+      }else if(this.optionValue=='简答题'){
+        url='/api/importShortQuestion'
+      }
+      this.$axios({
+        url: url,
+        method: 'post',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res => {
+       this.$message({
+            message: '上传成功',
+            type: 'success'
+          })
+      })
+
+    },
+
   },
  
 };

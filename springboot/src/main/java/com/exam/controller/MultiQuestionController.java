@@ -1,5 +1,9 @@
 package com.exam.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.read.listener.ReadListener;
 import com.exam.entity.ApiResult;
 import com.exam.entity.MultiQuestion;
 import com.exam.serviceimpl.MultiQuestionServiceImpl;
@@ -9,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class MultiQuestionController {
@@ -41,4 +48,35 @@ public class MultiQuestionController {
         }
         return ApiResultHandler.buildApiResult(400,"更新失败",res);
     }
+    //表格导入选择题
+    @PostMapping("/importMultiQuestion")
+    public ApiResult importExcel(MultipartFile file){
+        try{
+            //读取文件
+            EasyExcel.read(file.getInputStream(), MultiQuestion.class, new ReadListener() {
+                @Override
+                public void onException(Exception exception, AnalysisContext context) throws Exception {
+                    exception.printStackTrace();
+                }
+
+                @Override
+                public void invoke(Object o, AnalysisContext analysisContext) { //o就是读取到的一行数据
+                    System.out.println(o);
+                    MultiQuestion multiQuestion = (MultiQuestion) o;
+                    multiQuestionService.add(multiQuestion);
+                }
+
+                @Override
+                public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+
+                }
+            }).sheet().doRead();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        return ApiResultHandler.buildApiResult(200,"导入成功",null  );
+    }
+
 }

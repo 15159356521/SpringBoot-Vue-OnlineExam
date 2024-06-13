@@ -11,13 +11,13 @@ public class FillQuestion {
 
     private String question;
 
-    private String answer;
+    private String answer;// 答案
 
     private Integer score;
 
     private String level;
 
-    private String section;
+    private String section; //章节
 
     private String analysis; //题目解析
 }

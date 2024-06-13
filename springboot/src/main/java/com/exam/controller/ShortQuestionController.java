@@ -1,5 +1,8 @@
 package com.exam.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.read.listener.ReadListener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.entity.ApiResult;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -61,9 +66,29 @@ public class ShortQuestionController {
         return ApiResultHandler.buildApiResult(400, "添加失败", null);
     }
     //更新简答题
-    @PostMapping("/updateShort")
-    public ApiResult updateShort(@RequestBody ShortQuestion shortQuestion) {
-        int res = shortQuestionService.updateShort(shortQuestion);
-        return ApiResultHandler.buildApiResult(200, "更新成功", res);
+    @PostMapping("/importShortQuestion")
+    public ApiResult importExcel(MultipartFile file){
+        try{
+            //读取文件
+            EasyExcel.read(file.getInputStream(), ShortQuestion.class, new ReadListener() {
+                @Override
+                public void onException(Exception exception, AnalysisContext context) throws Exception {
+                    exception.printStackTrace();
+                }
+                @Override
+                public void invoke(Object data, AnalysisContext context) {
+                    ShortQuestion shortQuestion = (ShortQuestion) data;
+                    shortQuestionService.add(shortQuestion);
+                }
+                @Override
+                public void doAfterAllAnalysed(AnalysisContext context) {
+                    System.out.println("简答题导入成功");
+                }
+            }).sheet().doRead();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ApiResultHandler.buildApiResult(200, "导入成功", null);
     }
+
 }

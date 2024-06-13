@@ -78,6 +78,10 @@ export default new Router({
         {
           path: '/addTeacher', //添加教师
           component: () => import ('@/components/admin/addTeacher')
+        },
+        {
+          path:'/addGroup',//随机组卷
+          component:()=>import('@/components/teacher/addGroup')
         }
       ]
     },

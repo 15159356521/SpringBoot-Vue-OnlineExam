@@ -5,7 +5,7 @@
 
       <!-- 添加试题 -->
       <el-tab-pane name="first">
-        <span slot="label"><i class="el-icon-circle-plus"></i>添加试题</span>
+        <span slot="label"><i class="el-icon-circle-plus"></i>手动添加</span>
         <section class="append">
           <ul>
             <li>
@@ -287,77 +287,7 @@
       </el-tab-pane>
 
       <!-- 随机组卷 -->
-      <el-tab-pane name="second">
-        <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>随机组卷</span>
-        <div class="box">
-          <ul>
-         <!--    <li>
-              <span>科目类型:</span>
-            
-              <el-select v-model="subjects" placeholder="请选择科目类型" style="width: 150px;margin-left: 25px">
-                <el-option
-                  v-for="item in subjectList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select>
-            </li> -->
-            <li>
-              <span>简单选择题数量：</span>
-              <el-input-number size="mini" v-model="esayChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">一般选择题数量：</span>
-              <el-input-number size="mini" v-model="commonChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">困难选择题数量：</span>
-              <el-input-number size="mini" v-model="difficultyChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">选择题分数：</span>
-              <el-input-number size="mini" v-model="changeScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单填空题数量：</span>
-              <el-input-number size="mini" v-model="esayFillNumber"></el-input-number>
-              <span style="margin-left: 20px">一般填空题数量：</span>
-              <el-input-number size="mini" v-model="commonFillNumber"></el-input-number>
-              <span style="margin-left: 20px">困难填空题数量：</span>
-              <el-input-number size="mini" v-model="difficultyFillNumber"></el-input-number>
-              <span style="margin-left: 20px">填空题分数：</span>
-              <el-input-number size="mini" v-model="fillScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单判断题数量：</span>
-              <el-input-number size="mini" v-model="esayJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">一般判断题数量：</span>
-              <el-input-number size="mini" type="text" v-model="commonJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">困难判断题数量：</span>
-              <el-input-number size="mini" v-model="difficultyJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">判断题分数：</span>
-              <el-input-number size="mini" v-model="judgeScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单简答题数量：</span>
-              <el-input-number size="mini" v-model="esayShorNumber"></el-input-number>
-              <span style="margin-left: 20px">一般简答题数量：</span>
-              <el-input-number size="mini" v-model="commonShorNumber"></el-input-number>
-              <span style="margin-left: 20px">困难简答题数量：</span>
-              <el-input-number size="mini" v-model="difficultyShorNumber"></el-input-number>
-              <span style="margin-left: 20px">简答题分数：</span>
-              <el-input-number size="mini" v-model="shorScore"></el-input-number>
-            </li>
 
-            
-              <el-row>
-                <el-col :span="8"><el-button type="primary" @click="create()">立即组卷</el-button></el-col>
-                <el-col :span="8"><el-tag type="success"> 总成绩：{{ sumTotalScore }}</el-tag ></el-col>
-
-              </el-row>
-                 
-                 
-              
-             
-        
-          </ul>
-        </div>
-      </el-tab-pane>
     </el-tabs>
   </div>
 </template>

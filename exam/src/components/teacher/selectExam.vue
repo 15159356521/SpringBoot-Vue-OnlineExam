@@ -33,9 +33,13 @@
                      style="margin-bottom: 5px;">
             查看试卷
           </el-button>
+          <el-button @click="addGroup(scope.row.subject,scope.row.paperId)" type="warning" size="small"
+                     style="margin-left: 10px;width: 80px">随机组卷
+          </el-button>
           <el-button @click="deleteRecord(scope.row.examCode)" type="danger" size="small"
                      style="margin-left: 10px;width: 80px">删 除
           </el-button>
+        
         </template>
       </el-table-column>
     </el-table>
@@ -296,6 +300,13 @@ export default {
       this.$store.commit("practice", isPractice)
       this.$router.push({path: "/answer", query: {examCode: id}})
     },
+    //随机组卷
+    addGroup(subject,paperId) {
+      this.$store.commit("changeExamCode", subject)
+      this.$router.push({path: "/addGroup",
+        query: {subject: subject,paperId: paperId}
+      })
+    }
   },
 };
 </script>

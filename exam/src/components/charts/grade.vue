@@ -26,56 +26,40 @@ export default {
       let studentId = this.$route.query.studentId
       this.$axios(`/api/score/${studentId}`).then(res => { //根据学生Id查询成绩
         console.log(res)
-        if(res.data.code == 200) {
+        if (res.data.code == 200) {
           let rootData = res.data.data
-          rootData.forEach((element,index) => {
+          rootData.forEach((element, index) => {
             this.tableDataX.push(`第${index + 1}次`)
             this.tableDataY.push(element.etScore)
           });
           let boxDom = this.$refs["box"];
           let scoreCharts = this.$echarts.init(boxDom);
           let option = {
-            tooltip: {
-        trigger: 'axis',
-        axisPointer: {  // 坐标轴指示器，坐标轴触发有效
-          type: 'cross',
-          animation: false,
-          label: {
-            backgroundColor: '#ccc',
-            borderColor: '#aaa',
-            borderWidth: 1,
-            shadowBlur: 0,
-            shadowOffsetX: 0,
-            shadowOffsetY: 0,
-            color: '#222'
-          }
-        },
-
-      },
             xAxis: {
-              type: "category",
+              type: 'category',
+              boundaryGap: false,
               data: this.tableDataX
             },
             yAxis: {
-              type: "value",
-              axisLabel: {
-                formatter: "{value} 分"
-                
-        },
+              type: 'value'
             },
             series: [
               {
                 data: this.tableDataY,
-                type: "line",
-                itemStyle: { normal: { label: { show: true } } }
+                type: 'line',
+                areaStyle: {
+                  type: 'default',
+                  color: 'rgba(255, 199, 206, 0.8)' // 淡红色区域颜色
+                },
+                itemStyle: {normal: {label: {show: true}}}
               }
             ]
           };
           scoreCharts.setOption(option);
           scoreCharts.on("mouseover", params => {
-       /*      console.log(params.value); */
+            console.log(params.value);
           });
-        }else {
+        } else {
           this.isNull = true
         }
       })
@@ -88,8 +72,8 @@ export default {
 #grade {
   position: relative;
   .box{
-    width: 600px;
-    height: 400px;
+    width: 1000px;
+    height: 600px;
   }
   .notFound {
     position: absolute;

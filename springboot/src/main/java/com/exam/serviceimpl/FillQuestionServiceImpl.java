@@ -37,7 +37,17 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     }
 
     @Override
-    public List<Integer> findBySubject(String subject, Integer pageNo) {
-        return fillQuestionMapper.findBySubject(subject,pageNo);
+    public List<Integer> findBySubjectEsayFill(String subject, Integer pageNo) {
+        return fillQuestionMapper.findBySubjectEsayFill(subject, pageNo);
+    }
+
+    @Override
+    public List<Integer> findBySubjectCommonFill(String subject, Integer pageNo) {
+        return fillQuestionMapper.findBySubjectCommonFill(subject, pageNo);
+    }
+
+    @Override
+    public List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo) {
+        return fillQuestionMapper.findBySubjectDifficultyFill(subject, pageNo);
     }
 }

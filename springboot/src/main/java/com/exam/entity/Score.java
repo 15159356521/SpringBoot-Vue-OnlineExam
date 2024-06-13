@@ -2,7 +2,7 @@ package com.exam.entity;
 
 import lombok.Data;
 
-import java.util.Date;
+// 考试成绩实体类
 
 @Data
 public class Score {
@@ -21,4 +21,12 @@ public class Score {
     private Integer scoreId;
 
     private String answerDate;
+
+    @Data
+    public static class StudentScore {
+        private String StudentName;
+        private Integer Score;
+        private String Subject;
+
+    }
 }

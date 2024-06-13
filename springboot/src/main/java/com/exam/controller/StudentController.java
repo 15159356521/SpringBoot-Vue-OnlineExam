@@ -9,12 +9,14 @@ import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+//请求处理类：加上下面restcontroller注解之后才是一个请求处理类；
 @RestController
 public class StudentController {
 
     @Autowired
     private StudentServiceImpl studentService;
 
+    //这里添加上之后才知道处理的是哪一个请求，这里请求的是/students/{page}/{size},浏览器请求这个之后就会调用下面的代码；
     @GetMapping("/students/{page}/{size}")
     public ApiResult findAll(@PathVariable Integer page, @PathVariable Integer size) {
         Page<Student> studentPage = new Page<>(page,size);

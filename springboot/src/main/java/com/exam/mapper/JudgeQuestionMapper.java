@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper
 public interface JudgeQuestionMapper {
 
+    // 获取学生判断题信息
     @Select("select * from judge_question where questionId in (select questionId from paper_manage where questionType = 3 and paperId = #{paperId})")
     List<JudgeQuestion> findByIdAndType(Integer paperId);
 
@@ -22,6 +23,7 @@ public interface JudgeQuestionMapper {
 
     /**
      * 查询最后一条记录的questionId
+     *
      * @return JudgeQuestion
      */
     @Select("select questionId from judge_question order by questionId desc limit 1")
@@ -31,6 +33,15 @@ public interface JudgeQuestionMapper {
             "(#{subject},#{question},#{answer},#{analysis},#{level},#{section})")
     int add(JudgeQuestion judgeQuestion);
 
-    @Select("select questionId from judge_question  where subject=#{subject}  order by rand() desc limit #{pageNo}")
-    List<Integer> findBySubject(String subject,Integer pageNo);
+    // 简单判断题 —— 随机生成对应科目数量
+    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    List<Integer> findBySubjectEsayJudge(String subject, Integer pageNo);
+
+    // 一般判断题 —— 随机生成对应科目数量
+    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    List<Integer> findBySubjectCommonJudge(String subject, Integer pageNo);
+
+    // 困难判断题 —— 随机生成对应科目数量
+    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo);
 }

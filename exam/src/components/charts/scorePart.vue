@@ -1,6 +1,13 @@
 <template>
   <div class="part" >
-    <div class="box" ref="box"></div>
+    <div class="show" v-if="!isNull">
+  <div class="box" ref="box" ></div>
+  <el-button
+    type="primary"
+    @click="download()"
+    >导出成绩</el-button>
+    </div>
+  
     <div v-if="isNull">
       <span>该门考试还没人参考哦,请提醒学生参加考试。</span>
     </div>
@@ -97,6 +104,17 @@ export default {
           this.isNull = true
         }
       })
+    },
+    download() {
+      let examCode = this.$route.query.examCode
+      this.$axios({
+        url: `/api/tableExcel/${examCode}`,
+        method: 'get',
+
+      }).then(res => {
+        console.log(res.data);
+      
+      })
     }
   },
 
@@ -109,6 +127,11 @@ export default {
     width: 800px;
     height: 800px;
     margin-left: 40px;
+  }
+  .show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

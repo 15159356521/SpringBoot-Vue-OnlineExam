@@ -68,9 +68,19 @@
                 </ul>
               </div>
             </el-collapse-item>
+            <el-collapse-item>
+              <template slot="title" name="4">
+                <div class="titlei">简答题 (共{{topicCount[3]}}题 共计{{score[3]}}分)</div>
+              </template>
+              <div class="contenti">
+                <ul class="question" v-for="(list, index) in topic[4]" :key="index">
+                  <li>{{topicCount[0]+topicCount[1]+topicCount[2]+index+1}}. {{list.question}} {{list.score}}分</li>
+                </ul>
+              </div>
+            </el-collapse-item>
           </el-collapse>
         </el-collapse-item>
-        
+
       </el-collapse>
     </div>
     <!--考生须知对话框-->
@@ -201,7 +211,7 @@ export default {
   padding: 5px 10px;
   border: 1px solid #88949b;
   border-radius: 4px;
-} 
+}
 .wrapper .bottom {
   display: flex;
   margin-left: 20px;

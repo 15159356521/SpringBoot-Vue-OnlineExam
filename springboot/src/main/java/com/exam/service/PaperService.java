@@ -12,5 +12,6 @@ public interface PaperService {
 
     List<PaperManage> findById(Integer paperId);
 
+    // 生成试卷中题目类型和题型对应的编号
     int add(PaperManage paperManage);
 }

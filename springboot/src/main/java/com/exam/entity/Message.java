@@ -6,6 +6,8 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+//讨论实体类
+
 @Data
 public class Message {
     private Integer id;

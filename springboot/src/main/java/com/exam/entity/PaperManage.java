@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// 题型分类实体类
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-//获取试卷并跳转到添加题库
+<!-- 获取试卷并跳转到添加题库 -->
 <template>
   <div class="exam">
     <el-table :data="pagination.records" border>
@@ -14,7 +14,9 @@
       <el-table-column prop="tips" label="考生提示" width="400"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
-          <el-button @click="add(scope.row.paperId,scope.row.source)" type="primary" size="small">增加题库</el-button>
+          <el-button @click="add(scope.row.paperId,scope.row.source,scope.row.totalScore)" type="primary" size="small">
+            增加题库
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,8 +64,11 @@ export default {
       this.pagination.current = val
       this.getExamInfo()
     },
-    add(paperId,source) { //增加题库
-      this.$router.push({path:'/addAnswerChildren',query: {paperId: paperId,subject:source}})
+    add(paperId, source, totalScore) { //增加题库（重定向GET传参）
+      this.$router.push({
+        path: '/addAnswerChildren',
+        query: {paperId: paperId, subject: source, totalScore: totalScore}
+      })
     }
   },
 };
@@ -71,13 +76,15 @@ export default {
 <style lang="less" scoped>
 .exam {
   padding: 0px 40px;
+
   .page {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .edit{
+
+  .edit {
     margin-left: 20px;
   }
 }

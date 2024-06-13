@@ -37,7 +37,18 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     }
 
     @Override
-    public List<Integer> findBySubject(String subject, Integer pageNo) {
-        return judgeQuestionMapper.findBySubject(subject,pageNo);
+    public List<Integer> findBySubjectEsayJudge(String subject, Integer pageNo) {
+        return judgeQuestionMapper.findBySubjectEsayJudge(subject, pageNo);
     }
+
+    @Override
+    public List<Integer> findBySubjectCommonJudge(String subject, Integer pageNo) {
+        return judgeQuestionMapper.findBySubjectCommonJudge(subject, pageNo);
+    }
+
+    @Override
+    public List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo) {
+        return judgeQuestionMapper.findBySubjectDifficultyJudge(subject, pageNo);
+    }
+
 }

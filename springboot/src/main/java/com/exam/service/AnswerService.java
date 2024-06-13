@@ -6,5 +6,8 @@ import com.exam.vo.AnswerVO;
 
 public interface AnswerService {
 
-    IPage<AnswerVO> findAll(Page<AnswerVO> page);
+    //分页查询按科目实现 —— 题型归档信息
+    IPage<AnswerVO> findAll(Page<AnswerVO> page, String subjects, String type);
+
+    int delete(Integer questionId, String type);
 }

@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 Vue.use(Router)
 
+//配置前端路径
 export default new Router({
   routes: [
     {
@@ -18,7 +20,7 @@ export default new Router({
           component: () => import('@/components/common/hello')
         },
         {
-          path:'/grade', //学生成绩
+          path: '/grade', //学生成绩
           component: () => import('@/components/charts/grade')
         },
         {
@@ -34,8 +36,12 @@ export default new Router({
           component: () => import('@/components/teacher/allStudentsGrade')
         },
         {
-          path: '/examDescription', //考试管理功能描述
-          component: () => import('@/components/teacher/examDescription')
+          path: '/subjectManage', //科目管理界面
+          component: () => import('@/components/teacher/subjectManage')
+        },
+        {
+          path: '/addSubject', //添加科目
+          component: () => import('@/components/teacher/addSubject')
         },
         {
           path: '/selectExam', //查询所有考试
@@ -44,10 +50,6 @@ export default new Router({
         {
           path: '/addExam', //添加考试
           component: () => import('@/components/teacher/addExam')
-        },
-        {
-          path: '/answerDescription', //题库管理功能介绍
-          component: ()=> import('@/components/teacher/answerDescription')
         },
         {
           path: '/selectAnswer', //查询所有题库
@@ -70,11 +72,11 @@ export default new Router({
           component: () => import('@/components/teacher/addStudent')
         },
         {
-          path: '/teacherManage',
+          path: '/teacherManage', //教师管理界面
           component: () => import('@/components/admin/tacherManage')
         },
         {
-          path: '/addTeacher',
+          path: '/addTeacher', //添加教师
           component: () => import ('@/components/admin/addTeacher')
         }
       ]
@@ -83,8 +85,8 @@ export default new Router({
       path: '/student',
       component: () => import('@/components/student/index'),
       children: [
-        {path:"/",component: ()=> import('@/components/student/myExam')},
-        {path:'/startExam', component: () => import('@/components/student/startExam')},
+        {path: "/", component: () => import('@/components/student/myExam')},
+        {path: '/startExam', component: () => import('@/components/student/startExam')},
         {path: '/manager', component: () => import('@/components/student/manager')},
         {path: '/examMsg', component: () => import('@/components/student/examMsg')},
         {path: '/message', component: () => import('@/components/student/message')},
@@ -92,6 +94,6 @@ export default new Router({
         {path: '/scoreTable', component: () => import("@/components/student/scoreTable")}
       ]
     },
-    {path: '/answer',component: () => import('@/components/student/answer')}
+    {path: '/answer', component: () => import('@/components/student/answer')}
   ]
 })

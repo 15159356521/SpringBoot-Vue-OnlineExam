@@ -28,7 +28,7 @@
     </el-pagination>
     <!-- 编辑对话框-->
     <el-dialog
-      title="编辑试卷信息"
+      title="编辑学生信息"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
@@ -87,7 +87,8 @@ export default {
       //分页查询所有试卷信息
       this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
         this.pagination = res.data.data;
-      }).catch(error => {});
+      }).catch(error => {
+      });
     },
     //改变当前记录条数
     handleSizeChange(val) {
@@ -106,11 +107,11 @@ export default {
       })
     },
     deleteById(studentId) { //删除当前学生
-      this.$confirm("确定删除当前学生吗？删除后无法恢复","Warning",{
+      this.$confirm("确定删除当前学生吗？删除后无法恢复", "Warning", {
         confirmButtonText: '确定删除',
         cancelButtonText: '算了,留着吧',
         type: 'danger'
-      }).then(()=> { //确认删除
+      }).then(() => { //确认删除
         this.$axios({
           url: `/api/student/${studentId}`,
           method: 'delete',
@@ -131,7 +132,7 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        if(res.data.code ==200) {
+        if (res.data.code == 200) {
           this.$message({
             message: '更新成功',
             type: 'success'
@@ -144,7 +145,8 @@ export default {
       this.$confirm('确认关闭？')
         .then(_ => {
           done();
-        }).catch(_ => {});
+        }).catch(_ => {
+      });
     },
   }
 };
@@ -152,19 +154,23 @@ export default {
 <style lang="less" scoped>
 .all {
   padding: 0px 40px;
+
   .page {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .edit {
     margin-left: 20px;
   }
+
   .el-table tr {
     background-color: #dd5862 !important;
   }
 }
+
 .el-table .warning-row {
   background: #000 !important;
 }

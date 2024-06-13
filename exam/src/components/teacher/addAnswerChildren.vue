@@ -123,7 +123,7 @@
           <div class="change" v-if="optionValue == '选择题'">
             <div class="title">
               <el-tag>题目:</el-tag>
-              <span>在下面的输入框中输入题目,形如--DNS 服务器和DHCP服务器的作用是（）</span>
+              <span>在下面的输入框中输入题目,形如--在关系型数据库中，一个表的候选键必须满足哪些条件？（）</span>
               <el-input
                 type="textarea"
                 rows="4"
@@ -607,7 +607,7 @@ export default {
     .change {
       margin-top: 20px;
       padding: 20px 16px;
-      background-color: #E7F6F6;
+      background-color: rgb(242,253,255);
       border-radius: 4px;
 
       .title {

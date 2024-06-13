@@ -2,7 +2,6 @@
 <template>
   <div class="add">
     <el-tabs v-model="activeName">
-
       <!-- 添加试题 -->
       <el-tab-pane name="first">
         <span slot="label"><i class="el-icon-circle-plus"></i>手动添加</span>
@@ -300,26 +299,7 @@ export default {
       
       subjectList: [], //存储所有科目的数组（用于分科目 —— 选择）
       subjects: null, //所属科目
-      // 随机组卷 —— 选择题模块
-      esayChangeNumber: null, //简单选择题出题数量
-      commonChangeNumber: null, //一般选择题出题数量
-      difficultyChangeNumber: null, //困难选择题出题数量
-      changeScore: null, //选择题分数
-      // 随机组卷 —— 填空题模块
-      esayFillNumber: null,
-      commonFillNumber: null,
-      difficultyFillNumber: null,
-      fillScore: null,
-      // 随机组卷 —— 判断题模块
-      esayJudgeNumber: null,
-      commonJudgeNumber: null,
-      difficultyJudgeNumber: null,
-      judgeScore: null,
-      // 随机组卷 —— 简答题模块
-      esayShorNumber: null,
-      commonShorNumber: null,
-      difficultyShorNumber: null,
-      shorScore: null,
+     
 
       activeName: 'first',  //活动选项卡，初始化为“添加试卷”界面，“second”为“随即组卷”界面
       options: [ //手动组卷的题库类型
@@ -427,25 +407,7 @@ export default {
       }
     };
   },
-  computed:{
-      sumTotalScore(){
-        let sumTatl=0
-        console.log("========",this.esayChangeNumber * this.changeScore + this.commonChangeNumber * this.changeScore + this.difficultyChangeNumber * this.changeScore + this.esayFillNumber * this.fillScore + this.commonFillNumber * this.fillScore + this.difficultyFillNumber * this.fillScore + this.esayJudgeNumber * this.judgeScore + this.commonJudgeNumber * this.judgeScore + this.difficultyJudgeNumber * this.judgeScore + this.esayShorNumber * this.shorScore + this.commonShorNumber * this.shorScore + this.difficultyShorNumber * this.shorScore);
-        try{
-          sumTatl= this.esayChangeNumber * this.changeScore + this.commonChangeNumber * this.changeScore + this.difficultyChangeNumber * this.changeScore + this.esayFillNumber * this.fillScore + this.commonFillNumber * this.fillScore + this.difficultyFillNumber * this.fillScore + this.esayJudgeNumber * this.judgeScore + this.commonJudgeNumber * this.judgeScore + this.difficultyJudgeNumber * this.judgeScore + this.esayShorNumber * this.shorScore + this.commonShorNumber * this.shorScore + this.difficultyShorNumber * this.shorScore
-        }catch(e){
-          console.log("保留从");
-          sumTatl=0
-        }
-        return sumTatl
-        
-      }
-  },
   created() {
-    console.log(this.$store.getters.getSubject,'获取参数');
-    //console.log(menu);
-    // 获取科目的所有信息到 subjectList 数组中，再遍历显示在下拉框中
-    this.getSubject()
     // 获取GET请求的参数试卷信息
     this.getParams()
   },
@@ -453,76 +415,11 @@ export default {
     // handleClick(tab, event) {
     //   console.log(tab, event);
     // },
-
-    getSubject() {
-      this.$axios('/api/subjects').then(res => {
-        console.log(res.data.data);
-        for (let i = 0; i < res.data.data.length; i++) {
-          this.subjectList.push(res.data.data[i].subjectName)
-        }
-        this.subjectList = [...new Set(this.subjectList)]
-      })
-    },
-
     // 随即组卷发送axios请求
-    create() {
-      this.$axios({
-        url: '/api/item',
-        method: 'post',
-        data: {
-          // 随机组卷 —— 选择题模块
-          esayChangeNumber: this.esayChangeNumber, //简单选择题出题数量
-          commonChangeNumber: this.commonChangeNumber, //一般选择题出题数量
-          difficultyChangeNumber: this.difficultyChangeNumber, //困难选择题出题数量
-          changeScore: this.changeScore, //选择题分数
-          // 随机组卷 —— 填空题模块
-          esayFillNumber: this.esayFillNumber,
-          commonFillNumber: this.commonFillNumber,
-          difficultyFillNumber: this.difficultyFillNumber,
-          fillScore: this.fillScore,
-          // 随机组卷 —— 判断题模块
-          esayJudgeNumber: this.esayJudgeNumber,
-          commonJudgeNumber: this.commonJudgeNumber,
-          difficultyJudgeNumber: this.difficultyJudgeNumber,
-          judgeScore: this.judgeScore,
-          // 随机组卷 —— 简答题模块
-          esayShorNumber: this.esayShorNumber,
-          commonShorNumber: this.commonShorNumber,
-          difficultyShorNumber: this.difficultyShorNumber,
-          shorScore: this.shorScore,
-          
-          paperId: this.paperId, // 试卷的编号
-          subject: this.$store.getters.getSubject, // 指定科目随机组卷
-          totalScore: this.totalScore // 试卷的总分（进行分数总和的效验）
-        }
-      }).then(res => {
-        console.log(res)
-        let data = res.data
-        if (data.code == 200) {
-          setTimeout(() => {
-            this.$router.push({path: '/selectAnswer'})
-          }, 1000)
-          this.$message({
-            message: data.message,
-            type: 'success'
-          })
-        } else if (data.code == 400) {
-          this.$message({
-            message: data.message,
-            type: 'error'
-          })
-        }
-
-      })
-    },
     getParams() {
       let subject = this.$route.query.subject //获取试卷名称
-      let paperId = this.$route.query.paperId //获取paperId
-      let totalScore = this.$route.query.totalScore //获取totalScore
-      this.paperId = paperId
       this.subject = subject
-      this.totalScore = totalScore
-      this.postPaper.paperId = paperId
+      console.log(this.subject);
     },
     changeSubmit() { //选择题题库提交
       this.postChange.subject = this.subject
@@ -558,6 +455,7 @@ export default {
     },
     fillSubmit() { //填空题提交
       this.postFill.subject = this.subject
+      console.log(this.postFill);
       this.$axios({
         url: '/api/fillQuestion',
         method: 'post',

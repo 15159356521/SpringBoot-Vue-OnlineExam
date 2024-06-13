@@ -32,15 +32,18 @@ public interface FillQuestionMapper {
     int add(FillQuestion fillQuestion);
 
     // 简单填空题 —— 随机生成对应科目数量
-    @Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from fill_question where subject = #{subject} and level in ('1','2') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectEsayFill(String subject, Integer pageNo);
 
     // 一般填空题 —— 随机生成对应科目数量
-    @Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from fill_question where subject = #{subject} and level in ('3','4') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectCommonFill(String subject, Integer pageNo);
 
     // 困难填空题 —— 随机生成对应科目数量
-    @Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from fill_question where subject = #{subject} and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo);
     //更新填空题
     @Update("update fill_question set subject = #{subject},question = #{question},answer = #{answer},analysis = #{analysis},level = #{level},section = #{section} where questionId = #{questionId}")

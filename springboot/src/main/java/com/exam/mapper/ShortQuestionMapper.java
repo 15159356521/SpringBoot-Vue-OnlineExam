@@ -33,15 +33,18 @@ public interface ShortQuestionMapper {
     int add(ShortQuestion shortQuestion);
 
     // 简单简答题 —— 随机生成对应科目数量
-    @Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from short_question where subject = #{subject} and level in ('1','2') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectEsayShort(String subject, Integer pageNo);
 
     // 一般简答题 —— 随机生成对应科目数量
-    @Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from short_question where subject = #{subject} and level in ('3','4') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectCommonShort(String subject, Integer pageNo);
 
     // 困难简答题 —— 随机生成对应科目数量
-    @Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from short_question where subject = #{subject} and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyShort(String subject, Integer pageNo);
 
     //更新简答题

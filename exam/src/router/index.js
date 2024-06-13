@@ -55,10 +55,10 @@ export default new Router({
           path: '/selectAnswer', //查询所有题库
           component: () => import('@/components/teacher/selectAnswer')
         },
-        {
+/*         {
           path: '/addAnswer', //增加题库主界面
           component: () => import('@/components/teacher/addAnswer')
-        },
+        }, */
         {
           path: '/addAnswerChildren', //点击试卷跳转到添加题库页面
           component: () => import('@/components/teacher/addAnswerChildren')
@@ -78,6 +78,10 @@ export default new Router({
         {
           path: '/addTeacher', //添加教师
           component: () => import ('@/components/admin/addTeacher')
+        },
+        {
+          path:'/addGroup',//随机组卷
+          component:()=>import('@/components/teacher/addGroup')
         }
       ]
     },

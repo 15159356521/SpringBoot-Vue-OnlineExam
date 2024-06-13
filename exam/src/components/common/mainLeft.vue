@@ -56,14 +56,17 @@ export default {
       this.bus.$emit('sendIndex', index) 
     },
     addData() {
-      let role = this.$cookies.get("role")
+      let role = this.$cookies.get("role")  
       if (role == 0) {
-        this.menu.push({
+        if(this.menu.length == 5){
+           this.menu.push({ 
           index: '5',
           title: '教师管理',
           icon: 'icon-Userselect',
           content: [{item1: '教师管理', path: '/teacherManage'}, {item2: '添加教师', path: '/addTeacher'}],
         })
+        }
+       
       }
     }
   },

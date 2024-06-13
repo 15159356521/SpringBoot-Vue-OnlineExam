@@ -117,6 +117,7 @@ export default {
           method: 'delete',
         }).then(res => {
           this.getStudentInfo()
+          this.current = 1
         })
       }).catch(() => {
 

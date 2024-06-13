@@ -2,10 +2,9 @@
 <template>
   <div class="add">
     <el-tabs v-model="activeName">
-
       <!-- 添加试题 -->
       <el-tab-pane name="first">
-        <span slot="label"><i class="el-icon-circle-plus"></i>添加试题</span>
+        <span slot="label"><i class="el-icon-circle-plus"></i>手动添加</span>
         <section class="append">
           <ul>
             <li>
@@ -110,12 +109,21 @@
                 </el-option>
               </el-select>
             </li>
+            <el-upload 
+  class="upload-demo"
+  action="action"
+  :http-request="uploadBpmn"
+  :show-file-list="false"
+  :before-upload="beforeUpload">
+  
+  <el-button size="small" type="primary">上传题库</el-button>
+</el-upload>
           </ul>
           <!-- 选择题部分 -->
           <div class="change" v-if="optionValue == '选择题'">
             <div class="title">
               <el-tag>题目:</el-tag>
-              <span>在下面的输入框中输入题目,形如--DNS 服务器和DHCP服务器的作用是（）</span>
+              <span>在下面的输入框中输入题目,形如--在关系型数据库中，一个表的候选键必须满足哪些条件？（）</span>
               <el-input
                 type="textarea"
                 rows="4"
@@ -287,77 +295,7 @@
       </el-tab-pane>
 
       <!-- 随机组卷 -->
-      <el-tab-pane name="second">
-        <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>随机组卷</span>
-        <div class="box">
-          <ul>
-         <!--    <li>
-              <span>科目类型:</span>
-            
-              <el-select v-model="subjects" placeholder="请选择科目类型" style="width: 150px;margin-left: 25px">
-                <el-option
-                  v-for="item in subjectList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select>
-            </li> -->
-            <li>
-              <span>简单选择题数量：</span>
-              <el-input-number size="mini" v-model="esayChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">一般选择题数量：</span>
-              <el-input-number size="mini" v-model="commonChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">困难选择题数量：</span>
-              <el-input-number size="mini" v-model="difficultyChangeNumber"></el-input-number>
-              <span style="margin-left: 20px">选择题分数：</span>
-              <el-input-number size="mini" v-model="changeScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单填空题数量：</span>
-              <el-input-number size="mini" v-model="esayFillNumber"></el-input-number>
-              <span style="margin-left: 20px">一般填空题数量：</span>
-              <el-input-number size="mini" v-model="commonFillNumber"></el-input-number>
-              <span style="margin-left: 20px">困难填空题数量：</span>
-              <el-input-number size="mini" v-model="difficultyFillNumber"></el-input-number>
-              <span style="margin-left: 20px">填空题分数：</span>
-              <el-input-number size="mini" v-model="fillScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单判断题数量：</span>
-              <el-input-number size="mini" v-model="esayJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">一般判断题数量：</span>
-              <el-input-number size="mini" type="text" v-model="commonJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">困难判断题数量：</span>
-              <el-input-number size="mini" v-model="difficultyJudgeNumber"></el-input-number>
-              <span style="margin-left: 20px">判断题分数：</span>
-              <el-input-number size="mini" v-model="judgeScore"></el-input-number>
-            </li>
-            <li>
-              <span>简单简答题数量：</span>
-              <el-input-number size="mini" v-model="esayShorNumber"></el-input-number>
-              <span style="margin-left: 20px">一般简答题数量：</span>
-              <el-input-number size="mini" v-model="commonShorNumber"></el-input-number>
-              <span style="margin-left: 20px">困难简答题数量：</span>
-              <el-input-number size="mini" v-model="difficultyShorNumber"></el-input-number>
-              <span style="margin-left: 20px">简答题分数：</span>
-              <el-input-number size="mini" v-model="shorScore"></el-input-number>
-            </li>
 
-            
-              <el-row>
-                <el-col :span="8"><el-button type="primary" @click="create()">立即组卷</el-button></el-col>
-                <el-col :span="8"><el-tag type="success"> 总成绩：{{ sumTotalScore }}</el-tag ></el-col>
-
-              </el-row>
-                 
-                 
-              
-             
-        
-          </ul>
-        </div>
-      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -370,27 +308,6 @@ export default {
       
       subjectList: [], //存储所有科目的数组（用于分科目 —— 选择）
       subjects: null, //所属科目
-      // 随机组卷 —— 选择题模块
-      esayChangeNumber: null, //简单选择题出题数量
-      commonChangeNumber: null, //一般选择题出题数量
-      difficultyChangeNumber: null, //困难选择题出题数量
-      changeScore: null, //选择题分数
-      // 随机组卷 —— 填空题模块
-      esayFillNumber: null,
-      commonFillNumber: null,
-      difficultyFillNumber: null,
-      fillScore: null,
-      // 随机组卷 —— 判断题模块
-      esayJudgeNumber: null,
-      commonJudgeNumber: null,
-      difficultyJudgeNumber: null,
-      judgeScore: null,
-      // 随机组卷 —— 简答题模块
-      esayShorNumber: null,
-      commonShorNumber: null,
-      difficultyShorNumber: null,
-      shorScore: null,
-
       activeName: 'first',  //活动选项卡，初始化为“添加试卷”界面，“second”为“随即组卷”界面
       options: [ //手动组卷的题库类型
         {
@@ -497,25 +414,7 @@ export default {
       }
     };
   },
-  computed:{
-      sumTotalScore(){
-        let sumTatl=0
-        console.log("========",this.esayChangeNumber * this.changeScore + this.commonChangeNumber * this.changeScore + this.difficultyChangeNumber * this.changeScore + this.esayFillNumber * this.fillScore + this.commonFillNumber * this.fillScore + this.difficultyFillNumber * this.fillScore + this.esayJudgeNumber * this.judgeScore + this.commonJudgeNumber * this.judgeScore + this.difficultyJudgeNumber * this.judgeScore + this.esayShorNumber * this.shorScore + this.commonShorNumber * this.shorScore + this.difficultyShorNumber * this.shorScore);
-        try{
-          sumTatl= this.esayChangeNumber * this.changeScore + this.commonChangeNumber * this.changeScore + this.difficultyChangeNumber * this.changeScore + this.esayFillNumber * this.fillScore + this.commonFillNumber * this.fillScore + this.difficultyFillNumber * this.fillScore + this.esayJudgeNumber * this.judgeScore + this.commonJudgeNumber * this.judgeScore + this.difficultyJudgeNumber * this.judgeScore + this.esayShorNumber * this.shorScore + this.commonShorNumber * this.shorScore + this.difficultyShorNumber * this.shorScore
-        }catch(e){
-          console.log("保留从");
-          sumTatl=0
-        }
-        return sumTatl
-        
-      }
-  },
   created() {
-    console.log(this.$store.getters.getSubject,'获取参数');
-    //console.log(menu);
-    // 获取科目的所有信息到 subjectList 数组中，再遍历显示在下拉框中
-    this.getSubject()
     // 获取GET请求的参数试卷信息
     this.getParams()
   },
@@ -523,76 +422,11 @@ export default {
     // handleClick(tab, event) {
     //   console.log(tab, event);
     // },
-
-    getSubject() {
-      this.$axios('/api/subjects').then(res => {
-        console.log(res.data.data);
-        for (let i = 0; i < res.data.data.length; i++) {
-          this.subjectList.push(res.data.data[i].subjectName)
-        }
-        this.subjectList = [...new Set(this.subjectList)]
-      })
-    },
-
-    // 随即组卷发送axios请求
-    create() {
-      this.$axios({
-        url: '/api/item',
-        method: 'post',
-        data: {
-          // 随机组卷 —— 选择题模块
-          esayChangeNumber: this.esayChangeNumber, //简单选择题出题数量
-          commonChangeNumber: this.commonChangeNumber, //一般选择题出题数量
-          difficultyChangeNumber: this.difficultyChangeNumber, //困难选择题出题数量
-          changeScore: this.changeScore, //选择题分数
-          // 随机组卷 —— 填空题模块
-          esayFillNumber: this.esayFillNumber,
-          commonFillNumber: this.commonFillNumber,
-          difficultyFillNumber: this.difficultyFillNumber,
-          fillScore: this.fillScore,
-          // 随机组卷 —— 判断题模块
-          esayJudgeNumber: this.esayJudgeNumber,
-          commonJudgeNumber: this.commonJudgeNumber,
-          difficultyJudgeNumber: this.difficultyJudgeNumber,
-          judgeScore: this.judgeScore,
-          // 随机组卷 —— 简答题模块
-          esayShorNumber: this.esayShorNumber,
-          commonShorNumber: this.commonShorNumber,
-          difficultyShorNumber: this.difficultyShorNumber,
-          shorScore: this.shorScore,
-          
-          paperId: this.paperId, // 试卷的编号
-          subject: this.$store.getters.getSubject, // 指定科目随机组卷
-          totalScore: this.totalScore // 试卷的总分（进行分数总和的效验）
-        }
-      }).then(res => {
-        console.log(res)
-        let data = res.data
-        if (data.code == 200) {
-          setTimeout(() => {
-            this.$router.push({path: '/selectAnswer'})
-          }, 1000)
-          this.$message({
-            message: data.message,
-            type: 'success'
-          })
-        } else if (data.code == 400) {
-          this.$message({
-            message: data.message,
-            type: 'error'
-          })
-        }
-
-      })
-    },
+    // 获取路由参数
     getParams() {
       let subject = this.$route.query.subject //获取试卷名称
-      let paperId = this.$route.query.paperId //获取paperId
-      let totalScore = this.$route.query.totalScore //获取totalScore
-      this.paperId = paperId
       this.subject = subject
-      this.totalScore = totalScore
-      this.postPaper.paperId = paperId
+      console.log(this.subject);
     },
     changeSubmit() { //选择题题库提交
       this.postChange.subject = this.subject
@@ -611,23 +445,11 @@ export default {
           })
           this.postChange = {}
         }
-      }).then(() => {
-        this.$axios(`/api/multiQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 1
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     fillSubmit() { //填空题提交
       this.postFill.subject = this.subject
+      console.log(this.postFill);
       this.$axios({
         url: '/api/fillQuestion',
         method: 'post',
@@ -643,19 +465,6 @@ export default {
           })
           this.postFill = {}
         }
-      }).then(() => {
-        this.$axios(`/api/fillQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 2
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     judgeSubmit() { //判断题提交
@@ -675,19 +484,6 @@ export default {
           })
           this.postJudge = {}
         }
-      }).then(() => {
-        this.$axios(`/api/judgeQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 3
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
       })
     },
     shortSubmit() { //简答题提交
@@ -707,7 +503,8 @@ export default {
           })
           this.postShort = {}
         }
-      }).then(() => {
+      })
+/*       .then(() => {
         this.$axios(`/api/shortQuestionId`).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
@@ -720,8 +517,45 @@ export default {
             }
           })
         })
-      })
+      }) */
     },
+    beforeUpload (file) { // 上传文件之前钩子
+  const type = file.name.split('.')[1]
+  if (type !== 'xlsx') {
+    this.$message({ type: 'error', message: '只支持xlsx文件格式！' })
+    return false
+  }
+},
+    uploadBpmn(file) {
+      console.log(file)
+      const formData = new FormData()
+      formData.append('file', file.file)
+      let url=''
+      if(this.optionValue=='选择题'){
+        url='/api/importMultiQuestion'
+      }else if(this.optionValue=='填空题'){
+        url='/api/importFillQuestion'
+      }else if(this.optionValue=='判断题'){
+        url='/api/importJudgeQuestion'
+      }else if(this.optionValue=='简答题'){
+        url='/api/importShortQuestion'
+      }
+      this.$axios({
+        url: url,
+        method: 'post',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res => {
+       this.$message({
+            message: '上传成功',
+            type: 'success'
+          })
+      })
+
+    },
+
   },
  
 };
@@ -773,7 +607,7 @@ export default {
     .change {
       margin-top: 20px;
       padding: 20px 16px;
-      background-color: #E7F6F6;
+      background-color: rgb(242,253,255);
       border-radius: 4px;
 
       .title {

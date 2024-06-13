@@ -92,8 +92,7 @@ export default {
 #topbar {
   position: relative;
   z-index: 10;
-  background-color: #f2fdff; //顶部背景颜色
-  height: 80px;
+  background-color: #f2fdff; 
   line-height: 80px;
   color: #fff;
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5);

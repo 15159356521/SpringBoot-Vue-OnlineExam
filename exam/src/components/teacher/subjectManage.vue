@@ -4,8 +4,11 @@
 
     <el-table :data="pagination.records" border>
       <el-table-column fixed="left" prop="subjectName" label="科目" width="1000"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="300">
         <template slot-scope="scope">
+          <el-button @click="add(scope.row.subjectName)" type="primary" size="small">
+            增加题库
+          </el-button>
           <el-button @click="checkGrade(scope.row.subjectId)" type="primary" size="small">编辑</el-button>
           <el-button @click="deleteById(scope.row.subjectId)" type="danger" size="small">删除</el-button>
         </template>
@@ -135,6 +138,14 @@ export default {
         }).catch(_ => {
       });
     },
+    add(subject) { //增加题库（重定向GET传参）
+      this.$router.push({
+        path: '/addAnswerChildren',
+        query: { subject: subject,}
+      })
+      this.$store.commit("changeSubject", subject)
+      
+    }
   }
 };
 </script>
@@ -155,6 +166,9 @@ export default {
 
   .el-table tr {
     background-color: #dd5862 !important;
+  }
+  .el-button--small {
+    margin-bottom: 1px;
   }
 }
 

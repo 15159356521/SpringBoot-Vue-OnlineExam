@@ -54,18 +54,18 @@ public interface AnswerMapper {
         public String findAll(String subjects, String type) {
             String sql = "";
             if (type.equals("选择题")) {
-                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject in (select source from exam_manage where subject like #{subjects})";
+                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects}";
             } else if (type.equals("填空题")) {
-                sql += "select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject in (select source from exam_manage where subject like #{subjects})";
+                sql += "select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects}";
             } else if (type.equals("判断题")) {
-                sql += "select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject in (select source from exam_manage where subject like #{subjects})";
+                sql += "select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects}";
             } else if (type.equals("简答题")) {
-                sql += "select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject in (select source from exam_manage where subject like #{subjects})";
+                sql += "select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects}";
             } else {
-                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject in (select source from exam_manage where subject like #{subjects}) " +
-                        "union select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject in (select source from exam_manage where subject like #{subjects}) " +
-                        "union select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject in (select source from exam_manage where subject like #{subjects}) " +
-                        "union select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject in (select source from exam_manage where subject like #{subjects})";
+                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects} " +
+                        "union select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects} " +
+                        "union select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects} " +
+                        "union select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects}";
             }
             return sql;
 

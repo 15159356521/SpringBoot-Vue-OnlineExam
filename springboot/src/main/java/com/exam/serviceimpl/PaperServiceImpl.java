@@ -33,5 +33,9 @@ public class PaperServiceImpl implements PaperService {
     public int deleteQuest(Integer paperId, Integer questionId) {
         return paperMapper.deleteQuest(paperId, questionId);
     }
+    @Override
+    public int deleteAll(Integer paperId) {
+        return paperMapper.deleteAll(paperId);
+    }
 
 }

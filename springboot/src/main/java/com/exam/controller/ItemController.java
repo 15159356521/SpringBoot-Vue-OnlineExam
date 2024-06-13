@@ -77,7 +77,7 @@ public class ItemController {
         if (totalScore != (totalChangeScore + totalFillScore + totalJudgeScore + totalShortScore)) {
             return ApiResultHandler.buildApiResult(400, "试卷总分应为" + totalScore + "分!", null);
         }
-
+        paperService.deleteAll(paperId);
         // 简单选择题数据库获取
         List<Integer> esayChangeIds = multiQuestionService.findBySubjectEsayChange(item.getSubject(), esayChangeNumber);
         if (esayChangeIds == null) {
@@ -215,4 +215,166 @@ public class ItemController {
 
         return ApiResultHandler.buildApiResult(200, "试卷随机组卷成功", null);
     }
+    //简易随机
+    @PostMapping("/simpleItem")
+    public ApiResult simpleItemCont(@RequestBody Item item) {
+        Integer esayChangeNumber = 20;
+        Integer esayFillNumber = 10;
+        Integer esayJudgeNumber = 10;
+        Integer esayShorNumber = 4;
+        System.out.println("试卷id:" + item.getPaperId());
+        Integer paperId = item.getPaperId();
+        paperService.deleteAll(paperId);
+
+        // 简单选择题数据库获取
+        List<Integer> esayChangeIds = multiQuestionService.findBySubjectEsayChange(item.getSubject(), esayChangeNumber);
+        if (esayChangeIds == null) {
+            return ApiResultHandler.buildApiResult(400, "简单选择题数据库获取失败", null);
+        }
+        for (Integer number : esayChangeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 1, number);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "简单选择题组卷保存失败", null);
+        }
+        List<Integer> esayFillIds = fillQuestionService.findBySubjectEsayFill(item.getSubject(), esayFillNumber);
+        if (esayFillIds == null)
+            return ApiResultHandler.buildApiResult(400, "简单填空题数据库获取失败", null);
+        for (Integer fillNum : esayFillIds) {
+            PaperManage paperManage = new PaperManage(paperId, 2, fillNum);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "简单填空题组卷保存失败", null);
+        }
+        // 简单判断题数据库获取
+        List<Integer> esayJudgeIds = judgeQuestionService.findBySubjectEsayJudge(item.getSubject(), esayJudgeNumber);
+        if (esayJudgeIds == null)
+            return ApiResultHandler.buildApiResult(400, "简单判断题数据库获取失败", null);
+        for (Integer judge : esayJudgeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 3, judge);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "简单判断题组卷保存失败", null);
+        }
+        // 简单简答题数据库获取
+        List<Integer> esayShortIds = shortQuestionService.findBySubjectEsayShort(item.getSubject(), esayShorNumber);
+        if (esayShortIds == null)
+            return ApiResultHandler.buildApiResult(400, "简单简答题数据库获取失败", null);
+        for (Integer shor : esayShortIds) {
+            PaperManage paperManage = new PaperManage(paperId, 4, shor);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "简单简答题组卷保存失败", null);
+        }
+
+        return ApiResultHandler.buildApiResult(200, "试卷随机组卷成功", null);
+
+    }
+    //普通随机
+    @PostMapping("/commonItem")
+    public ApiResult commonItemCont(@RequestBody Item item) {
+        Integer commonChangeNumber = 20;
+        Integer commonFillNumber = 10;
+        Integer commonJudgeNumber = 10;
+        Integer commonShorNumber = 4;
+        System.out.println("试卷id:" + item.getPaperId());
+        Integer paperId = item.getPaperId();
+      paperService.deleteAll(paperId);
+
+        // 一般选择题数据库获取
+        List<Integer> commonChangeIds = multiQuestionService.findBySubjectCommonChange(item.getSubject(), commonChangeNumber);
+        if (commonChangeIds == null) {
+            return ApiResultHandler.buildApiResult(400, "一般选择题数据库获取失败", null);
+        }
+        for (Integer number : commonChangeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 1, number);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "一般选择题组卷保存失败", null);
+        }
+        List<Integer> commonFillIds = fillQuestionService.findBySubjectCommonFill(item.getSubject(), commonFillNumber);
+        if (commonFillIds == null)
+            return ApiResultHandler.buildApiResult(400, "一般填空题数据库获取失败", null);
+        for (Integer fillNum : commonFillIds) {
+            PaperManage paperManage = new PaperManage(paperId, 2, fillNum);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "一般填空题组卷保存失败", null);
+        }
+        // 一般判断题数据库获取
+        List<Integer> commonJudgeIds = judgeQuestionService.findBySubjectCommonJudge(item.getSubject(), commonJudgeNumber);
+        if (commonJudgeIds == null)
+            return ApiResultHandler.buildApiResult(400, "一般判断题数据库获取失败", null);
+        for (Integer judge : commonJudgeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 3, judge);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "一般判断题组卷保存失败", null);
+        }
+        // 一般简答题数据库获取
+        List<Integer> commonShortIds = shortQuestionService.findBySubjectCommonShort(item.getSubject(), commonShorNumber);
+        if (commonShortIds == null)
+            return ApiResultHandler.buildApiResult(400, "一般简答题数据库获取失败", null);
+        for (Integer shor : commonShortIds) {
+            PaperManage paperManage = new PaperManage(paperId, 4, shor);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "一般简答题组卷保存失败", null);
+        }
+        return ApiResultHandler.buildApiResult(200, "试卷随机组卷成功", null);
+
+        }
+//困难随机
+    @PostMapping("/difficultyItem")
+    public ApiResult difficultyItemCont(@RequestBody Item item) {
+        Integer difficultyChangeNumber = 20;
+        Integer difficultyFillNumber = 10;
+        Integer difficultyJudgeNumber = 10;
+        Integer difficultyShorNumber = 4;
+        System.out.println("试卷id:" + item.getPaperId());
+        Integer paperId = item.getPaperId();
+        int flag=paperService.deleteAll(paperId);
+
+        // 困难选择题数据库获取
+        List<Integer> difficultyChangeIds = multiQuestionService.findBySubjectDifficultyChange(item.getSubject(), difficultyChangeNumber);
+        if (difficultyChangeIds == null) {
+            return ApiResultHandler.buildApiResult(400, "困难选择题数据库获取失败", null);
+        }
+        for (Integer number : difficultyChangeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 1, number);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "困难选择题组卷保存失败", null);
+        }
+        List<Integer> difficultyFillIds = fillQuestionService.findBySubjectDifficultyFill(item.getSubject(), difficultyFillNumber);
+        if (difficultyFillIds == null)
+            return ApiResultHandler.buildApiResult(400, "困难填空题数据库获取失败", null);
+        for (Integer fillNum : difficultyFillIds) {
+            PaperManage paperManage = new PaperManage(paperId, 2, fillNum);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "困难填空题组卷保存失败", null);
+        }
+        // 困难判断题数据库获取
+        List<Integer> difficultyJudgeIds = judgeQuestionService.findBySubjectDifficultyJudge(item.getSubject(), difficultyJudgeNumber);
+        if (difficultyJudgeIds == null)
+            return ApiResultHandler.buildApiResult(400, "困难判断题数据库获取失败", null);
+        for (Integer judge : difficultyJudgeIds) {
+            PaperManage paperManage = new PaperManage(paperId, 3, judge);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "困难判断题组卷保存失败", null);
+        }
+        // 困难简答题数据库获取
+        List<Integer> difficultyShortIds = shortQuestionService.findBySubjectDifficultyShort(item.getSubject(), difficultyShorNumber);
+        if (difficultyShortIds == null)
+            return ApiResultHandler.buildApiResult(400, "困难简答题数据库获取失败", null);
+        for (Integer shor : difficultyShortIds) {
+            PaperManage paperManage = new PaperManage(paperId, 4, shor);
+            int index = paperService.add(paperManage);
+            if (index == 0)
+                return ApiResultHandler.buildApiResult(400, "困难简答题组卷保存失败", null);
+        }
+        return ApiResultHandler.buildApiResult(200, "试卷随机组卷成功", null);
+        }
 }

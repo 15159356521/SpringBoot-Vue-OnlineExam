@@ -15,7 +15,7 @@ public class JudgeQuestion {
 
     private String level;
 
-    private String section;
+    private String section; //章节
 
     private Integer score;
 

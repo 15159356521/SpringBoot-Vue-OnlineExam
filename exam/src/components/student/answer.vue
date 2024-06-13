@@ -2,246 +2,374 @@
 <template>
   <div id="answer">
     <!--顶部信息栏-->
-     <div class="top">
-       <ul class="item">
-         <li><i class="iconfont icon-menufold icon20" ref="toggle" @click="slider_flag = !slider_flag"></i></li>
-         <li>{{examData.type}}-{{examData.source}}</li>
-         <li @click="flag = !flag">
-           <i class="iconfont icon-user icon20"></i>
-           <div class="msg"  v-if="flag" @click="flag = !flag">
-             <p>姓名：{{userInfo.name}}</p>
-             <p>准考证号:  {{userInfo.id}}</p>
-           </div>
-         </li>
-         <li><i class="iconfont icon-arrLeft icon20"></i></li>
-       </ul>
-     </div>
-     <div class="flexarea">
-        <!--左边题目编号区-->
-        <transition name="slider-fade">
-          <div class="left" v-if="slider_flag">
-            <ul class="l-top">
-              <li>
-                <a href="javascript:;"></a>
-                <span>当前</span>
-              </li>
-              <li>
-                <a href="javascript:;"></a>
-                <span>未答</span>
-              </li>
-              <li>
-                <a href="javascript:;"></a>
-                <span>已答</span>
-              </li>
-              <li>
-                <a href="javascript:;"></a>
-                <span>标记</span>
-              </li>
-            </ul>
-            <div class="l-bottom">
-              <div class="item">
-                <p>选择题部分</p>
-                <ul>
-                  <li v-for="(list, index1) in topic[1]" :key="index1">
-                    <a href="javascript:;"
-                      @click="change(index1)"
-                      :class="{'border': index == index1 && currentType == 1,'bg': bg_flag && topic[1][index1].isClick == true}">
-                      <span :class="{'mark': topic[1][index1].isMark == true}"></span>
-                      {{index1+1}}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="item">
-                <p>填空题部分</p>
-                <ul>
-                  <li v-for="(list, index2) in topic[2]" :key="index2">
-                    <a href="javascript:;" @click="fill(index2)" :class="{'border': index == index2 && currentType == 2,'bg': fillAnswer[index2][3] == true}"><span :class="{'mark': topic[2][index2].isMark == true}"></span>{{topicCount[0]+index2+1}}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="item">
-                <p>判断题部分</p>
-                <ul>
-                  <li v-for="(list, index3) in topic[3]" :key="index3">
-                    <a href="javascript:;" @click="judge(index3)" :class="{'border': index == index3 && currentType == 3,'bg': bg_flag && topic[3][index3].isClick == true}"><span :class="{'mark': topic[3][index3].isMark == true}"></span>{{topicCount[0]+topicCount[1]+index3+1}}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="item">
-                <p>简答题部分</p>
-                <ul>
-                  <li v-for="(list, index4) in topic[4]" :key="index4">
-                    <a href="javascript:;" @click="short(index4)" :class="{'border': index == index4 && currentType == 4,'bg':  shortAnswer[index4] != null}"><span :class="{'mark': topic[4][index4].isMark == true}"></span>{{topicCount[0]+topicCount[1]+topicCount[2]+index4+1}}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="final" v-if="isPractice==1" @click="commit()">结束考试</div>
+    <div class="top">
+      <ul class="item">
+        <li>
+          <i
+            class="iconfont icon-menufold icon20"
+            ref="toggle"
+            @click="slider_flag = !slider_flag"
+          ></i>
+        </li>
+        <li>{{ examData.type }}-{{ examData.source }}</li>
+        <li @click="flag = !flag">
+          <i class="iconfont icon-user icon20"></i>
+          <div class="msg" v-if="flag" @click="flag = !flag">
+            <p>姓名：{{ userInfo.name }}</p>
+            <p>准考证号: {{ userInfo.id }}</p>
+          </div>
+        </li>
+        <li><i class="iconfont icon-arrLeft icon20"></i></li>
+      </ul>
+    </div>
+    <div class="flexarea">
+      <!--左边题目编号区-->
+      <transition name="slider-fade">
+        <div class="left" v-if="slider_flag">
+          <ul class="l-top">
+            <li>
+              <a href="javascript:;"></a>
+              <span>当前</span>
+            </li>
+            <li>
+              <a href="javascript:;"></a>
+              <span>未答</span>
+            </li>
+            <li>
+              <a href="javascript:;"></a>
+              <span>已答</span>
+            </li>
+            <li>
+              <a href="javascript:;"></a>
+              <span>标记</span>
+            </li>
+          </ul>
+          <div class="l-bottom">
+            <div class="item">
+              <p>选择题部分</p>
+              <ul>
+                <li v-for="(list, index1) in topic[1]" :key="index1">
+                  <a
+                    href="javascript:;"
+                    @click="change(index1)"
+                    :class="{
+                      border: index == index1 && currentType == 1,
+                      bg: bg_flag && topic[1][index1].isClick == true
+                    }"
+                  >
+                    <span
+                      :class="{ mark: topic[1][index1].isMark == true }"
+                    ></span>
+                    {{ index1 + 1 }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="item">
+              <p>填空题部分</p>
+              <ul>
+                <li v-for="(list, index2) in topic[2]" :key="index2">
+                  <a
+                    href="javascript:;"
+                    @click="fill(index2)"
+                    :class="{
+                      border: index == index2 && currentType == 2,
+                      bg: fillAnswer[index2][3] == true
+                    }"
+                    ><span
+                      :class="{ mark: topic[2][index2].isMark == true }"
+                    ></span
+                    >{{ topicCount[0] + index2 + 1 }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="item">
+              <p>判断题部分</p>
+              <ul>
+                <li v-for="(list, index3) in topic[3]" :key="index3">
+                  <a
+                    href="javascript:;"
+                    @click="judge(index3)"
+                    :class="{
+                      border: index == index3 && currentType == 3,
+                      bg: bg_flag && topic[3][index3].isClick == true
+                    }"
+                    ><span
+                      :class="{ mark: topic[3][index3].isMark == true }"
+                    ></span
+                    >{{ topicCount[0] + topicCount[1] + index3 + 1 }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="item">
+              <p>简答题部分</p>
+              <ul>
+                <li v-for="(list, index4) in topic[4]" :key="index4">
+                  <a
+                    href="javascript:;"
+                    @click="short(index4)"
+                    :class="{
+                      border: index == index4 && currentType == 4,
+                      bg: shortAnswer[index4] != null
+                    }"
+                    ><span
+                      :class="{ mark: topic[4][index4].isMark == true }"
+                    ></span
+                    >{{
+                      topicCount[0] + topicCount[1] + topicCount[2] + index4 + 1
+                    }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="final" v-if="isPractice == 1" @click="commit()">
+              结束考试
             </div>
           </div>
-        </transition>
-        <!--右边选择答题区-->
-        <transition name="slider-fade">
+        </div>
+      </transition>
+      <!--右边选择答题区-->
+      <transition name="slider-fade">
         <div class="right">
           <div class="title">
-            <p>{{title}}</p>
+            <p>{{ title }}</p>
             <i class="iconfont icon-right auto-right"></i>
-            <span>全卷共{{topicCount[0] + topicCount[1] + topicCount[2] + topicCount[3]}}题  <i class="iconfont icon-time"></i>倒计时：<b>{{time}}</b>分钟</span>
+            <span
+              >全卷共{{
+                topicCount[0] + topicCount[1] + topicCount[2] + topicCount[3]
+              }}题 <i class="iconfont icon-time"></i>倒计时：<b>{{ time }}</b
+              >分钟</span
+            >
           </div>
           <div class="content">
-            <p class="topic"><span class="number">{{number}}</span>
-            <span v-if="isInput" class="input">
-              <el-input v-model="showQuestion" placeholder="请输入题目" clearable style="width: 90%;"></el-input>
-            </span>
-            <span v-else>
-              {{showQuestion}}
-            </span>
-            <span style="margin-left: 20px">{{score[currentType - 1] / topicCount[currentType - 1]}}分</span>
-          <el-button type="primary" v-if="isPractice==2" @click="showInput()">修改题目</el-button>
-          <el-button type="primary" v-if="isPractice==2" @click="upTopic(index)">提交题目</el-button>
-          <el-button type="danger" v-if="isPractice==2" @click="del(index)">删除题目</el-button>
-          </p> 
-           
+            <p class="topic">
+              <span class="number">{{ number }}</span>
+              <span v-if="isInput" class="input">
+                <el-input
+                  v-model="showQuestion"
+                  placeholder="请输入题目"
+                  clearable
+                  style="width: 90%;"
+                ></el-input>
+              </span>
+              <span v-else>
+                {{ showQuestion }}
+              </span>
+              <span style="margin-left: 20px"
+                >{{
+                  score[currentType - 1] / topicCount[currentType - 1]
+                }}分</span
+              >
+              <el-button
+                type="primary"
+                v-if="isPractice == 2"
+                @click="showInput()"
+                >修改题目</el-button
+              >
+              <el-button
+                type="primary"
+                v-if="isPractice == 2"
+                @click="upTopic(index)"
+                >提交题目</el-button
+              >
+              <el-button
+                type="danger"
+                v-if="isPractice == 2"
+                @click="del(index)"
+                >删除题目</el-button
+              >
+            </p>
+
             <div v-if="currentType == 1">
               <div v-if="isInput">
-                  <el-input v-model="showAnswer.answerA"/>
-                  <el-input v-model="showAnswer.answerB"/>
-                  <el-input v-model="showAnswer.answerC"/>
-                  <el-input v-model="showAnswer.answerD"/>
+                <el-input v-model="showAnswer.answerA" />
+                <el-input v-model="showAnswer.answerB" />
+                <el-input v-model="showAnswer.answerC" />
+                <el-input v-model="showAnswer.answerD" />
               </div>
               <div v-else>
-                <el-radio-group v-model="radio[index]" @change="getChangeLabel" >
-                  <el-radio :label="1">{{showAnswer.answerA}}</el-radio>
-                  <el-radio :label="2">{{showAnswer.answerB}}</el-radio>
-                  <el-radio :label="3">{{showAnswer.answerC}}</el-radio>
-                  <el-radio :label="4">{{showAnswer.answerD}}</el-radio>
+                <el-radio-group v-model="radio[index]" @change="getChangeLabel">
+                  <el-radio :label="1">{{ showAnswer.answerA }}</el-radio>
+                  <el-radio :label="2">{{ showAnswer.answerB }}</el-radio>
+                  <el-radio :label="3">{{ showAnswer.answerC }}</el-radio>
+                  <el-radio :label="4">{{ showAnswer.answerD }}</el-radio>
                 </el-radio-group>
               </div>
-              <div class="analysis" v-if="isPractice!==1">
+              <div class="analysis" v-if="isPractice !== 1">
                 <ul>
-                    <div v-if="isInput">
-                      <li> <el-tag type="success">正确答案：</el-tag>
-                      <el-input v-model="showAnswer.rightAnswer"/></li>
-                      <li><el-tag>题目解析：</el-tag></li>
-                  <li><el-input v-model="reduceAnswer.analysis"/></li>
-                      </div>
-                      <div v-else>
-                        <li> <el-tag type="success">正确答案：</el-tag>
-                          <span class="right">{{reduceAnswer.rightAnswer}}</span></li>
-                          <li><el-tag>题目解析：</el-tag></li>
-                          <li>{{reduceAnswer.analysis == null ? '暂无解析': reduceAnswer.analysis}}</li>
-                      </div>
-                  
+                  <div v-if="isInput">
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <el-input v-model="showAnswer.rightAnswer" />
+                    </li>
+                    <li><el-tag>题目解析：</el-tag></li>
+                    <li><el-input v-model="reduceAnswer.analysis" /></li>
+                  </div>
+                  <div v-else>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <span class="right">{{ reduceAnswer.rightAnswer }}</span>
+                    </li>
+                    <li><el-tag>题目解析：</el-tag></li>
+                    <li>
+                      {{
+                        reduceAnswer.analysis == null
+                          ? "暂无解析"
+                          : reduceAnswer.analysis
+                      }}
+                    </li>
+                  </div>
                 </ul>
               </div>
             </div>
             <div class="fill" v-if="currentType == 2">
-              <div v-if="isInput">
-              
-              </div>
+              <div v-if="isInput"></div>
               <div v-else>
-                <div v-for="(item,currentIndex) in part" :key="currentIndex">
-                  <el-input placeholder="请填在此处"
+                <div v-for="(item, currentIndex) in part" :key="currentIndex">
+                  <el-input
+                    placeholder="请填在此处"
                     v-model="fillAnswer[index][currentIndex]"
                     clearable
-                    @blur="fillBG">
+                    @blur="fillBG"
+                  >
                   </el-input>
                 </div>
               </div>
-              <div class="analysis" v-if="isPractice!==1">
+              <div class="analysis" v-if="isPractice !== 1">
                 <ul>
                   <div v-if="isInput">
-                    <li> <el-tag type="success">正确答案：</el-tag>
-                    <el-input v-model="topic[2][index].answer"/></li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <el-input v-model="topic[2][index].answer" />
+                    </li>
                     <li><el-tag>题目解析：</el-tag></li>
-                    <li><el-input v-model="topic[2][index].analysis"/></li>
+                    <li><el-input v-model="topic[2][index].analysis" /></li>
                   </div>
                   <div v-else>
-                    <li> <el-tag type="success">正确答案：</el-tag>
-                      <span class="right">{{topic[2][index].answer}}</span></li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <span class="right">{{ topic[2][index].answer }}</span>
+                    </li>
                     <li><el-tag>题目解析：</el-tag></li>
-                    <li>{{topic[2][index].analysis == null ? '暂无解析': topic[2][index].analysis}}</li>
+                    <li>
+                      {{
+                        topic[2][index].analysis == null
+                          ? "暂无解析"
+                          : topic[2][index].analysis
+                      }}
+                    </li>
                   </div>
                 </ul>
               </div>
             </div>
             <div class="judge" v-if="currentType == 3">
               <div v-if="!isInput">
-  <el-radio-group v-model="judgeAnswer[index]" @change="getJudgeLabel" v-if="currentType == 3">
-                <el-radio :label="1">正确</el-radio>
-                <el-radio :label="2">错误</el-radio>
-              </el-radio-group>
+                <el-radio-group
+                  v-model="judgeAnswer[index]"
+                  @change="getJudgeLabel"
+                  v-if="currentType == 3"
+                >
+                  <el-radio :label="1">正确</el-radio>
+                  <el-radio :label="2">错误</el-radio>
+                </el-radio-group>
               </div>
 
-            
-              <div class="analysis" v-if="isPractice!==1">
-
+              <div class="analysis" v-if="isPractice !== 1">
                 <ul>
                   <div v-if="isInput">
-                    <li> <el-tag type="success">正确答案：</el-tag>
-                    <el-select v-model="topic[3][index].answer" placeholder="请选择">
-                      <el-option label="正确" value="T"></el-option>
-                      <el-option label="错误" value="F"></el-option>
-                    </el-select></li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <el-select
+                        v-model="topic[3][index].answer"
+                        placeholder="请选择"
+                      >
+                        <el-option label="正确" value="T"></el-option>
+                        <el-option label="错误" value="F"></el-option>
+                      </el-select>
+                    </li>
                     <li><el-tag>题目解析：</el-tag></li>
-                    <li><el-input v-model="topic[3][index].analysis"/></li>
+                    <li><el-input v-model="topic[3][index].analysis" /></li>
                   </div>
                   <div v-else>
-                          <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[3][index].answer}}</span></li>
-                  <li><el-tag>题目解析：</el-tag></li>
-                  <li>{{topic[3][index].analysis == null ? '暂无解析': topic[3][index].analysis}}</li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag
+                      ><span class="right">{{ topic[3][index].answer }}</span>
+                    </li>
+                    <li><el-tag>题目解析：</el-tag></li>
+                    <li>
+                      {{
+                        topic[3][index].analysis == null
+                          ? "暂无解析"
+                          : topic[3][index].analysis
+                      }}
+                    </li>
                   </div>
-           
                 </ul>
               </div>
             </div>
             <div class="short" v-if="currentType == 4">
-
-              <div v-if="isInput">
-              
-              </div>
+              <div v-if="isInput"></div>
               <div v-else>
                 <el-input
-                          type="textarea"
-                          rows="4"
-                          placeholder="请填在此处"
-                          v-model="shortAnswer[index]"
-                          clearable>
+                  type="textarea"
+                  rows="4"
+                  placeholder="请填在此处"
+                  v-model="shortAnswer[index]"
+                  clearable
+                >
                 </el-input>
               </div>
-              <div class="analysis" v-if="isPractice!==1">
+              <div class="analysis" v-if="isPractice !== 1">
                 <ul>
                   <div v-if="isInput">
-                    <li> <el-tag type="success">正确答案：</el-tag>
-                    <el-input v-model="topic[4][index].answer"/></li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag>
+                      <el-input v-model="topic[4][index].answer" />
+                    </li>
                     <li><el-tag>题目解析：</el-tag></li>
-                    <li><el-input v-model="topic[4][index].analysis"/></li>
+                    <li><el-input v-model="topic[4][index].analysis" /></li>
                   </div>
                   <div v-else>
-                        <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[4][index].answer}}</span></li>
-                  <li><el-tag>题目解析：</el-tag></li>
-                  <li>{{topic[4][index].analysis == null ? '暂无解析': topic[4][index].analysis}}</li>
+                    <li>
+                      <el-tag type="success">正确答案：</el-tag
+                      ><span class="right">{{ topic[4][index].answer }}</span>
+                    </li>
+                    <li><el-tag>题目解析：</el-tag></li>
+                    <li>
+                      {{
+                        topic[4][index].analysis == null
+                          ? "暂无解析"
+                          : topic[4][index].analysis
+                      }}
+                    </li>
                   </div>
-              
                 </ul>
               </div>
             </div>
           </div>
           <div class="operation">
             <ul class="end">
-              <li @click="previous()"><i class="iconfont icon-previous"></i><span>上一题</span></li>
-              <li @click="mark()"><i class="iconfont icon-mark-o"></i><span>标记</span></li>
-              <li @click="next()"><span>下一题</span><i class="iconfont icon-next"></i></li>
+              <li @click="previous()">
+                <i class="iconfont icon-previous"></i><span>上一题</span>
+              </li>
+              <li @click="mark()">
+                <i class="iconfont icon-mark-o"></i><span>标记</span>
+              </li>
+              <li @click="next()">
+                <span>下一题</span><i class="iconfont icon-next"></i>
+              </li>
             </ul>
           </div>
         </div>
-        </transition>
-     </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -249,7 +377,7 @@ export default {
       endTime: null, //考试结束时间
       time: null, //考试持续时间
       timeLog: null, //考试时间
-      reduceAnswer:[],  //vue官方不支持3层以上数据嵌套,如嵌套则会数据渲染出现问题,此变量直接接收3层嵌套时的数据。
+      reduceAnswer: [], //vue官方不支持3层以上数据嵌套,如嵌套则会数据渲染出现问题,此变量直接接收3层嵌套时的数据。
       answerScore: 0, //答题总分数
       bg_flag: false, //已答标识符,已答改变背景色
       isFillClick: false, //选择题是否点击标识符
@@ -259,18 +387,20 @@ export default {
       radio: [], //保存考生所有选择题的选项
       title: "请选择正确的选项",
       index: 0, //全局index
-      userInfo: { //用户信息
+      userInfo: {
+        //用户信息
         name: null,
         id: null
       },
-      topicCount: [],//每种类型题目的总数
-      score: [],  //每种类型分数的总数
-      examData: { //考试信息
+      topicCount: [], //每种类型题目的总数
+      score: [], //每种类型分数的总数
+      examData: {
+        //考试信息
         // source: null,
         // totalScore: null,
       },
-      topic: {  //试卷信息
-
+      topic: {
+        //试卷信息
       },
       showQuestion: [], //当前显示题目信息
       showAnswer: {}, //当前题目对应的答案选项
@@ -279,472 +409,572 @@ export default {
       fillAnswer: [[]], //二维数组保存所有填空题答案
       judgeAnswer: [], //保存所有判断题答案
       shortAnswer: [], //一维数组保存所有简答题答案
-      topic1Answer: [],  //学生选择题作答编号,
-      rightAnswer: '', //选择题正确答案
-      isInput:false,//判断是否为输入框
-      paperId: null, //试卷编号
-    }
+      topic1Answer: [], //学生选择题作答编号,
+      rightAnswer: "", //选择题正确答案
+      isInput: false, //判断是否为输入框
+      paperId: null //试卷编号
+    };
   },
   created() {
-    this.getCookies()
-    this.getExamData()
-    this.showTime()
+    this.getCookies();
+    this.getExamData();
+    this.showTime();
   },
+  mounted() {
+  document.addEventListener('copy', this.handleCopy);
+  document.addEventListener('paste', this.handlePaste);
+  document.addEventListener('visibilitychange', this.handleVisiable);
+},
+beforeDestroy() {
+  document.removeEventListener('copy', this.handleCopy);
+  document.removeEventListener('paste', this.handlePaste);
+},
+destroyed() { //组件销毁时移除事件监听
+  document.removeEventListener('visibilitychange', this.handleVisiable);
+},
   methods: {
-    getTime(date) { //日期格式化
-      let year = date.getFullYear()
-      let month= date.getMonth()+ 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-      let day=date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-      let hours=date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-      let minutes=date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds=date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    handleVisiable(e) {
+      console.log("页面变化");
+  switch (e.target.visibilityState) {
+    case 'prerender':
+      console.log('网页预渲染，内容不可见')
+      break;
+    case 'hidden':
+      console.log('内容不可见，处理后台、最小化、锁屏状态')
+      alert('警告！你已经离开当前答题页面');
+      break;
+    case 'visible':
+      console.log('处于正常打开')
+      break;
+  }
+},
+    //复制粘贴事件禁止
+
+    // 禁止考生使用复制和粘贴功能
+    handleCopy(event) {
+      event.preventDefault();
+      alert("正在考试中，复制功能已被禁用");
+    },
+    handlePaste(event) {
+      event.preventDefault();
+      alert("正在考试中，粘贴功能已被禁用");
+    },
+    getTime(date) {
+      //日期格式化
+      let year = date.getFullYear();
+      let month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      let hours =
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      let minutes =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      let seconds =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       // 拼接
-      return year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+      );
     },
-    getCookies() {  //获取cookie
-      this.userInfo.name = this.$cookies.get("cname")
-      this.userInfo.id = this.$cookies.get("cid")
+    getCookies() {
+      //获取cookie
+      this.userInfo.name = this.$cookies.get("cname");
+      this.userInfo.id = this.$cookies.get("cid");
     },
-    calcuScore() { //计算答题分数
-
+    calcuScore() {
+      //计算答题分数
     },
-    getExamData() { //获取当前试卷所有信息
-      let date = new Date()
-      this.startTime = this.getTime(date)
-      let examCode = this.$route.query.examCode //获取路由传递过来的试卷编号
-      this.$axios(`/api/exam/${examCode}`).then(res => {  //通过examCode请求试卷详细信息
-        this.examData = { ...res.data.data} //获取考试详情
-        this.index = 0
-        this.time = this.examData.totalScore //获取分钟数
-        this.timeLog = this.time
-        this.paperId = this.examData.paperId
-        this.$axios(`/api/paper/${this.paperId}`).then(res => {  //通过paperId获取试题题目信息(及答案，后续提交进行判断出分数)
-          this.topic = {...res.data}
-          let reduceAnswer = this.topic[1][this.index]
-          this.reduceAnswer = reduceAnswer
-          let keys = Object.keys(this.topic) //对象转数组
+    getExamData() {
+      //获取当前试卷所有信息
+      let date = new Date();
+      this.startTime = this.getTime(date);
+      let examCode = this.$route.query.examCode; //获取路由传递过来的试卷编号
+      this.$axios(`/api/exam/${examCode}`).then(res => {
+        //通过examCode请求试卷详细信息
+        this.examData = { ...res.data.data }; //获取考试详情
+        this.index = 0;
+        this.time = this.examData.totalScore; //获取分钟数
+        this.timeLog = this.time;
+        this.paperId = this.examData.paperId;
+        this.$axios(`/api/paper/${this.paperId}`).then(res => {
+          //通过paperId获取试题题目信息(及答案，后续提交进行判断出分数)
+          this.topic = { ...res.data };
+          let reduceAnswer = this.topic[1][this.index];
+          this.reduceAnswer = reduceAnswer;
+          let keys = Object.keys(this.topic); //对象转数组
           keys.forEach(e => {
-            let data = this.topic[e]
-            this.topicCount.push(data.length)
-            let currentScore = 0
-            for(let i = 0; i< data.length; i++) { //循环每种题型,计算出总分
-              currentScore += data[i].score
+            let data = this.topic[e];
+            this.topicCount.push(data.length);
+            let currentScore = 0;
+            for (let i = 0; i < data.length; i++) {
+              //循环每种题型,计算出总分
+              currentScore += data[i].score;
             }
-            this.score.push(currentScore) //把每种题型总分存入score
-          })
+            this.score.push(currentScore); //把每种题型总分存入score
+          });
           // 填空
-          let len = this.topicCount[1]
-          let father = []
-          for(let i = 0; i < len; i++) { //根据填空题数量创建二维空数组存放每道题答案
-            let children = [null,null,null,null]
-            father.push(children)
+          let len = this.topicCount[1];
+          let father = [];
+          for (let i = 0; i < len; i++) {
+            //根据填空题数量创建二维空数组存放每道题答案
+            let children = [null, null, null, null];
+            father.push(children);
           }
-          this.fillAnswer = father
+          this.fillAnswer = father;
           // 填空
-          let shortLen = this.topicCount[3]
-          let shortList = []
-          for(let i = 0; i < shortLen; i++) { //根据填空题数量创建二维空数组存放每道题答案
-            shortList.push(null)
+          let shortLen = this.topicCount[3];
+          let shortList = [];
+          for (let i = 0; i < shortLen; i++) {
+            //根据填空题数量创建二维空数组存放每道题答案
+            shortList.push(null);
           }
-          this.shortAnswer = shortList
+          this.shortAnswer = shortList;
 
-          let dataInit = this.topic[1]
-          this.number = 1
-          this.showQuestion = dataInit[0].question
-          this.showAnswer = dataInit[0]
-
-        })
-      })
-      
-
+          let dataInit = this.topic[1];
+          this.number = 1;
+          this.showQuestion = dataInit[0].question;
+          this.showAnswer = dataInit[0];
+        });
+      });
     },
-    change(index) { //选择题
-      this.index = index
-      let reduceAnswer = this.topic[1][this.index]
-      this.reduceAnswer = reduceAnswer
-      this.isFillClick = true
-      this.currentType = 1
-      let len = this.topic[1].length
-      if(this.index < len) {
-        if(this.index <= 0){
-          this.index = 0
+    change(index) {
+      //选择题
+      this.index = index;
+      let reduceAnswer = this.topic[1][this.index];
+      this.reduceAnswer = reduceAnswer;
+      this.isFillClick = true;
+      this.currentType = 1;
+      let len = this.topic[1].length;
+      if (this.index < len) {
+        if (this.index <= 0) {
+          this.index = 0;
         }
-        console.log(`总长度${len}`)
-        console.log(`当前index:${index}`)
-        this.title = "请选择正确的选项"
-        let Data = this.topic[1]
+        console.log(`总长度${len}`);
+        console.log(`当前index:${index}`);
+        this.title = "请选择正确的选项";
+        let Data = this.topic[1];
         // console.log(Data)
-        this.showQuestion = Data[this.index].question //获取题目信息
-        this.showAnswer = Data[this.index]
-        this.number = this.index + 1
-      }else if(this.index >= len) {
-        this.index = 0
-        this.fill(this.index)
+        this.showQuestion = Data[this.index].question; //获取题目信息
+        this.showAnswer = Data[this.index];
+        this.number = this.index + 1;
+      } else if (this.index >= len) {
+        this.index = 0;
+        this.fill(this.index);
       }
     },
-    fillBG() { //填空题已答题目 如果已答该题目,设置第四个元素为true为标识符
-      if(this.fillAnswer[this.index][0] != null) {
-        this.fillAnswer[this.index][3] = true
+    fillBG() {
+      //填空题已答题目 如果已答该题目,设置第四个元素为true为标识符
+      if (this.fillAnswer[this.index][0] != null) {
+        this.fillAnswer[this.index][3] = true;
       }
     },
-    fill(index) { //填空题
-      let len = this.topic[2].length
-      this.currentType = 2
-      this.index = index
-      if(index < len) {
-        if(index < 0) {
-          index = this.topic[1].length -1
-          this.change(index)
-        }else {
-          console.log(`总长度${len}`)
-          console.log(`当前index:${index}`)
-          this.title = "请在横线处填写答案"
-          let Data = this.topic[2]
-          console.log(Data)
-          this.showQuestion = Data[index].question //获取题目信息
-          let part= this.showQuestion.split("()").length -1 //根据题目中括号的数量确定填空横线数量
-          this.part = part
-          this.number = this.topicCount[0] + index + 1
+    fill(index) {
+      //填空题
+      let len = this.topic[2].length;
+      this.currentType = 2;
+      this.index = index;
+      if (index < len) {
+        if (index < 0) {
+          index = this.topic[1].length - 1;
+          this.change(index);
+        } else {
+          console.log(`总长度${len}`);
+          console.log(`当前index:${index}`);
+          this.title = "请在横线处填写答案";
+          let Data = this.topic[2];
+          console.log(Data);
+          this.showQuestion = Data[index].question; //获取题目信息
+          let part = this.showQuestion.split("()").length - 1; //根据题目中括号的数量确定填空横线数量
+          this.part = part;
+          this.number = this.topicCount[0] + index + 1;
         }
-      }else if(index >= len) {
-        this.index = 0
-        this.judge(this.index)
+      } else if (index >= len) {
+        this.index = 0;
+        this.judge(this.index);
       }
     },
-    judge(index) { //判断题
-      let len = this.topic[3].length
-      this.currentType = 3
-      this.index = index
-      if(this.index < len) {
-        if(this.index < 0){
-          this.index = this.topic[2].length - 1
-          this.fill(this.index)
-        }else {
-          console.log(`总长度${len}`)
-          console.log(`当前index:${this.index}`)
-          this.title = "请作出正确判断"
-          let Data = this.topic[3]
-          console.log(Data)
-          this.showQuestion = Data[index].question //获取题目信息
-          this.number = this.topicCount[0] + this.topicCount[1] + index + 1
+    judge(index) {
+      //判断题
+      let len = this.topic[3].length;
+      this.currentType = 3;
+      this.index = index;
+      if (this.index < len) {
+        if (this.index < 0) {
+          this.index = this.topic[2].length - 1;
+          this.fill(this.index);
+        } else {
+          console.log(`总长度${len}`);
+          console.log(`当前index:${this.index}`);
+          this.title = "请作出正确判断";
+          let Data = this.topic[3];
+          console.log(Data);
+          this.showQuestion = Data[index].question; //获取题目信息
+          this.number = this.topicCount[0] + this.topicCount[1] + index + 1;
         }
-      }else if (this.index >= len) {
-        this.index = 0
-        this.short(this.index)
+      } else if (this.index >= len) {
+        this.index = 0;
+        this.short(this.index);
       }
     },
-    short(index) { //简答题
-      let len = this.topic[4].length
-      this.currentType = 4
-      this.index = index
-      if(index < len) {
-        if(index < 0) {
-          index = this.topic[3].length -1
-          this.judge(index)
-        }else {
-          console.log(`总长度${len}`)
-          console.log(`当前index:${index}`)
-          this.title = "请在文本框中填写答案"
-          let Data = this.topic[4]
-          console.log(Data)
-          this.showQuestion = Data[index].question //获取题目信息
-          this.number = this.topicCount[0] + this.topicCount[1] + this.topicCount[2] + index + 1
+    short(index) {
+      //简答题
+      let len = this.topic[4].length;
+      this.currentType = 4;
+      this.index = index;
+      if (index < len) {
+        if (index < 0) {
+          index = this.topic[3].length - 1;
+          this.judge(index);
+        } else {
+          console.log(`总长度${len}`);
+          console.log(`当前index:${index}`);
+          this.title = "请在文本框中填写答案";
+          let Data = this.topic[4];
+          console.log(Data);
+          this.showQuestion = Data[index].question; //获取题目信息
+          this.number =
+            this.topicCount[0] +
+            this.topicCount[1] +
+            this.topicCount[2] +
+            index +
+            1;
         }
-      }else if(index >= len) {
-        this.index = 0
-        this.change(this.index)
+      } else if (index >= len) {
+        this.index = 0;
+        this.change(this.index);
       }
     },
-    getChangeLabel(val) { //获取选择题作答选项
-      this.radio[this.index] = val //当前选择的序号
-      if(val) {
-        let data = this.topic[1]
-        this.bg_flag = true
-        data[this.index]["isClick"] = true
+    getChangeLabel(val) {
+      //获取选择题作答选项
+      this.radio[this.index] = val; //当前选择的序号
+      if (val) {
+        let data = this.topic[1];
+        this.bg_flag = true;
+        data[this.index]["isClick"] = true;
       }
       /* 保存学生答题选项 */
-      this.topic1Answer[this.index] = val
+      this.topic1Answer[this.index] = val;
     },
-    getJudgeLabel(val) {  //获取判断题作答选项
-      this.judgeAnswer[this.index] = val
-      if(val) {
-        let data = this.topic[3]
-        this.bg_flag = true
-        data[this.index]["isClick"] = true
+    getJudgeLabel(val) {
+      //获取判断题作答选项
+      this.judgeAnswer[this.index] = val;
+      if (val) {
+        let data = this.topic[3];
+        this.bg_flag = true;
+        data[this.index]["isClick"] = true;
       }
     },
-    previous() { //上一题
-      this.index --
-      switch(this.currentType) {
+    previous() {
+      //上一题
+      this.index--;
+      switch (this.currentType) {
         case 1:
-          this.change(this.index)
-          break
+          this.change(this.index);
+          break;
         case 2:
-          this.fill(this.index)
-          break
+          this.fill(this.index);
+          break;
         case 3:
-          this.judge(this.index)
-          break
+          this.judge(this.index);
+          break;
         case 4:
-          this.short(this.index)
-          break
+          this.short(this.index);
+          break;
       }
     },
-    next() { //下一题
-      this.index ++
-      switch(this.currentType) {
+    next() {
+      //下一题
+      this.index++;
+      switch (this.currentType) {
         case 1:
-          this.change(this.index)
-          break
+          this.change(this.index);
+          break;
         case 2:
-          this.fill(this.index)
-          break
+          this.fill(this.index);
+          break;
         case 3:
-          this.judge(this.index)
-          break
+          this.judge(this.index);
+          break;
         case 4:
-          this.short(this.index)
-          break
-
+          this.short(this.index);
+          break;
       }
     },
-    mark() { //标记功能
-      switch(this.currentType) {
+    mark() {
+      //标记功能
+      switch (this.currentType) {
         case 1:
-          this.topic[1][this.index]["isMark"] = true //选择题标记
-          break
+          this.topic[1][this.index]["isMark"] = !this.topic[1][this.index][
+            "isMark"
+          ]; //选择题标记
+          break;
         case 2:
-          this.topic[2][this.index]["isMark"] = true //填空题标记
-          break
+          this.topic[2][this.index]["isMark"] = !this.topic[2][this.index][
+            "isMark"
+          ]; //填空题标记
+          break;
         case 3:
-          this.topic[3][this.index]["isMark"] = true //判断题标记
-          break
+          this.topic[3][this.index]["isMark"] = !this.topic[3][this.index][
+            "isMark"
+          ]; //判断题标记
+          break;
         case 4:
-          this.topic[4][this.index]["isMark"] = true //简答题标记
+          this.topic[4][this.index]["isMark"] = !this.topic[4][this.index][
+            "isMark"
+          ]; //简答题标记
       }
     },
-    commit() { //答案提交计算分数
+    commit() {
+      //答案提交计算分数
       /* 计算选择题总分 */
-      let topic1Answer = this.topic1Answer
-      
-      if(this.time != 0) {
-        this.$confirm("考试结束时间未到,是否提前交卷","友情提示",{
-          confirmButtonText: '立即交卷',
-          cancelButtonText: '再检查一下',
-          type: 'warning'
-        }).then(() => {
-          console.log("交卷")
-          let finalScore = 0
-      topic1Answer.forEach((element,index) => { //循环每道选择题根据选项计算分数
-        let right = null
-        if(element != null) {
-          switch(element) { //选项1,2,3,4 转换为 "A","B","C","D"
-            case 1:
-              right = "A"
-              break
-            case 2:
-              right = "B"
-              break
-            case 3:
-              right = "C"
-              break
-            case 4:
-              right = "D"
-          }
-          if(right == this.topic[1][index].rightAnswer) { // 当前选项与正确答案对比
-            finalScore += this.topic[1][index].score // 计算总分数
-          }
-          console.log(right,this.topic[1][index].rightAnswer)
-        }
-        // console.log(topic1Answer)
-      })
-      /**计算填空题总分 */
-      // console.log(`this.fillAnswer${this.fillAnswer}`)
-      // console.log(this.topic[2][this.index])
-      let fillAnswer = this.fillAnswer
-      fillAnswer.forEach((element,index) => { //此处index和 this.index数据不一致，注意
-        element.forEach((inner) => {
-          if(this.topic[2][index].answer.includes(inner)) { //判断填空答案是否与数据库一致
-            console.log("正确")
-            finalScore += this.topic[2][this.index].score
-          }
+      let topic1Answer = this.topic1Answer;
+
+      if (this.time != 0) {
+        this.$confirm("考试结束时间未到,是否提前交卷", "友情提示", {
+          confirmButtonText: "立即交卷",
+          cancelButtonText: "再检查一下",
+          type: "warning"
         })
-      });
-      /**计算简答题总分 */
-        // console.log(`this.fillAnswer${this.fillAnswer}`)
-        // console.log(this.topic[2][this.index])
-      let shortAnswer = this.shortAnswer
-      shortAnswer.forEach((element,index) => { //此处index和 this.index数据不一致，注意
-        this.$axios({
-          url: '/api/autoShortQuestionScore',
-          method: 'post',
-          data: {
-            "successAnswer": this.topic[4][index].answer,
-            "userAnswer": element
-          }
-        }).then(res => {
-          let status = res.data.code
-          if(status == 200) {
-            finalScore += res.data.data
-          }
-        })
-      });
-      /** 计算判断题总分 */
-      let topic3Answer = this.judgeAnswer
-      topic3Answer.forEach((element,index) => {
-        let right = null
-        switch(element) {
-          case 1:
-            right = "T"
-            break
-          case 2:
-            right = "F"
-        }
-        if(right == this.topic[3][index].answer) { // 当前选项与正确答案对比
-            finalScore += this.topic[3][index].score // 计算总分数
-          }
-      })
-      console.log(`目前总分${finalScore}`)
-          let date = new Date()
-          this.endTime = this.getTime(date)
-          let answerDate = this.endTime.substr(0,10)
-          let sumScore=0
-          for (let i = 0; i < this.score.length; i++) {
-            sumScore+=this.score[i]
-          }
-          //提交成绩信息
-          this.$axios({
-            url: '/api/score',
-            method: 'post',
-            data: {
-              examCode: this.examData.examCode, //考试编号
-              studentId: this.userInfo.id, //学号
-              subject: this.examData.source, //课程名称
-              etScore: finalScore, //答题成绩
-              answerDate: answerDate, //答题日期
-        
+          .then(() => {
+            console.log("交卷");
+            let finalScore = 0;
+            topic1Answer.forEach((element, index) => {
+              //循环每道选择题根据选项计算分数
+              let right = null;
+              if (element != null) {
+                switch (
+                  element //选项1,2,3,4 转换为 "A","B","C","D"
+                ) {
+                  case 1:
+                    right = "A";
+                    break;
+                  case 2:
+                    right = "B";
+                    break;
+                  case 3:
+                    right = "C";
+                    break;
+                  case 4:
+                    right = "D";
+                }
+                if (right == this.topic[1][index].rightAnswer) {
+                  // 当前选项与正确答案对比
+                  finalScore += this.topic[1][index].score; // 计算总分数
+                }
+                console.log(right, this.topic[1][index].rightAnswer);
+              }
+              // console.log(topic1Answer)
+            });
+            /**计算填空题总分 */
+            // console.log(`this.fillAnswer${this.fillAnswer}`)
+            // console.log(this.topic[2][this.index])
+            let fillAnswer = this.fillAnswer;
+            fillAnswer.forEach((element, index) => {
+              //此处index和 this.index数据不一致，注意
+              element.forEach(inner => {
+                if (this.topic[2][index].answer.includes(inner)) {
+                  //判断填空答案是否与数据库一致
+                  console.log("正确");
+                  finalScore += this.topic[2][this.index].score;
+                }
+              });
+            });
+            /**计算简答题总分 */
+            // console.log(`this.fillAnswer${this.fillAnswer}`)
+            // console.log(this.topic[2][this.index])
+            let shortAnswer = this.shortAnswer;
+            shortAnswer.forEach((element, index) => {
+              //此处index和 this.index数据不一致，注意
+              this.$axios({
+                url: "/api/autoShortQuestionScore",
+                method: "post",
+                data: {
+                  successAnswer: this.topic[4][index].answer,
+                  userAnswer: element
+                }
+              }).then(res => {
+                let status = res.data.code;
+                if (status == 200) {
+                  finalScore += res.data.data;
+                }
+              });
+            });
+            /** 计算判断题总分 */
+            let topic3Answer = this.judgeAnswer;
+            topic3Answer.forEach((element, index) => {
+              let right = null;
+              switch (element) {
+                case 1:
+                  right = "T";
+                  break;
+                case 2:
+                  right = "F";
+              }
+              if (right == this.topic[3][index].answer) {
+                // 当前选项与正确答案对比
+                finalScore += this.topic[3][index].score; // 计算总分数
+              }
+            });
+            console.log(`目前总分${finalScore}`);
+            let date = new Date();
+            this.endTime = this.getTime(date);
+            let answerDate = this.endTime.substr(0, 10);
+            let sumScore = 0;
+            for (let i = 0; i < this.score.length; i++) {
+              sumScore += this.score[i];
             }
-          }).then(res => {
-            if(res.data.code == 200) {
-              this.$router.push({path:'/studentScore',query: {
-                score: finalScore,
-                startTime: this.startTime,
-                endTime: this.endTime,
-                source: this.examData.source,
-                sumScore: sumScore,
-                time: this.timeLog
-              }})
-            }
+            //提交成绩信息
+            this.$axios({
+              url: "/api/score",
+              method: "post",
+              data: {
+                examCode: this.examData.examCode, //考试编号
+                studentId: this.userInfo.id, //学号
+                subject: this.examData.source, //课程名称
+                etScore: finalScore, //答题成绩
+                answerDate: answerDate //答题日期
+              }
+            }).then(res => {
+              if (res.data.code == 200) {
+                this.$router.push({
+                  path: "/studentScore",
+                  query: {
+                    score: finalScore,
+                    startTime: this.startTime,
+                    endTime: this.endTime,
+                    source: this.examData.source,
+                    sumScore: sumScore,
+                    time: this.timeLog
+                  }
+                });
+              }
+            });
           })
-        }).catch(() => {
-          console.log("继续答题")
-        })
+          .catch(() => {
+            console.log("继续答题");
+          });
       }
     },
-    showTime() { //倒计时
+    showTime() {
+      //倒计时
       setInterval(() => {
-        this.time -= 1
-        if(this.time == 10) {
+        this.time -= 1;
+        if (this.time == 10) {
           this.$message({
             showClose: true,
-            type: 'error',
-            message: '考生注意,考试时间还剩10分钟！！！'
-          })
-          if(this.time == 0) {
-            console.log("考试时间已到,强制交卷。")
+            type: "error",
+            message: "考生注意,考试时间还剩10分钟！！！"
+          });
+          if (this.time == 0) {
+            console.log("考试时间已到,强制交卷。");
           }
         }
-      },1000 * 60)
+      }, 1000 * 60);
     },
-    showInput(){
-      this.isInput = true
+    showInput() {
+      this.isInput = true;
     },
-   async upTopic(index){
-        let msg
-      if(this.currentType==1){
+    async upTopic(index) {
+      let msg;
+      if (this.currentType == 1) {
         console.log(this.showAnswer);
-        this.showAnswer.question=this.showQuestion;
-      msg=await this.$axios({
-        url: '/api/updateChoiceQuestion',
-        method: 'post',
-        data: {
-          ...this.showAnswer
-        }
-      })
-      }else if(this.currentType==2){
-        this.showAnswer.question=this.showQuestion;
-        this.showAnswer.answer=this.topic[2][index].answer;
-        msg=await this.$axios({
-          url: '/api/updateFill',
-          method: 'post',
+        this.showAnswer.question = this.showQuestion;
+        msg = await this.$axios({
+          url: "/api/updateChoiceQuestion",
+          method: "post",
+          data: {
+            ...this.showAnswer
+          }
+        });
+      } else if (this.currentType == 2) {
+        this.showAnswer.question = this.showQuestion;
+        this.showAnswer.answer = this.topic[2][index].answer;
+        msg = await this.$axios({
+          url: "/api/updateFill",
+          method: "post",
           data: {
             ...this.topic[2][index]
           }
-        })   }else if(this.currentType==3){
-          console.log(this.topic[3][index]);
-        this.showAnswer.question=this.showQuestion;
-        msg=await this.$axios({
-          url: '/api/updateJudge',
-          method: 'post',
+        });
+      } else if (this.currentType == 3) {
+        console.log(this.topic[3][index]);
+        this.showAnswer.question = this.showQuestion;
+        msg = await this.$axios({
+          url: "/api/updateJudge",
+          method: "post",
           data: {
             ...this.topic[3][index]
           }
-        })   }else if(this.currentType==4){
-        this.showAnswer.question=this.showQuestion;
-        msg=await this.$axios({
-          url: '/api/updateShort',
-          method: 'post',
+        });
+      } else if (this.currentType == 4) {
+        this.showAnswer.question = this.showQuestion;
+        msg = await this.$axios({
+          url: "/api/updateShort",
+          method: "post",
           data: {
             ...this.topic[4][index]
           }
-        })   }
-      if(msg.data.code==200){
-        this.$message({
-          message: '修改成功',
-          type: 'success'
         });
-        this.isInput = false
-    }
+      }
+      if (msg.data.code == 200) {
+        this.$message({
+          message: "修改成功",
+          type: "success"
+        });
+        this.isInput = false;
+      }
+    },
+    async del(index) {
+      let msg;
+      if (this.currentType == 1) {
+        console.log(this.showAnswer);
+        msg = await this.$axios({
+          url: `/api/paperManage/${this.paperId}/${this.showAnswer.questionId}`,
+          method: "delete"
+        });
+      } else if (this.currentType == 2) {
+        msg = await this.$axios({
+          url: `/api/paperManage/${this.paperId}/${this.topic[2][index].questionId}`,
+          method: "delete"
+        });
+      } else if (this.currentType == 3) {
+        msg = await this.$axios({
+          url: `/api/paperManage/${this.paperId}/${this.topic[3][index].questionId}`,
+          method: "delete"
+        });
+      } else if (this.currentType == 4) {
+        msg = await this.$axios({
+          url: `/api/paperManage/${this.paperId}/${this.topic[4][index].questionId}`,
+          method: "delete"
+        });
+      }
+
+      if (msg.data.code == 200) {
+        this.$message({
+          message: "删除成功",
+          type: "success"
+        });
+        this.isInput = false;
+        this.getExamData();
+      }
+    },
+        // 监听页面被切出或最小化，页面出现弹窗警告
 
   },
-  async del(index){
-    let msg
-    if(this.currentType==1){
-      console.log(this.showAnswer);
-      msg=await this.$axios({
-        url: `/api/paperManage/${this.paperId}/${this.showAnswer.questionId}`,
-        method: 'delete',
-      })
-      }else if(this.currentType==2){
-      msg=await this.$axios({
-        url: `/api/paperManage/${this.paperId}/${this.topic[2][index].questionId}`,
-        method: 'delete',
-      })   }else if(this.currentType==3){
-      msg=await this.$axios({
-        url: `/api/paperManage/${this.paperId}/${this.topic[3][index].questionId}`,
-        method: 'delete',
-      })   }else if(this.currentType==4){
-      msg=await this.$axios({
-        url: `/api/paperManage/${this.paperId}/${this.topic[4][index].questionId}`,
-        method: 'delete',
-      
-      })   }
-    
-      if(msg.data.code==200){
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        });
-        this.isInput = false
-        this.getExamData()
-    }
-  
-  },
-
- 
-},
-computed:mapState(["isPractice"])
-}
+  computed: mapState(["isPractice"])
+};
 </script>
 
 <style lang="less">
@@ -755,9 +985,9 @@ computed:mapState(["isPractice"])
 .analysis {
   margin-top: 20px;
   .right {
-    color: #2776df;
+    color: #72b851;
     font-size: 18px;
-    border: 1px solid #2776df;
+    border: 1px solid #cadf27;
     padding: 0px 6px;
     border-radius: 4px;
     margin-left: 20px;
@@ -786,10 +1016,10 @@ computed:mapState(["isPractice"])
 }
 .border {
   position: relative;
-  border: 1px solid #FF90AA !important;
+  border: 1px solid #ff90aa !important;
 }
 .bg {
-  background-color: #5188b8 !important;
+  background-color: #72b851 !important;
 }
 .fill .el-input {
   display: inline-flex;
@@ -803,12 +1033,13 @@ computed:mapState(["isPractice"])
 }
 /* slider过渡效果 */
 .slider-fade-enter-active {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .slider-fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slider-fade-enter, .slider-fade-leave-to {
+.slider-fade-enter,
+.slider-fade-leave-to {
   transform: translateX(-100px);
   opacity: 0;
 }
@@ -833,6 +1064,7 @@ computed:mapState(["isPractice"])
   border-radius: 4px;
   padding: 10px 0px;
   margin-right: 10px;
+  margin-top: 60px;
 }
 .operation .end {
   display: flex;
@@ -861,7 +1093,7 @@ computed:mapState(["isPractice"])
   background-color: #fff;
   margin: 10px;
   margin-left: 0px;
-  height: 470px;
+  height: 540px;
 }
 .content .el-radio-group label {
   color: #000;
@@ -869,7 +1101,7 @@ computed:mapState(["isPractice"])
 }
 .content .el-radio-group {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 }
 .right .title p {
   margin-left: 20px;
@@ -901,7 +1133,7 @@ computed:mapState(["isPractice"])
   cursor: pointer;
   display: inline-block;
   text-align: center;
- background-color: rgb(39, 118, 223);
+  background-color: rgb(39, 118, 223);
   width: 240px;
   margin: 20px 0px 20px 10px;
   border-radius: 4px;
@@ -973,7 +1205,7 @@ computed:mapState(["isPractice"])
   border: 1px solid #eee;
 }
 .left .l-top li:nth-child(3) a {
-  background-color: #5188b8;
+  background-color: #38b355;
   border: none;
 }
 .left .l-top li:nth-child(4) a {
@@ -1001,7 +1233,7 @@ computed:mapState(["isPractice"])
   padding: 10px;
   border-radius: 50%;
   background-color: #fff;
-  border: 1px solid #FF90AA;
+  border: 1px solid #ff90aa;
 }
 #answer .top {
   background-color: rgb(39, 118, 223);
@@ -1033,7 +1265,7 @@ computed:mapState(["isPractice"])
   right: -30px;
   color: #6c757d;
   position: absolute;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   background-color: #fff;
 }
 .item .msg p {

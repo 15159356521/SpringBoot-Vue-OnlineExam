@@ -36,15 +36,18 @@ public interface JudgeQuestionMapper {
     int add(JudgeQuestion judgeQuestion);
 
     // 简单判断题 —— 随机生成对应科目数量
-    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('1','2') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from judge_question where subject = #{subject} and level in ('1','2') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectEsayJudge(String subject, Integer pageNo);
 
     // 一般判断题 —— 随机生成对应科目数量
-    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('3','4') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from judge_question where subject = #{subject} and level in ('3','4') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectCommonJudge(String subject, Integer pageNo);
 
     // 困难判断题 —— 随机生成对应科目数量
-    @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    //@Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
+    @Select("select questionId from judge_question where subject = #{subject} and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo);
 
     //更新判断题

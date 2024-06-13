@@ -23,10 +23,7 @@ const state = {
       index: '2',
       title: '题库管理',
       icon: 'icon-tiku',
-      content: [{item1: '题库管理', path: '/selectAnswer'}, {
-        item2: '增加题库',
-        path: '/addAnswer'
-      }, {path: '/addAnswerChildren'}],
+      content: [{item1: '题库管理', path: '/selectAnswer'}],
     },
     {
       index: '3',

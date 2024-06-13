@@ -11,18 +11,18 @@ import java.util.List;
 public interface ExamManageMapper {
 
     // 不分页查询所有考试信息
-    @Select("select * from exam_manage order by examCode desc")
+    @Select("select * from exam_manage order by examCode DESC")
     List<ExamManage> findAll();
 
     // 分页查询所有试卷
-    @Select("select * from exam_manage  order by examCode desc")
+    @Select("select * from exam_manage  order by examCode DESC")
     IPage<ExamManage> findAll(Page page);
 
     // 分页查询按科目试卷归档信息
-    @Select("select * from exam_manage where subject like #{subjects}")
+    @Select("select * from exam_manage where subject like #{subjects} order by examCode DESC")
     IPage<ExamManage> findBySubject(Page page, String subjects);
 
-    @Select("select * from exam_manage where examCode = #{examCode}")
+    @Select("select * from exam_manage where examCode = #{examCode} ")
     ExamManage findById(Integer examCode);
 
     @Delete("delete from exam_manage where examCode = #{examCode}")

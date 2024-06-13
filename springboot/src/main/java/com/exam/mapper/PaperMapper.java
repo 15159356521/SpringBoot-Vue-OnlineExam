@@ -23,5 +23,8 @@ public interface PaperMapper {
     //删除试卷中题目类型和题型对应的编号
     @Delete("delete from paper_manage where paperId = #{paperId} and questionId = #{questionId} ")
     int deleteQuest( Integer paperId, Integer questionId);
+    //删除所有试卷对应的id题目
+    @Delete("delete from paper_manage where paperId = #{paperId}")
+    int deleteAll(Integer paperId);
 
 }

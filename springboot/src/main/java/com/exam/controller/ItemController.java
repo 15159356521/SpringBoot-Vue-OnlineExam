@@ -218,12 +218,16 @@ public class ItemController {
     //简易随机
     @PostMapping("/simpleItem")
     public ApiResult simpleItemCont(@RequestBody Item item) {
-        Integer esayChangeNumber = 30;
+        Integer esayChangeNumber = 20;
         Integer esayFillNumber = 10;
         Integer esayJudgeNumber = 10;
-        Integer esayShorNumber = 5;
+        Integer esayShorNumber = 4;
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
+        int flag=paperService.deleteAll(paperId);
+        if(flag==0){
+            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
+        }
         // 简单选择题数据库获取
         List<Integer> esayChangeIds = multiQuestionService.findBySubjectEsayChange(item.getSubject(), esayChangeNumber);
         if (esayChangeIds == null) {
@@ -271,12 +275,16 @@ public class ItemController {
     //普通随机
     @PostMapping("/commonItem")
     public ApiResult commonItemCont(@RequestBody Item item) {
-        Integer commonChangeNumber = 30;
+        Integer commonChangeNumber = 20;
         Integer commonFillNumber = 10;
         Integer commonJudgeNumber = 10;
-        Integer commonShorNumber = 5;
+        Integer commonShorNumber = 4;
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
+        int flag=paperService.deleteAll(paperId);
+        if(flag==0){
+            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
+        }
         // 一般选择题数据库获取
         List<Integer> commonChangeIds = multiQuestionService.findBySubjectCommonChange(item.getSubject(), commonChangeNumber);
         if (commonChangeIds == null) {
@@ -323,12 +331,16 @@ public class ItemController {
 //困难随机
     @PostMapping("/difficultyItem")
     public ApiResult difficultyItemCont(@RequestBody Item item) {
-        Integer difficultyChangeNumber = 30;
+        Integer difficultyChangeNumber = 20;
         Integer difficultyFillNumber = 10;
         Integer difficultyJudgeNumber = 10;
-        Integer difficultyShorNumber = 5;
+        Integer difficultyShorNumber = 4;
         System.out.println("试卷id:" + item.getPaperId());
         Integer paperId = item.getPaperId();
+        int flag=paperService.deleteAll(paperId);
+        if(flag==0){
+            return ApiResultHandler.buildApiResult(400, "清空之前试卷失败", null);
+        }
         // 困难选择题数据库获取
         List<Integer> difficultyChangeIds = multiQuestionService.findBySubjectDifficultyChange(item.getSubject(), difficultyChangeNumber);
         if (difficultyChangeIds == null) {

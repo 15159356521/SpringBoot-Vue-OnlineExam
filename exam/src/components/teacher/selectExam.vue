@@ -46,7 +46,7 @@
       :page-sizes="[4, 8, 10, 20]"
       :page-size="pagination.size"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="pagination.total" class="page">
+      :total="pagination.total" class="page"> 
     </el-pagination>
 
     <!-- 编辑对话框-->

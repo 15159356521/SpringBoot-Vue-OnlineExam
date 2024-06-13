@@ -27,6 +27,11 @@ public class ExamManageServiceImpl implements ExamManageService {
     }
 
     @Override
+    public IPage<ExamManage> findBySubject(Page<ExamManage> page, String subjects) {
+        return examManageMapper.findBySubject(page, subjects);
+    }
+
+    @Override
     public ExamManage findById(Integer examCode) {
         return examManageMapper.findById(examCode);
     }

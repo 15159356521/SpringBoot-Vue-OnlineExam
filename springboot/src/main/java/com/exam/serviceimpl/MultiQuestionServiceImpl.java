@@ -15,6 +15,7 @@ public class MultiQuestionServiceImpl implements MultiQuestionService {
 
     @Autowired
     private MultiQuestionMapper multiQuestionMapper;
+
     @Override
     public List<MultiQuestion> findByIdAndType(Integer PaperId) {
         return multiQuestionMapper.findByIdAndType(PaperId);
@@ -36,7 +37,24 @@ public class MultiQuestionServiceImpl implements MultiQuestionService {
     }
 
     @Override
-    public List<Integer> findBySubject(String subject, Integer pageNo) {
-        return multiQuestionMapper.findBySubject(subject,pageNo);
+    public List<Integer> findBySubjectEsayChange(String subject, Integer pageNo) {
+        return multiQuestionMapper.findBySubjectEsayChange(subject, pageNo);
     }
+
+    @Override
+    public List<Integer> findBySubjectCommonChange(String subject, Integer pageNo) {
+        return multiQuestionMapper.findBySubjectCommonChange(subject, pageNo);
+    }
+
+    @Override
+    public List<Integer> findBySubjectDifficultyChange(String subject, Integer pageNo) {
+        return multiQuestionMapper.findBySubjectDifficultyChange(subject, pageNo);
+    }
+    //更新选择题
+    @Override
+    public int updateMulti(MultiQuestion multiQuestion) {
+        System.out.println("现在是在impl位置");
+        return multiQuestionMapper.updateMulti(multiQuestion);
+    }
+
 }

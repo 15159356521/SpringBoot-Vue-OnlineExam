@@ -13,7 +13,7 @@
         <li class="right">
           <div>
             <span class="count">总分</span>
-            <span class="score">{{score[0]+score[1]+score[2]}}</span>
+            <span class="score">{{score[0]+score[1]+score[2]+score[3]}}</span>
           </div>
         </li>
       </ul>
@@ -31,10 +31,14 @@
       <el-collapse v-model="activeName" >
         <el-collapse-item class="header" name="0">
           <template slot="title" class="stitle" >
-            <div class="title">
-              <span>{{examData.source}}</span><i class="header-icon el-icon-info"></i>
-              <span class="time">{{examData.totalScore}}分 / {{examData.totalTime}}分钟</span>
-              <el-button type="primary" size="small">点击查看试题详情</el-button>
+            <div class="title topTit">
+              <div>
+                      <span>{{examData.source}}</span><i class="header-icon el-icon-info"></i>
+             
+              
+              </div>
+              <span class="time">{{score[0]+score[1]+score[2]+score[3]}}分/{{examData.totalTime}}分钟</span>
+        <el-button type="primary" size="small">点击查看试题详情</el-button>
             </div>
           </template>
           <el-collapse class="inner">
@@ -44,7 +48,10 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[1]" :key="index">
-                  <li>{{index+1}}. {{list.question}} {{list.score}}分</li>
+                  <div v-if="isPractice==0">
+ <li>{{index+1}}. {{list.question}} {{list.score}}分</li>
+                  </div>
+                 
                 </ul>
               </div>
             </el-collapse-item>
@@ -54,7 +61,9 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[2]" :key="index">
+                  <div v-if="isPractice==0">
                   <li>{{topicCount[0]+index+1}}.{{list.question}}  {{list.score}}分</li>
+                  </div>
                 </ul>
               </div>
             </el-collapse-item>
@@ -64,13 +73,27 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[3]" :key="index">
+                  <div v-if="isPractice==0">
                   <li>{{topicCount[0]+topicCount[1]+index+1}}. {{list.question}} {{list.score}}分</li>
+               </div> 
+                </ul>
+              </div>
+            </el-collapse-item>
+            <el-collapse-item>
+              <template slot="title" name="4">
+                <div class="titlei">简答题 (共{{topicCount[3]}}题 共计{{score[3]}}分)</div>
+              </template>
+              <div class="contenti">
+                <ul class="question" v-for="(list, index) in topic[4]" :key="index">
+                  <div v-if="isPractice==0">
+                  <li>{{topicCount[0]+topicCount[1]+topicCount[2]+index+1}}. {{list.question}} {{list.score}}分</li>
+                </div>
                 </ul>
               </div>
             </el-collapse-item>
           </el-collapse>
         </el-collapse-item>
-        
+
       </el-collapse>
     </div>
     <!--考生须知对话框-->
@@ -87,6 +110,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
@@ -132,7 +156,7 @@ export default {
     toAnswer(id) {
       this.$router.push({path:"/answer",query:{examCode: id}})
     },
-  }
+  },computed:mapState(["isPractice"])
 }
 </script>
 
@@ -161,21 +185,32 @@ export default {
   font-weight: bold;
 }
 .content .title .time {
+  width: 125px;
   font-size: 16px;
-  margin-left: 420px;
+/*   margin-left: 400px; */
   color: #999;
 }
 .content .stitle {
   background-color: #0195ff;
 }
+
 .content .title span {
   margin-right: 10px;
 }
+.topTit{
+  display: flex;
+  align-items: center;
+
+}
 #msg .content .title {
+  width: 100%;
   font-size: 20px;
   margin: 0px;
   display: flex;
   align-items: center;
+}
+#msg .content .title div{
+  width: 80%;
 }
 .content {
   margin-top: 20px;
@@ -201,7 +236,7 @@ export default {
   padding: 5px 10px;
   border: 1px solid #88949b;
   border-radius: 4px;
-} 
+}
 .wrapper .bottom {
   display: flex;
   margin-left: 20px;

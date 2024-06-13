@@ -12,13 +12,15 @@ import java.util.List;
 
 @RestController
 public class SpecialityController {
+
     @Autowired
-       private SpecialityServiceImpl specialityService;
+    private SpecialityServiceImpl specialityService;
+
+    // 查询所有专业（用于下拉框信息获取）
     @GetMapping("/specialities")
     public ApiResult findAll() {
-        System.out.println("查询所有专业");
         List<Speciality> res = specialityService.findAll();
-        return ApiResultHandler.buildApiResult(200,"查询所有专业",res);
+        return ApiResultHandler.buildApiResult(200, "查询所有专业", res);
     }
 
 }

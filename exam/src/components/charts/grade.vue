@@ -35,12 +35,33 @@ export default {
           let boxDom = this.$refs["box"];
           let scoreCharts = this.$echarts.init(boxDom);
           let option = {
+            tooltip: {
+        trigger: 'axis',
+        axisPointer: {  // 坐标轴指示器，坐标轴触发有效
+          type: 'cross',
+          animation: false,
+          label: {
+            backgroundColor: '#ccc',
+            borderColor: '#aaa',
+            borderWidth: 1,
+            shadowBlur: 0,
+            shadowOffsetX: 0,
+            shadowOffsetY: 0,
+            color: '#222'
+          }
+        },
+
+      },
             xAxis: {
               type: "category",
               data: this.tableDataX
             },
             yAxis: {
-              type: "value"
+              type: "value",
+              axisLabel: {
+                formatter: "{value} 分"
+                
+        },
             },
             series: [
               {
@@ -52,7 +73,7 @@ export default {
           };
           scoreCharts.setOption(option);
           scoreCharts.on("mouseover", params => {
-            console.log(params.value);
+       /*      console.log(params.value); */
           });
         }else {
           this.isNull = true

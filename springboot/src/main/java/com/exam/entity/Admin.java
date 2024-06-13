@@ -13,8 +13,10 @@ public class Admin {
 
     private String pwd;
 
+    // 身份证
     private String cardId;
 
+    // 身份：0 —— 管理员，1 —— 教师， 2 —— 学生
     private String role;
 
     public Integer getAdminId() {

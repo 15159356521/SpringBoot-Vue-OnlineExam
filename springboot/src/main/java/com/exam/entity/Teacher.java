@@ -8,6 +8,7 @@ public class Teacher {
 
     private String teacherName;
 
+    // 所属学院
     private String institute;
 
     private String sex;

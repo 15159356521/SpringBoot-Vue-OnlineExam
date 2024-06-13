@@ -30,4 +30,10 @@ public class FillQuestionController {
         FillQuestion res = fillQuestionService.findOnlyQuestionId();
         return ApiResultHandler.buildApiResult(200,"查询成功",res);
 }
+//更新填空题
+    @PostMapping("/updateFill")
+    public ApiResult updateFill(@RequestBody FillQuestion fillQuestion) {
+        int res = fillQuestionService.updateFill(fillQuestion);
+        return ApiResultHandler.buildApiResult(200,"更新成功",res);
+    }
 }

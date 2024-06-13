@@ -31,4 +31,14 @@ public class MultiQuestionController {
         }
         return ApiResultHandler.buildApiResult(400,"添加失败",res);
     }
+    //更新选择题
+    @PostMapping("/updateChoiceQuestion")
+    public ApiResult update(@RequestBody MultiQuestion multiQuestion) {
+        System.out.println(multiQuestion);
+        int res = multiQuestionService.updateMulti(multiQuestion);
+        if (res != 0) {
+            return ApiResultHandler.buildApiResult(200,"更新成功",res);
+        }
+        return ApiResultHandler.buildApiResult(400,"更新失败",res);
+    }
 }

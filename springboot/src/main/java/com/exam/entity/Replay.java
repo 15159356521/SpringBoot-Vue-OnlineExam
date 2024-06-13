@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.util.Date;
 
+// 讨论回复实体类
+
 @Data
 public class Replay {
     private Integer messageId;

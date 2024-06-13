@@ -5,6 +5,8 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import lombok.Data;
 
+// 导出excel实体类
+
 @Data
 public class TableExcel {
     @ExcelProperty("学号")

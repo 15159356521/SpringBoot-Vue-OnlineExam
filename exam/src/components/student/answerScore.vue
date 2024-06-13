@@ -1,9 +1,9 @@
 <template>
   <div class="score">
     <div class="title">
-      <p class="name">计算机网络</p>
-      <p class="description">(总分：100分,限时：100分钟)</p>
-      <p class="description">学生：大咸鱼</p>
+      <p class="name">{{ source }}</p>
+      <p class="description">(总分：{{sumScore}}分,限时：{{time}}分钟)</p>
+      <p class="description">学生：{{ username }}</p>
     </div>
     <div class="total">
       <div class="look">
@@ -11,16 +11,16 @@
       </div>
       <div class="show">
         <div class="img1" :class="{'img1Transform': imgShow}">
-          <img :src="imgSrc.fail1" alt="哭了" v-if="score < 60">
-          <img :src="imgSrc.pass1" alt="过了" v-if="score >= 60">
+<!--           <img :src="imgSrc.fail1" alt="哭了" v-if="score < 60">
+          <img :src="imgSrc.pass1" alt="过了" v-if="score >= 60"> -->
         </div>
         <div class="number" :class="{'border': isTransition}">
           <span>{{score}}</span>
           <span>分数</span>
         </div>
         <div class="img2" :class="{'img2Transform': imgShow}">
-          <img :src="imgSrc.fail2" alt="哭了" v-if="score < 60">
-          <img :src="imgSrc.pass2" alt="过了" v-if="score >= 60">
+<!--           <img :src="imgSrc.fail2" alt="哭了" v-if="score < 60">
+          <img :src="imgSrc.pass2" alt="过了" v-if="score >= 60"> -->
         </div>
       </div>
       <ul class="time">
@@ -46,10 +46,15 @@ export default {
       },
       startTime: null, //考试开始时间
       endTime: null, //考试结束时间
+      username: null ,//学生姓名
+      source: null,//考试来源
+      sumScore: 100,//总分
+      time: 100//总时间
     }
   },
   created() {
     this.transiton()
+    this.username = this.$cookies.get("cname")
     this.getScore()
   },
   methods: {
@@ -66,6 +71,9 @@ export default {
       this.score = score
       this.startTime = startTime
       this.endTime = endTime
+      this.source = this.$route.query.source
+      this.sumScore = this.$route.query.sumScore
+      this.time = this.$route.query.time
     }
   }
 }

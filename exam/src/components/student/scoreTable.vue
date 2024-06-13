@@ -3,7 +3,7 @@
   <div class="table">
     <p class="title">我的分数</p>
     <section class="content-el">
-      <el-table ref="filterTable" :data="score" v-loading="loading">
+      <el-table ref="filterTable" :data="score" v-loading="loading" height="450">
         <el-table-column
           prop="answerDate"
           label="考试日期"

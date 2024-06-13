@@ -1,21 +1,18 @@
-// 学生管理页面
+// 科目管理页面
 <template>
   <div class="all">
+
     <el-table :data="pagination.records" border>
-      <el-table-column fixed="left" prop="studentName" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="institute" label="学院" width="200"></el-table-column>
-      <el-table-column prop="major" label="专业" width="200"></el-table-column>
-      <el-table-column prop="grade" label="年级" width="200"></el-table-column>
-      <el-table-column prop="clazz" label="班级" width="100"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="120"></el-table-column>
-      <el-table-column prop="tel" label="联系方式" width="120"></el-table-column>
+      <el-table-column fixed="left" prop="subjectName" label="科目" width="1000"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
-          <el-button @click="checkGrade(scope.row.studentId)" type="primary" size="small">编辑</el-button>
-          <el-button @click="deleteById(scope.row.studentId)" type="danger" size="small">删除</el-button>
+          <el-button @click="checkGrade(scope.row.subjectId)" type="primary" size="small">编辑</el-button>
+          <el-button @click="deleteById(scope.row.subjectId)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 分页 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -26,34 +23,17 @@
       :total="pagination.total"
       class="page">
     </el-pagination>
-    <!-- 编辑对话框-->
+
+    <!-- 编辑对话框 -->
     <el-dialog
-      title="编辑学生信息"
+      title="编辑科目信息"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
       <section class="update">
         <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="姓名">
-            <el-input v-model="form.studentName"></el-input>
-          </el-form-item>
-          <el-form-item label="学院">
-            <el-input v-model="form.institute"></el-input>
-          </el-form-item>
-          <el-form-item label="专业">
-            <el-input v-model="form.major"></el-input>
-          </el-form-item>
-          <el-form-item label="年级">
-            <el-input v-model="form.grade"></el-input>
-          </el-form-item>
-          <el-form-item label="班级">
-            <el-input v-model="form.clazz"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-input v-model="form.sex"></el-input>
-          </el-form-item>
-          <el-form-item label="电话号码">
-            <el-input v-model="form.tel"></el-input>
+          <el-form-item label="科目名称">
+            <el-input v-model="form.subjectName"></el-input>
           </el-form-item>
         </el-form>
       </section>
@@ -62,6 +42,7 @@
         <el-button type="primary" @click="submit()">确 定</el-button>
       </span>
     </el-dialog>
+
   </div>
 </template>
 
@@ -70,22 +51,22 @@ export default {
   data() {
     return {
       pagination: {
-        //分页后的考试信息
+        //分页后的科目信息
         current: 1, //当前页
         total: null, //记录条数
         size: 6, //每页条数
       },
       dialogVisible: false, //对话框
-      form: {}, //保存点击以后当前试卷的信息
+      form: {}, //保存点击以后当前科目的信息
     };
   },
   created() {
-    this.getStudentInfo();
+    this.getSubjectInfo();
   },
   methods: {
-    getStudentInfo() {
-      //分页查询所有试卷信息
-      this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
+    getSubjectInfo() {
+      //分页查询所有科目信息
+      this.$axios(`/api/subjects/${this.pagination.current}/${this.pagination.size}`).then(res => {
         this.pagination = res.data.data;
       }).catch(error => {
       });
@@ -93,30 +74,36 @@ export default {
     //改变当前记录条数
     handleSizeChange(val) {
       this.pagination.size = val;
-      this.getStudentInfo();
+      this.getSubjectInfo();
     },
     //改变当前页码，重新发送请求
     handleCurrentChange(val) {
       this.pagination.current = val;
-      this.getStudentInfo();
+      this.getSubjectInfo();
     },
-    checkGrade(studentId) { //修改学生信息
+    checkGrade(subjectId) { //修改科目信息
       this.dialogVisible = true
-      this.$axios(`/api/student/${studentId}`).then(res => {
+      this.$axios(`/api/subject/${subjectId}`).then(res => {
         this.form = res.data.data
       })
     },
-    deleteById(studentId) { //删除当前学生
-      this.$confirm("确定删除当前学生吗？删除后无法恢复", "Warning", {
+    deleteById(subjectId) { //删除当前科目
+      this.$confirm("确定删除当前科目吗？删除后无法恢复", "确定删除？", {
         confirmButtonText: '确定删除',
         cancelButtonText: '算了,留着吧',
         type: 'danger'
       }).then(() => { //确认删除
         this.$axios({
-          url: `/api/student/${studentId}`,
+          url: `/api/subject/${subjectId}`,
           method: 'delete',
         }).then(res => {
-          this.getStudentInfo()
+          if (res.data.code == 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+          }
+          this.getSubjectInfo()
         })
       }).catch(() => {
 
@@ -125,7 +112,7 @@ export default {
     submit() { //提交更改
       this.dialogVisible = false
       this.$axios({
-        url: '/api/student',
+        url: '/api/subject',
         method: 'put',
         data: {
           ...this.form
@@ -138,7 +125,7 @@ export default {
             type: 'success'
           })
         }
-        this.getStudentInfo()
+        this.getSubjectInfo()
       })
     },
     handleClose(done) { //关闭提醒

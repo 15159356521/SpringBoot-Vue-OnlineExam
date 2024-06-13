@@ -15,7 +15,13 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerMapper answerMapper;
 
     @Override
-    public IPage<AnswerVO> findAll(Page<AnswerVO> page, String subject, String type) {
-        return answerMapper.findAll(page, subject, type);
+    public IPage<AnswerVO> findAll(Page<AnswerVO> page, String subjects, String type) {
+        return answerMapper.findAll(page, subjects, type);
     }
+
+    @Override
+    public int delete(Integer questionId, String type) {
+        return answerMapper.delete(questionId, type);
+    }
+
 }

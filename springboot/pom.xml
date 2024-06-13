@@ -101,6 +101,13 @@
             <artifactId>commons-text</artifactId>
             <version>1.9</version>
         </dependency>
+<!--        md5加密-->
+        <!-- MD5加密依赖 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

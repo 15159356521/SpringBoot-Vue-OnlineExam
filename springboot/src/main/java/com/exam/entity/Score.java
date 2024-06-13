@@ -2,6 +2,8 @@ package com.exam.entity;
 
 import lombok.Data;
 
+// 考试成绩实体类
+
 @Data
 public class Score {
     private Integer examCode;

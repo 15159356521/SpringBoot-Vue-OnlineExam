@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { md5 } from 'js-md5';
   export default {
     data() {
       var validatePass = (rule, value, callback) => {
@@ -60,11 +61,12 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let studentId = this.$cookies.get("cid")
+            let salt = "cvdf-yyds*123.cv987@";
             this.$axios({ //修改密码
               url: '/api/studentPWD',
               method: 'put',
               data: {
-                pwd: this.ruleForm2.pass,
+                pwd:  md5(salt +this.ruleForm2.pass),
                 studentId
               }
             }).then(res => {

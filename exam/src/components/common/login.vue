@@ -5,20 +5,33 @@
     <el-row class="main-container">
       <el-col :lg="8" :xs="16" :md="10" :span="10">
         <div class="top">
-          <i class="iconfont icon-kaoshi"></i><span class="title">在线考试系统</span>
+         
         </div>
         <div class="bottom">
           <div class="container">
             <p class="title">账号登录</p>
-            <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+            <el-form
+              :label-position="labelPosition"
+              label-width="80px"
+              :model="formLabelAlign"
+            >
               <el-form-item label="用户名">
-                <el-input v-model.number="formLabelAlign.username" placeholder="请输入用户名"></el-input>
+                <el-input
+                  v-model.number="formLabelAlign.username"
+                  placeholder="请输入用户名"
+                ></el-input>
               </el-form-item>
               <el-form-item label="密码">
-                <el-input v-model="formLabelAlign.password" placeholder="请输入密码" type='password'></el-input>
+                <el-input
+                  v-model="formLabelAlign.password"
+                  placeholder="请输入密码"
+                  type="password"
+                ></el-input>
               </el-form-item>
               <div class="submit">
-                <el-button type="primary" class="row-login" @click="login()">登录</el-button>
+                <el-button type="primary" class="row-login" @click="login()"
+                  >登录</el-button
+                >
               </div>
               <!-- <div class="options">
                 <p class="find"><a href="javascript:;">找回密码</a></p>
@@ -32,81 +45,85 @@
         </div>
       </el-col>
     </el-row>
-    <el-row class="footer">
-    </el-row>
-    <section class="remind">
-      <span>管理员账号：9527</span>
-      <span>教师账号：20081001</span>
-      <span>密码都是：123456</span>
-    </section>
+    <el-row class="footer"> </el-row>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
+import md5 from "js-md5";
 export default {
   name: "login",
   data() {
     return {
       role: 2,
-      labelPosition: 'left',
+      labelPosition: "left",
       formLabelAlign: {
-        username: '20154084',
-        password: '123456'
+        username: "20234084",
+        password: "123456"
+      },
+      upUserPass: {
+        username: "",
+        password: ""
       }
-    }
+    };
   },
   methods: {
     //用户登录请求后台处理
     login() {
       console.log("登录操作执行-------");
+
+      this.upUserPass = this.formLabelAlign;
+
+      let salt = "cvdf-yyds*123.cv987@";
+      this.upUserPass.password = md5(salt + this.upUserPass.password);
       this.$axios({
         url: `/api/login`,
-        method: 'post',
+        method: "post",
         data: {
-          ...this.formLabelAlign
+          ...this.upUserPass
         }
-      }).then(res=>{
-        let resData = res.data.data
-        if(resData != null) {
-          switch(resData.role) {
-            case "0":  //管理员
-              this.$cookies.set("cname", resData.adminName)
-              this.$cookies.set("cid", resData.adminId)
-              this.$cookies.set("role", 0)
-              this.$router.push({path: '/index' }) //跳转到首页
-              break
+      }).then(res => {
+        let resData = res.data.data;
+        if (resData != null) {
+          switch (resData.role) {
+            case "0": //管理员
+              this.$cookies.set("cname", resData.adminName);
+              this.$cookies.set("cid", resData.adminId);
+              this.$cookies.set("role", 0);
+              this.$router.push({ path: "/selectExam" }); //跳转到首页
+              break;
             case "1": //教师
-              this.$cookies.set("cname", resData.teacherName)
-              this.$cookies.set("cid", resData.teacherId)
-              this.$cookies.set("role", 1)
-              this.$router.push({path: '/index' }) //跳转到教师用户
-              break
+              this.$cookies.set("cname", resData.teacherName);
+              this.$cookies.set("cid", resData.teacherId);
+              this.$cookies.set("role", 1);
+              this.$router.push({ path: "/selectExam" }); //跳转到教师用户
+              break;
             case "2": //学生
-              this.$cookies.set("cname", resData.studentName)
-              this.$cookies.set("cid", resData.studentId)
-              this.$router.push({path: '/student'})
-              break
+              this.$cookies.set("cname", resData.studentName);
+              this.$cookies.set("cid", resData.studentId);
+              this.$router.push({ path: "/student" });
+              break;
           }
         }
-        if(resData == null) { //错误提示
+        if (resData == null) {
+          //错误提示
           this.$message({
             showClose: true,
-            type: 'error',
-            message: '用户名或者密码错误'
-          })
+            type: "error",
+            message: "用户名或者密码错误"
+          });
         }
-      })
+      });
     },
-    clickTag(key) { //点击切换角色
-      this.role = key
+    clickTag(key) {
+      //点击切换角色
+      this.role = key;
     }
   },
   computed: mapState(["userInfo"]), //获取用户信息
-  mounted() {
-
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style lang="less" scoped>
@@ -121,7 +138,7 @@ export default {
   color: #606266;
   background-color: #fff;
   border-left: 4px solid #409eff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .container {
   margin-bottom: 32px;
@@ -130,8 +147,8 @@ export default {
   margin: 30px 0px;
 }
 a:link {
-  color:#ff962a;
-  text-decoration:none;
+  color: #ff962a;
+  text-decoration: none;
 }
 #login {
   font-size: 14px;
@@ -145,7 +162,7 @@ a:link {
   width: 100%;
   overflow-y: auto;
   height: 100%;
-  background: url('../../assets/img/loginbg.png')center top / cover no-repeat;
+  background: url("../../assets/img/bg.jpg") center top / cover no-repeat;
   background-color: #b6bccdd1 !important;
 }
 #login .main-container {
@@ -167,9 +184,9 @@ a:link {
   margin-top: 20px;
 }
 #login .bottom {
-  display:flex;
+  display: flex;
   justify-content: center;
-  background-color:#fff;
+  background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -178,7 +195,7 @@ a:link {
   font-size: 30px;
 }
 .bottom .container .title {
-  margin: 30px 0px;;
+  margin: 30px 0px;
 }
 .bottom .submit .row-login {
   width: 100%;
@@ -215,6 +232,6 @@ a:link {
   color: #ff962a;
 }
 .bottom .options .register span:nth-child(1) {
-  color: #8C8C8C;
+  color: #8c8c8c;
 }
 </style>

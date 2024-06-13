@@ -13,6 +13,6 @@ public interface TableExcelMappper {
             "JOIN student AS j ON s.studentId = j.studentId\n" +
             "WHERE s.examCode =#{examCode}" + "\n" +
             "GROUP BY j.studentId, s.subject")
-   List<TableExcel> getTableExcel(Integer examCode);
+    List<TableExcel> getTableExcel(Integer examCode);
 
 }

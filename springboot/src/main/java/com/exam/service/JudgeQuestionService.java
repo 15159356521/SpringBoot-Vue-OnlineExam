@@ -16,5 +16,14 @@ public interface JudgeQuestionService {
 
     int add(JudgeQuestion judgeQuestion);
 
-    List<Integer> findBySubject(String subject,Integer pageNo);
+    // 简单判断题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectEsayJudge(String subject, Integer pageNo);
+
+    // 一般判断题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectCommonJudge(String subject, Integer pageNo);
+
+    // 困难判断题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo);
+    //更新判断题
+    int updateJudge(JudgeQuestion judgeQuestion);
 }

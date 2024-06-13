@@ -4,11 +4,14 @@ import lombok.Data;
 
 import java.util.Date;
 
+// 考试实体类
 @Data
 public class ExamManage {
     private Integer examCode;
 
     private String description;
+
+    private String subject;
 
     private String source;
 

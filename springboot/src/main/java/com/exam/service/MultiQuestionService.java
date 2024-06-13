@@ -16,5 +16,14 @@ public interface MultiQuestionService {
 
     int add(MultiQuestion multiQuestion);
 
-    List<Integer> findBySubject(String subject,Integer pageNo);
+    // 简单选择题 —— 随机生成对应数量
+    List<Integer> findBySubjectEsayChange(String subject, Integer pageNo);
+
+    // 一般选择题 —— 随机生成对应数量
+    List<Integer> findBySubjectCommonChange(String subject, Integer pageNo);
+
+    // 困难选择题 —— 随机生成对应数量
+    List<Integer> findBySubjectDifficultyChange(String subject, Integer pageNo);
+    //更新选择题
+    int updateMulti(MultiQuestion multiQuestion);
 }

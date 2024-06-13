@@ -2,6 +2,8 @@ package com.exam.entity;
 
 import lombok.Data;
 
+//主观题实体类
+
 @Data
 public class ShortQuestion {
     private Integer questionId;

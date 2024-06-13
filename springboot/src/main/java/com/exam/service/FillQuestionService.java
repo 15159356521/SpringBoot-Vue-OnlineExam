@@ -16,5 +16,15 @@ public interface FillQuestionService {
 
     int add(FillQuestion fillQuestion);
 
-    List<Integer> findBySubject(String subject,Integer pageNo);
+    // 简单填空题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectEsayFill(String subject, Integer pageNo);
+
+    // 一般填空题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectCommonFill(String subject, Integer pageNo);
+
+    // 困难填空题 —— 随机生成对应科目数量
+    List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo);
+    //更新填空题
+    int updateFill(FillQuestion fillQuestion);
+
 }

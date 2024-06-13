@@ -30,4 +30,10 @@ public class JudgeQuestionController {
         JudgeQuestion res = judgeQuestionService.findOnlyQuestionId();
         return  ApiResultHandler.buildApiResult(200,"查询成功",res);
     }
+    //更新判断题
+    @PostMapping("/updateJudge")
+    public ApiResult updateJudge(@RequestBody JudgeQuestion judgeQuestion) {
+        int res = judgeQuestionService.updateJudge(judgeQuestion);
+        return ApiResultHandler.buildApiResult(200,"更新成功",res);
+    }
 }

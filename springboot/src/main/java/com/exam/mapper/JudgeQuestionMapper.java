@@ -3,6 +3,7 @@ package com.exam.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.JudgeQuestion;
+import com.exam.entity.MultiQuestion;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -45,7 +46,13 @@ public interface JudgeQuestionMapper {
     // 困难判断题 —— 随机生成对应科目数量
     @Select("select questionId from judge_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo);
+
     //更新判断题
     @Update("update judge_question set subject = #{subject},question = #{question},answer = #{answer},analysis = #{analysis},level = #{level},section = #{section} where questionId = #{questionId}")
     int updateJudge(JudgeQuestion judgeQuestion);
+
+    // 查询单道判断题的信息
+    @Select("select * from judge_question where questionId = #{questionId}")
+    JudgeQuestion findJudge(Integer questionId);
+
 }

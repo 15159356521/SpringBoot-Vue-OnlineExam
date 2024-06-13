@@ -2,6 +2,7 @@ package com.exam.serviceimpl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.exam.entity.MultiQuestion;
 import com.exam.entity.ShortQuestion;
 import com.exam.mapper.ShortQuestionMapper;
 import com.exam.service.ShortQuestionService;
@@ -50,8 +51,15 @@ public class ShortQuestionServiceImpl implements ShortQuestionService {
     public List<Integer> findBySubjectDifficultyShort(String subject, Integer pageNo) {
         return shortQuestionMapper.findBySubjectDifficultyShort(subject, pageNo);
     }
+
     @Override
     public int updateShort(ShortQuestion shortQuestion) {
         return shortQuestionMapper.updateShort(shortQuestion);
     }
+
+    @Override
+    public ShortQuestion findShort(Integer questionId) {
+        return shortQuestionMapper.findShort(questionId);
+    }
+
 }

@@ -24,6 +24,11 @@ public interface MultiQuestionService {
 
     // 困难选择题 —— 随机生成对应数量
     List<Integer> findBySubjectDifficultyChange(String subject, Integer pageNo);
+
     //更新选择题
     int updateMulti(MultiQuestion multiQuestion);
+
+    // 查询单道选择题的信息
+    MultiQuestion findMulti(Integer questionId);
+
 }

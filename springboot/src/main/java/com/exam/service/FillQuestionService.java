@@ -3,6 +3,7 @@ package com.exam.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.FillQuestion;
+import com.exam.entity.MultiQuestion;
 
 import java.util.List;
 
@@ -24,7 +25,10 @@ public interface FillQuestionService {
 
     // 困难填空题 —— 随机生成对应科目数量
     List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo);
+
     //更新填空题
     int updateFill(FillQuestion fillQuestion);
 
+    // 查询单道填空题的信息
+    FillQuestion findFill(Integer questionId);
 }

@@ -3,6 +3,7 @@ package com.exam.serviceimpl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.FillQuestion;
+import com.exam.entity.MultiQuestion;
 import com.exam.mapper.FillQuestionMapper;
 import com.exam.service.FillQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,14 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     public List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo) {
         return fillQuestionMapper.findBySubjectDifficultyFill(subject, pageNo);
     }
+
     @Override
     public int updateFill(FillQuestion fillQuestion) {
         return fillQuestionMapper.updateFill(fillQuestion);
+    }
+
+    @Override
+    public FillQuestion findFill(Integer questionId) {
+        return fillQuestionMapper.findFill(questionId);
     }
 }

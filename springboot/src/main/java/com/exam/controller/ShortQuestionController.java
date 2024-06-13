@@ -3,6 +3,7 @@ package com.exam.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.entity.ApiResult;
+import com.exam.entity.MultiQuestion;
 import com.exam.entity.ShortQuestion;
 import com.exam.serviceimpl.ShortQuestionServiceImpl;
 import com.exam.util.ApiResultHandler;
@@ -10,10 +11,7 @@ import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -60,10 +58,19 @@ public class ShortQuestionController {
         }
         return ApiResultHandler.buildApiResult(400, "添加失败", null);
     }
+
     //更新简答题
     @PostMapping("/updateShort")
     public ApiResult updateShort(@RequestBody ShortQuestion shortQuestion) {
         int res = shortQuestionService.updateShort(shortQuestion);
         return ApiResultHandler.buildApiResult(200, "更新成功", res);
     }
+
+    //查询简答题信息（用于题目更新 —— 模态框）
+    @GetMapping("/findShortQuestion/{questionId}")
+    public ApiResult findShortModel(@PathVariable("questionId") Integer questionId) {
+        ShortQuestion res = shortQuestionService.findShort(questionId);
+        return ApiResultHandler.buildApiResult(200, "查询简答题成功", res);
+    }
+
 }

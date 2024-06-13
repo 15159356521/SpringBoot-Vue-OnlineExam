@@ -3,6 +3,7 @@ package com.exam.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.FillQuestion;
+import com.exam.entity.MultiQuestion;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -42,7 +43,13 @@ public interface FillQuestionMapper {
     // 困难填空题 —— 随机生成对应科目数量
     @Select("select questionId from fill_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyFill(String subject, Integer pageNo);
+
     //更新填空题
     @Update("update fill_question set subject = #{subject},question = #{question},answer = #{answer},analysis = #{analysis},level = #{level},section = #{section} where questionId = #{questionId}")
     int updateFill(FillQuestion fillQuestion);
+
+    // 查询单道填空题的信息
+    @Select("select * from fill_question where questionId = #{questionId}")
+    FillQuestion findFill(Integer questionId);
+
 }

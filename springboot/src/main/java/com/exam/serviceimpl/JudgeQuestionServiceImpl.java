@@ -2,7 +2,9 @@ package com.exam.serviceimpl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.exam.entity.FillQuestion;
 import com.exam.entity.JudgeQuestion;
+import com.exam.entity.MultiQuestion;
 import com.exam.mapper.JudgeQuestionMapper;
 import com.exam.service.JudgeQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +52,15 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     public List<Integer> findBySubjectDifficultyJudge(String subject, Integer pageNo) {
         return judgeQuestionMapper.findBySubjectDifficultyJudge(subject, pageNo);
     }
+
     @Override
     public int updateJudge(JudgeQuestion judgeQuestion) {
         return judgeQuestionMapper.updateJudge(judgeQuestion);
+    }
+
+    @Override
+    public JudgeQuestion findJudge(Integer questionId) {
+        return judgeQuestionMapper.findJudge(questionId);
     }
 
 }

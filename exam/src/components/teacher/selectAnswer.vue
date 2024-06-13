@@ -30,17 +30,18 @@
       <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
       <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
 
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="160">
         <template slot-scope="scope">
-          <!--          <el-button @click="edit(scope.row.questionId)" type="primary" size="small"-->
-          <!--                     style="margin-left: 10px;margin-bottom: 5px;width: 80px">编 辑-->
-          <!--          </el-button>-->
+          <el-button @click="edit(scope.row.questionId,scope.row.type)" type="primary" size="small"
+                     >编 辑
+          </el-button>
           <el-button @click="deleteRecord(scope.row.questionId,scope.row.type)" type="danger" size="small"
-                     style="margin-left: 10px;width: 80px">删 除
+                     >删 除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -51,6 +52,187 @@
       :total="pagination.total"
       class="page"
     ></el-pagination>
+
+    <!-- 编辑选择题对话框 -->
+    <el-dialog
+      title="编辑选择题信息"
+      :visible.sync="dialogVisibleChange"
+      width="30%"
+      :before-close="handleClose">
+      <section class="update">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="所属章节">
+            <el-input v-model="form.section"></el-input>
+          </el-form-item>
+          <el-form-item label="难度级别">
+            <el-select v-model="form.level" placeholder="请选择难度级别">
+              <el-option
+                v-for="item in levelList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="正确选项">
+            <el-select v-model="form.rightAnswer" placeholder="请选择正确选项">
+              <el-option
+                v-for="item in rightAnswerList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="题目">
+            <el-input v-model="form.question"></el-input>
+          </el-form-item>
+          <el-form-item label="A">
+            <el-input v-model="form.answerA"></el-input>
+          </el-form-item>
+          <el-form-item label="B">
+            <el-input v-model="form.answerB"></el-input>
+          </el-form-item>
+          <el-form-item label="C">
+            <el-input v-model="form.answerC"></el-input>
+          </el-form-item>
+          <el-form-item label="D">
+            <el-input v-model="form.answerD"></el-input>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="form.analysis"></el-input>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleChange = false">取 消</el-button>
+        <el-button type="primary" @click="submitChange()">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+    <!-- 编辑填空题对话框 -->
+    <el-dialog
+      title="编辑填空题信息"
+      :visible.sync="dialogVisibleFill"
+      width="30%"
+      :before-close="handleClose">
+      <section class="update">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="所属章节">
+            <el-input v-model="form.section"></el-input>
+          </el-form-item>
+          <el-form-item label="难度级别">
+            <el-select v-model="form.level" placeholder="请选择难度级别">
+              <el-option
+                v-for="item in levelList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="题目">
+            <el-input v-model="form.question"></el-input>
+          </el-form-item>
+          <el-form-item label="正确答案">
+            <el-input v-model="form.answer"></el-input>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="form.analysis"></el-input>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleFill = false">取 消</el-button>
+        <el-button type="primary" @click="submitFill()">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑判断题对话框 -->
+    <el-dialog
+      title="编辑判断题信息"
+      :visible.sync="dialogVisibleJudge"
+      width="30%"
+      :before-close="handleClose">
+      <section class="update">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="所属章节">
+            <el-input v-model="form.section"></el-input>
+          </el-form-item>
+          <el-form-item label="难度级别">
+            <el-select v-model="form.level" placeholder="请选择难度级别">
+              <el-option
+                v-for="item in levelList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="题目">
+            <el-input v-model="form.question"></el-input>
+          </el-form-item>
+          <el-form-item label="正确答案">
+            <el-select v-model="form.answer" placeholder="请选择正确答案">
+              <el-option
+                v-for="item in TFList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="form.analysis"></el-input>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleJudge = false">取 消</el-button>
+        <el-button type="primary" @click="submitJudge()">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+    <!-- 编辑简答题对话框 -->
+    <el-dialog
+      title="编辑简答题信息"
+      :visible.sync="dialogVisibleShort"
+      width="30%"
+      :before-close="handleClose">
+      <section class="update">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="所属章节">
+            <el-input v-model="form.section"></el-input>
+          </el-form-item>
+          <el-form-item label="难度级别">
+            <el-select v-model="form.level" placeholder="请选择难度级别">
+              <el-option
+                v-for="item in levelList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="题目">
+            <el-input v-model="form.question"></el-input>
+          </el-form-item>
+          <el-form-item label="正确答案">
+            <el-input v-model="form.answer"></el-input>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="form.analysis"></el-input>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleShort = false">取 消</el-button>
+        <el-button type="primary" @click="submitShort()">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -71,6 +253,17 @@ export default {
       pduanNewSubject: "全部", // 判断是新的科目就分页下标重置为 1
       type: "全部", // 初始化当前科目类型为：全部
       pduanNewType: "全部", // 判断是新的题型就分页下标重置为 1
+
+      dialogVisibleChange: false, //选择题对话框状态
+      dialogVisibleFill:false, //填空题对话框状态
+      dialogVisibleJudge:false, //判断题对话框状态
+      dialogVisibleShort:false, //简答题对话框状态
+      form: {}, //保存点击以后当前题目的信息
+
+      levelList: ["1", "2", "3", "4","5"], //难度等级类型
+      rightAnswerList:["A","B","C","D"], //正确选项
+      TFList:["T","F"] // 判断题选项
+
     };
   },
   created() {
@@ -128,6 +321,109 @@ export default {
       } else {
         return "success-row";
       }
+    },
+    edit(questionId,type) { //修改题目信息
+      if (type === "选择题"){
+        this.dialogVisibleChange = true
+        this.$axios(`/api/findChoiceQuestion/${questionId}/`).then(res => {
+          this.form = res.data.data
+        })
+      }
+      if (type === "填空题"){
+        this.dialogVisibleFill = true
+        this.$axios(`/api/findFillQuestion/${questionId}/`).then(res => {
+          this.form = res.data.data
+        })
+      }
+      if (type === "判断题"){
+        this.dialogVisibleJudge = true
+        this.$axios(`/api/findJudgeQuestion/${questionId}/`).then(res => {
+          this.form = res.data.data
+        })
+      }
+      if (type === "简答题"){
+        this.dialogVisibleShort = true
+        this.$axios(`/api/findShortQuestion/${questionId}/`).then(res => {
+          this.form = res.data.data
+        })
+      }
+
+    },
+    submitChange() { //提交选择题更改
+      this.dialogVisibleChange = false
+      this.$axios({
+        url: '/api/updateChoiceQuestion',
+        method: 'post',
+        data: {
+          ...this.form
+        }
+      }).then(res => {
+        console.log(res)
+        if (res.data.code == 200) {
+          this.$message({
+            message: '选择题更新成功',
+            type: 'success'
+          })
+        }
+        this.getAnswerInfo()
+      })
+    },
+    submitFill() { //提交填空题更改
+      this.dialogVisibleFill = false
+      this.$axios({
+        url: '/api/updateFill',
+        method: 'post',
+        data: {
+          ...this.form
+        }
+      }).then(res => {
+        console.log(res)
+        if (res.data.code == 200) {
+          this.$message({
+            message: '填空题更新成功',
+            type: 'success'
+          })
+        }
+        this.getAnswerInfo()
+      })
+    },
+    submitJudge() { //提交判断题更改
+      this.dialogVisibleJudge = false
+      this.$axios({
+        url: '/api/updateJudge',
+        method: 'post',
+        data: {
+          ...this.form
+        }
+      }).then(res => {
+        console.log(res)
+        if (res.data.code == 200) {
+          this.$message({
+            message: '判断题更新成功',
+            type: 'success'
+          })
+        }
+        this.getAnswerInfo()
+      })
+    },
+    submitShort() { //提交简答题更改
+      this.dialogVisibleShort = false
+      this.$axios({
+        url: '/api/updateShort',
+        method: 'post',
+        data: {
+          ...this.form
+        }
+      }).then(res => {
+        console.log(res)
+        if (res.data.code == 200) {
+          this.$message({
+            message: '简答题更新成功',
+            type: 'success'
+          })
+        }
+        this.getAnswerInfo()
+      })
     },
     deleteRecord(questionId, type) {
       this.$confirm("确定删除该题目吗,该操作不可逆！！！", "删除提示", {

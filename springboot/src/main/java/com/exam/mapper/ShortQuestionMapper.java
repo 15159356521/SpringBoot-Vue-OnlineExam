@@ -2,6 +2,7 @@ package com.exam.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.exam.entity.MultiQuestion;
 import com.exam.entity.ShortQuestion;
 import org.apache.ibatis.annotations.*;
 
@@ -42,7 +43,13 @@ public interface ShortQuestionMapper {
     // 困难简答题 —— 随机生成对应科目数量
     @Select("select questionId from short_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyShort(String subject, Integer pageNo);
+
     //更新简答题
     @Update("update short_question set subject = #{subject},question = #{question},answer = #{answer},analysis = #{analysis},level = #{level},section = #{section} where questionId = #{questionId}")
     int updateShort(ShortQuestion shortQuestion);
+
+    // 查询单道简答题的信息
+    @Select("select * from short_question where questionId = #{questionId}")
+    ShortQuestion findShort(Integer questionId);
+
 }

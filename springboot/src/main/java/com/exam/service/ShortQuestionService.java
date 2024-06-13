@@ -2,6 +2,7 @@ package com.exam.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.exam.entity.MultiQuestion;
 import com.exam.entity.ShortQuestion;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public interface ShortQuestionService {
 
     // 困难简答题 —— 随机生成对应科目数量
     List<Integer> findBySubjectDifficultyShort(String subject, Integer pageNo);
+
     //更新简答题
     int updateShort(ShortQuestion ShortQuestion);
+
+    // 查询单道简答题的信息
+    ShortQuestion findShort(Integer questionId);
+
 }

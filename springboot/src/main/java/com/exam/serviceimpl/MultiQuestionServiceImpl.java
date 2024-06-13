@@ -50,11 +50,17 @@ public class MultiQuestionServiceImpl implements MultiQuestionService {
     public List<Integer> findBySubjectDifficultyChange(String subject, Integer pageNo) {
         return multiQuestionMapper.findBySubjectDifficultyChange(subject, pageNo);
     }
+
     //更新选择题
     @Override
     public int updateMulti(MultiQuestion multiQuestion) {
         System.out.println("现在是在impl位置");
         return multiQuestionMapper.updateMulti(multiQuestion);
+    }
+
+    @Override
+    public MultiQuestion findMulti(Integer questionId) {
+        return multiQuestionMapper.findMulti(questionId);
     }
 
 }

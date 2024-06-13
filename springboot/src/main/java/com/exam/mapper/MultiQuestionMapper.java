@@ -46,8 +46,13 @@ public interface MultiQuestionMapper {
     // 困难选择题 —— 随机生成对应科目数量
     @Select("select questionId from multi_question where subject in (select source from exam_manage where subject = #{subject}) and level in ('5') order by rand() desc limit #{pageNo}")
     List<Integer> findBySubjectDifficultyChange(String subject, Integer pageNo);
+
     //更新选择题
     @Update("update multi_question set subject = #{subject},question = #{question},answerA = #{answerA},answerB = #{answerB},answerC = #{answerC},answerD = #{answerD},rightAnswer = #{rightAnswer},analysis = #{analysis},section = #{section},level = #{level} where questionId = #{questionId}")
     int updateMulti(MultiQuestion multiQuestion);
+
+    // 查询单道选择题的信息
+    @Select("select * from multi_question where questionId = #{questionId}")
+    MultiQuestion findMulti(Integer questionId);
 
 }

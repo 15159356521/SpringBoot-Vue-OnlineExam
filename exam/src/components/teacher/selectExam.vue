@@ -204,6 +204,10 @@ export default {
     }
   },
   created() {
+    this.$cookies.remove("topic1Answer");
+              this.$cookies.remove("fillAnswer");
+              this.$cookies.remove("judgeAnswer");
+              this.$cookies.remove("shortAnswer");
     //分页查询按科目试卷归档信息
     this.getSubjectInfo()
     // 获取学院和专业的所有信息 collegeName和 speciality数组中，再遍历显示到下拉框中

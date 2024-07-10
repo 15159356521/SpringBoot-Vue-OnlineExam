@@ -98,7 +98,7 @@ export default {
     //跳转到试卷详情页
     toExamMsg(examCode) {
       this.$router.push({path: '/examMsg', query: {examCode: examCode}})
-      console.log(examCode)
+      this.$cookies.set("isPractice",1)
     }
   }
 }

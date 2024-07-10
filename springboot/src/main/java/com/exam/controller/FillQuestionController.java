@@ -28,38 +28,42 @@ public class FillQuestionController {
     public ApiResult add(@RequestBody FillQuestion fillQuestion) {
         int res = fillQuestionService.add(fillQuestion);
         if (res != 0) {
-            return ApiResultHandler.buildApiResult(200,"添加成功",res);
+            return ApiResultHandler.buildApiResult(200, "添加成功", res);
         }
-        return ApiResultHandler.buildApiResult(400,"添加失败",res);
+        return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
 
     @GetMapping("/fillQuestionId")
     public ApiResult findOnlyQuestionId() {
         FillQuestion res = fillQuestionService.findOnlyQuestionId();
-        return ApiResultHandler.buildApiResult(200,"查询成功",res);
-}
-//更新填空题
+        return ApiResultHandler.buildApiResult(200, "查询成功", res);
+    }
+
+    //更新填空题
     @PostMapping("/updateFill")
     public ApiResult updateFill(@RequestBody FillQuestion fillQuestion) {
         int res = fillQuestionService.updateFill(fillQuestion);
-        return ApiResultHandler.buildApiResult(200,"更新成功",res);
+        return ApiResultHandler.buildApiResult(200, "更新成功", res);
     }
+
     //导入填空题
     @PostMapping("/importFillQuestion")
-    public ApiResult importExcel(MultipartFile file){
-        try{
+    public ApiResult importExcel(MultipartFile file) {
+        try {
             //读取文件
             EasyExcel.read(file.getInputStream(), FillQuestion.class, new ReadListener() {
                 @Override
                 public void onException(Exception exception, AnalysisContext context) throws Exception {
                     exception.printStackTrace();
                 }
+
                 @Override
                 public void invoke(Object data, AnalysisContext context) {
                     System.out.println(data);
                     FillQuestion fillQuestion = (FillQuestion) data;
                     fillQuestionService.add(fillQuestion);
                 }
+
                 @Override
                 public void doAfterAllAnalysed(AnalysisContext context) {
                     System.out.println("填空题导入成功");
@@ -68,7 +72,7 @@ public class FillQuestionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ApiResultHandler.buildApiResult(200,"导入成功",null);
+        return ApiResultHandler.buildApiResult(200, "导入成功", null);
     }
 
     //查询填空题信息（用于题目更新 —— 模态框）
@@ -76,6 +80,17 @@ public class FillQuestionController {
     public ApiResult findFillModel(@PathVariable("questionId") Integer questionId) {
         FillQuestion res = fillQuestionService.findFill(questionId);
         return ApiResultHandler.buildApiResult(200, "查询填空题成功", res);
+    }
+
+    // 添加填空题进相应科目的题库及考试中（调用之前写好的两个接口）
+    @PostMapping("/addFillQuestionEnterExam")
+    public ApiResult addFillQuestionEnterExam(@RequestBody FillQuestion fillQuestion) {
+        int count = fillQuestionService.add(fillQuestion);
+        FillQuestion res = fillQuestionService.findOnlyQuestionId();
+        if (count != 0) {
+            return ApiResultHandler.buildApiResult(200, "添加成功", res);
+        }
+        return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
 
 }

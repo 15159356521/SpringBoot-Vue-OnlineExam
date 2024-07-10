@@ -12,6 +12,11 @@ export default new Router({
       component: () => import('@/components/common/login')
     },
     {
+      path: '/register',
+      name: 'register', //注册界面
+      component: () => import('@/components/common/register')
+    },
+    {
       path: '/index', //教师主页
       component: () => import('@/components/admin/index'),
       children: [
@@ -55,10 +60,10 @@ export default new Router({
           path: '/selectAnswer', //查询所有题库
           component: () => import('@/components/teacher/selectAnswer')
         },
-/*         {
-          path: '/addAnswer', //增加题库主界面
-          component: () => import('@/components/teacher/addAnswer')
-        }, */
+        /*         {
+                  path: '/addAnswer', //增加题库主界面
+                  component: () => import('@/components/teacher/addAnswer')
+                }, */
         {
           path: '/addAnswerChildren', //点击试卷跳转到添加题库页面
           component: () => import('@/components/teacher/addAnswerChildren')
@@ -80,8 +85,8 @@ export default new Router({
           component: () => import ('@/components/admin/addTeacher')
         },
         {
-          path:'/addGroup',//随机组卷
-          component:()=>import('@/components/teacher/addGroup')
+          path: '/addGroup',//随机组卷
+          component: () => import('@/components/teacher/addGroup')
         }
       ]
     },

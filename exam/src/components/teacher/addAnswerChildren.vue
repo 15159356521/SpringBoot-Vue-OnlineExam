@@ -6,6 +6,7 @@
       <el-tab-pane name="first">
         <span slot="label"><i class="el-icon-circle-plus"></i>手动添加</span>
         <section class="append">
+
           <ul>
             <li>
               <span>题目类型:</span>
@@ -56,6 +57,7 @@
             </li>
             <li v-if="optionValue == '选择题'">
               <span>难度等级:</span>
+
               <el-select v-model="postChange.level" placeholder="选择难度等级" class="w150">
                 <el-option
                   v-for="item in levels"
@@ -64,6 +66,7 @@
                   :value="item.value">
                 </el-option>
               </el-select>
+
             </li>
             <li v-if="optionValue == '填空题'">
               <span>难度等级:</span>
@@ -109,15 +112,15 @@
                 </el-option>
               </el-select>
             </li>
-            <el-upload 
-  class="upload-demo"
-  action="action"
-  :http-request="uploadBpmn"
-  :show-file-list="false"
-  :before-upload="beforeUpload">
-  
-  <el-button size="small" type="primary">上传题库</el-button>
-</el-upload>
+            <el-upload
+              class="upload-demo"
+              action="action"
+              :http-request="uploadBpmn"
+              :show-file-list="false"
+              :before-upload="beforeUpload">
+
+              <el-button size="small" type="primary">上传题库</el-button>
+            </el-upload>
           </ul>
           <!-- 选择题部分 -->
           <div class="change" v-if="optionValue == '选择题'">
@@ -257,7 +260,7 @@
           <div class="change short" v-if="optionValue == '简答题'">
             <div class="title">
               <el-tag>题目:</el-tag>
-              <span>输入题目,形如--请回答计算机网络的概念是什么？</span>
+              <span>输入题目,形如--请回答对@Compare的理解？</span>
               <el-input
                 type="textarea"
                 rows="4"
@@ -291,6 +294,7 @@
               <el-button type="primary" @click="shortSubmit()">立即添加</el-button>
             </div>
           </div>
+
         </section>
       </el-tab-pane>
 
@@ -301,11 +305,12 @@
 </template>
 
 <script>
-import {mapState,mapGetters} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
+
 export default {
   data() {
     return {
-      
+
       subjectList: [], //存储所有科目的数组（用于分科目 —— 选择）
       subjects: null, //所属科目
       activeName: 'first',  //活动选项卡，初始化为“添加试卷”界面，“second”为“随即组卷”界面
@@ -411,7 +416,8 @@ export default {
         paperId: null,
         questionType: null, // 试卷类型 1--选择题  2--填空题  3--判断题  4--简答题
         questionId: null,
-      }
+      },
+
     };
   },
   created() {
@@ -504,41 +510,41 @@ export default {
           this.postShort = {}
         }
       })
-/*       .then(() => {
-        this.$axios(`/api/shortQuestionId`).then(res => { //获取当前题目的questionId
-          let questionId = res.data.data.questionId
-          this.postPaper.questionId = questionId
-          this.postPaper.questionType = 4
-          this.$axios({
-            url: '/api/paperManage',
-            method: 'Post',
-            data: {
-              ...this.postPaper
-            }
-          })
-        })
-      }) */
+      /*       .then(() => {
+              this.$axios(`/api/shortQuestionId`).then(res => { //获取当前题目的questionId
+                let questionId = res.data.data.questionId
+                this.postPaper.questionId = questionId
+                this.postPaper.questionType = 4
+                this.$axios({
+                  url: '/api/paperManage',
+                  method: 'Post',
+                  data: {
+                    ...this.postPaper
+                  }
+                })
+              })
+            }) */
     },
-    beforeUpload (file) { // 上传文件之前钩子
-  const type = file.name.split('.')[1]
-  if (type !== 'xlsx') {
-    this.$message({ type: 'error', message: '只支持xlsx文件格式！' })
-    return false
-  }
-},
+    beforeUpload(file) { // 上传文件之前钩子
+      const type = file.name.split('.')[1]
+      if (type !== 'xlsx') {
+        this.$message({type: 'error', message: '只支持xlsx文件格式！'})
+        return false
+      }
+    },
     uploadBpmn(file) {
       console.log(file)
       const formData = new FormData()
       formData.append('file', file.file)
-      let url=''
-      if(this.optionValue=='选择题'){
-        url='/api/importMultiQuestion'
-      }else if(this.optionValue=='填空题'){
-        url='/api/importFillQuestion'
-      }else if(this.optionValue=='判断题'){
-        url='/api/importJudgeQuestion'
-      }else if(this.optionValue=='简答题'){
-        url='/api/importShortQuestion'
+      let url = ''
+      if (this.optionValue == '选择题') {
+        url = '/api/importMultiQuestion'
+      } else if (this.optionValue == '填空题') {
+        url = '/api/importFillQuestion'
+      } else if (this.optionValue == '判断题') {
+        url = '/api/importJudgeQuestion'
+      } else if (this.optionValue == '简答题') {
+        url = '/api/importShortQuestion'
       }
       this.$axios({
         url: url,
@@ -548,16 +554,16 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }).then(res => {
-       this.$message({
-            message: '上传成功',
-            type: 'success'
-          })
+        this.$message({
+          message: '上传成功',
+          type: 'success'
+        })
       })
 
     },
 
   },
- 
+
 };
 </script>
 
@@ -607,7 +613,7 @@ export default {
     .change {
       margin-top: 20px;
       padding: 20px 16px;
-      background-color: rgb(242,253,255);
+      background-color: rgb(242, 253, 255);
       border-radius: 4px;
 
       .title {
@@ -711,13 +717,15 @@ export default {
       align-items: center;
       justify-content: center;
     }
+
     ::v-deep .lastSum {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 800px
     }
-    .el-row{
+
+    .el-row {
       width: 100%
     }
   }

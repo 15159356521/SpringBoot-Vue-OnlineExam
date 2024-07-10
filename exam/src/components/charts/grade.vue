@@ -1,9 +1,10 @@
-// 成绩统计页面
+<!-- 成绩统计页面 -->
 <template>
   <div id="grade">
     <div ref="box" class="box"></div>
     <div class="notFound" v-if="isNull">
-      <i class="iconfont icon-LC_icon_tips_fill"></i><span>该考生未参加考试</span>
+      <i class="iconfont icon-LC_icon_tips_fill el-icon-warning-outline"
+         style="margin-left: 20px;font-size: 18px;margin-right: 5px"></i><span>该考生未参加考试</span>
     </div>
   </div>
 </template>
@@ -71,10 +72,12 @@ export default {
 <style lang="less" scoped>
 #grade {
   position: relative;
-  .box{
+
+  .box {
     width: 1000px;
     height: 600px;
   }
+
   .notFound {
     position: absolute;
     top: 0px;

@@ -17,29 +17,31 @@
       <el-table-column prop="description" label="介绍" width="200"></el-table-column>
       <el-table-column prop="subject" label="所属科目" width="120"></el-table-column>
       <el-table-column prop="institute" label="所属学院" width="120"></el-table-column>
-      <el-table-column prop="major" label="所属专业" width="200"></el-table-column>
+      <el-table-column prop="major" label="所属专业" width="120"></el-table-column>
       <el-table-column prop="grade" label="年级" width="100"></el-table-column>
       <el-table-column prop="examDate" label="考试日期" width="120"></el-table-column>
       <el-table-column prop="totalTime" label="持续时间" width="120"></el-table-column>
       <el-table-column prop="totalScore" label="总分" width="120"></el-table-column>
       <el-table-column prop="type" label="试卷类型" width="120"></el-table-column>
       <el-table-column prop="tips" label="考生提示" width="400"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="210">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row.examCode)" type="primary" size="small"
                      style="margin-left: 10px;margin-bottom: 5px;width: 80px">编 辑
           </el-button>
-          <el-button @click="toAnswer(scope.row.examCode)" type="success" size="small"
-                     style="margin-bottom: 5px;">
+          <el-button @click="toAnswer(scope.row.examCode,scope.row.subject,scope.row.paperId)" type="success"
+                     size="small"
+                     style="margin-bottom: 5px;width: 80px">
             查看试卷
           </el-button>
-          <el-button @click="addGroup(scope.row.subject,scope.row.paperId)" type="warning" size="small"
-                     style="margin-left: 10px;width: 80px">随机组卷
+          <el-button @click="addGroup(scope.row.subject,scope.row.paperId,scope.row.totalScore)" type="warning"
+                     size="small"
+                     style="width: 80px">组 卷
           </el-button>
           <el-button @click="deleteRecord(scope.row.examCode)" type="danger" size="small"
-                     style="margin-left: 10px;width: 80px">删 除
+                     style="width: 80px">删 除
           </el-button>
-        
+
         </template>
       </el-table-column>
     </el-table>
@@ -50,7 +52,7 @@
       :page-sizes="[4, 8, 10, 20]"
       :page-size="pagination.size"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="pagination.total" class="page"> 
+      :total="pagination.total" class="page">
     </el-pagination>
 
     <!-- 编辑对话框-->
@@ -60,14 +62,14 @@
       width="30%"
       :before-close="handleClose">
       <section class="update">
-        <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="试卷名称">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+          <el-form-item label="试卷名称" prop="source">
             <el-input v-model="form.source"></el-input>
           </el-form-item>
           <el-form-item label="介绍">
             <el-input v-model="form.description"></el-input>
           </el-form-item>
-          <el-form-item label="所属科目">
+          <el-form-item label="所属科目" prop="subject">
             <el-select v-model="form.subject" placeholder="请选择所属科目">
               <el-option
                 v-for="item in subjectName"
@@ -77,7 +79,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所属学院">
+          <el-form-item label="所属学院" prop="institute">
             <el-select v-model="form.institute" placeholder="请选择所属学院">
               <el-option
                 v-for="item in collegeName"
@@ -87,7 +89,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所属专业">
+          <el-form-item label="所属专业" prop="major">
             <el-select v-model="form.major" placeholder="请选择所属专业">
               <el-option
                 v-for="item in speciality"
@@ -97,7 +99,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="年级">
+          <el-form-item label="年级" prop="grade">
             <el-select v-model="form.grade" placeholder="请选择所属年级">
               <el-option
                 v-for="item in gradeList"
@@ -107,19 +109,21 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="考试日期">
+          <el-form-item label="考试日期" prop="examDate">
             <el-col :span="11">
-              <el-date-picker placeholder="选择日期" :picker-options="pickerOptions()"
-                              v-model="form.examDate" style="width: 185px;"></el-date-picker>
+              <el-date-picker placeholder="选择日期" :picker-options="pickerOptions()" v-model="form.examDate"
+                              style="width: 185px;"></el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="持续时间">
+          <el-form-item label="持续时间" prop="totalTime">
             <el-input-number v-model="form.totalTime"></el-input-number>
+            分
           </el-form-item>
-          <el-form-item label="总分">
+          <el-form-item label="总分" prop="totalScore">
             <el-input-number v-model="form.totalScore"></el-input-number>
+            分
           </el-form-item>
-          <el-form-item label="试卷类型">
+          <el-form-item label="试卷类型" prop="type">
             <el-select v-model="form.type" placeholder="请选择试卷类型">
               <el-option
                 v-for="item in examType"
@@ -160,9 +164,42 @@ export default {
       speciality: [], //存储所有专业的数组
       gradeList: ["2023级", "2022级", "2021级", "2020级"], //年级类型
       examType: ["课堂小测", "期中考试", "期末考试"], //考试类型
-
+      totalScore: null, // 试卷总分
       dialogVisible: false,
-      examData: {}
+      examData: {},
+      rules: {    //表单验证规则
+        source: [{required: true, message: '请输入试卷名称', trigger: 'blur'}],
+        subject: [{required: true, message: '请选择所属科目', trigger: 'change'}],
+        institute: [{required: true, message: '请选择所属学院', trigger: 'change'}],
+        major: [{required: true, message: '请选择所属专业', trigger: 'change'}],
+        grade: [{required: true, message: '请选择年级', trigger: 'change'}],
+        examDate: [{required: true, message: '请选择考试日期', trigger: 'change'}],
+        totalTime: [{required: true, message: '请输入持续时间', trigger: 'blur'},
+          {
+            //限制只能大于等于1的数字
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error('请输入大于等于1的数字'))
+              } else {
+                callback()
+              }
+            },
+          }//正则表达式，只能输入数
+        ],
+        totalScore: [{required: true, message: '请输入总分', trigger: 'blur'},
+          {
+            //限制只能大于等于1的数字
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error('请输入大于等于1的数字'))
+              } else {
+                callback()
+              }
+            },
+          }//正则表达式，只能输入数
+        ],
+        type: [{required: true, message: '请选择考试类型', trigger: 'change'}]
+      },
     }
   },
   created() {
@@ -223,28 +260,37 @@ export default {
       });
     },
     submit() { //提交修改后的试卷信息
-      // 如果字符串长度不为 10，默认是原本的日期字符串，否则，日期格式转换为字符串
-      if (this.form.examDate.length != 10) {
-        let examDate = this.formatTime(this.form.examDate)
-        this.form.examDate = examDate.substr(0, 10)
-      }
+      //表单校验
 
-      this.dialogVisible = false
-      this.$axios({
-        url: '/api/exam',
-        method: 'put',
-        data: {
-          ...this.form
-        }
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.$message({ //成功修改提示
-            message: '更新试卷成功',
-            type: 'success'
+      this.$refs.form.validate((valid) => {
+        if (!valid) {
+          return this.$message.error('请检查输入项')
+        } else {
+          // 如果字符串长度不为 10，默认是原本的日期字符串，否则，日期格式转换为字符串
+          if (this.form.examDate.length != 10) {
+            let examDate = this.formatTime(this.form.examDate)
+            this.form.examDate = examDate.substr(0, 10)
+          }
+
+          this.dialogVisible = false
+          this.$axios({
+            url: '/api/exam',
+            method: 'put',
+            data: {
+              ...this.form
+            }
+          }).then(res => {
+            if (res.data.code == 200) {
+              this.$message({ //成功修改提示
+                message: '更新试卷成功',
+                type: 'success'
+              })
+            }
+            this.getSubjectInfo()
           })
         }
-        this.getSubjectInfo()
       })
+
     },
     deleteRecord(examCode) {
       this.$confirm("确定删除该试卷吗,该操作不可逆！！！", "删除提示", {
@@ -256,6 +302,12 @@ export default {
           url: `/api/exam/${examCode}`,
           method: 'delete',
         }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({ //成功修改提示
+              message: '删除试卷成功',
+              type: 'success'
+            })
+          }
           this.getSubjectInfo()
         })
       }).catch(() => {
@@ -295,16 +347,18 @@ export default {
         }
       }
     },
-    toAnswer(id) {
+    toAnswer(id, subject, paperId) {
       let isPractice = 2
+      this.$cookies.set("isPractice", isPractice)
       this.$store.commit("practice", isPractice)
-      this.$router.push({path: "/answer", query: {examCode: id}})
+      this.$router.push({path: "/answer", query: {examCode: id, subject: subject, paperId: paperId}})
     },
     //随机组卷
-    addGroup(subject,paperId) {
+    addGroup(subject, paperId, totalScore) {
       this.$store.commit("changeExamCode", subject)
-      this.$router.push({path: "/addGroup",
-        query: {subject: subject,paperId: paperId}
+      this.$router.push({
+        path: "/addGroup",
+        query: {subject: subject, paperId: paperId, totalScore: totalScore}
       })
     }
   },

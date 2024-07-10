@@ -3,24 +3,24 @@
   <header id="topbar">
     <el-row>
       <el-col :span="4" class="topbar-left">
-        <i class="iconfont icon-kaoshi" style="color: black"></i>
-        <span class="title" @click="index()" style="color: black">易考通</span>
+        <i class="iconfont icon-kaoshi el-icon-reading" style="color: black"></i>
+        <span class="title" @click="index()" style="color: black;margin-top: 5px">易考通</span>
       </el-col>
       <el-col :span="20" class="topbar-right">
         <i class="el-icon-menu" @click="toggle()" style="color: black"></i>
         <div class="user">
           <span style="color: black">{{ user.userName }}</span>
           <div @mouseenter="login_flag = !login_flag" @mouseleave="login_flag = !login_flag">
-                      <img src="@/assets/img/userimg.png" class="user-img" ref="img" />
-          <transition name="fade">
-            <div class="out" ref="out" v-show="login_flag">
-              <ul style="width: 90px">
- <!--                <li style="text-align: center"><a href="javascript:;">用户信息</a></li>
-                <li style="text-align: center"><a href="javascript:;">设置</a></li> -->
-                <li class="exit" @click="exit()" style="text-align: center"><a href="javascript:;">退出登录</a></li>
-              </ul>
-            </div>
-          </transition>
+            <img src="@/assets/img/userimg.png" class="user-img" ref="img"/>
+            <transition name="fade">
+              <div class="out" ref="out" v-show="login_flag">
+                <ul style="width: 90px">
+                  <!--                <li style="text-align: center"><a href="javascript:;">用户信息</a></li>
+                                 <li style="text-align: center"><a href="javascript:;">设置</a></li> -->
+                  <li class="exit" @click="exit()" style="text-align: center"><a href="javascript:;">退出登录</a></li>
+                </ul>
+              </div>
+            </transition>
           </div>
 
         </div>
@@ -57,13 +57,13 @@ export default {
       let userName = this.$cookies.get("cname")
       let userId = this.$cookies.get("cid")
       this.user.userName = userName
-      
+
       this.user.userId = userId
     },
     index() {
-     /*  this.bus.$emit('sendIndex', 100)  */
+      /*  this.bus.$emit('sendIndex', 100)  */
       this.$router.push({path: '/index'})
-     
+
     },
     exit() {
       let role = this.$cookies.get("role")
@@ -92,21 +92,23 @@ export default {
 #topbar {
   position: relative;
   z-index: 10;
-  background-color: #f2fdff; 
+  background-color: #f2fdff;
   line-height: 80px;
   color: #fff;
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 #topbar .topbar-left {
-  height: 80px;
+  height: 90px;
   display: flex;
   justify-content: center;
   overflow: hidden;
 }
 
 .topbar-left .icon-kaoshi {
+  align-self: center;
   font-size: 60px;
+  margin-right: 5px;
 }
 
 .topbar-left .title {

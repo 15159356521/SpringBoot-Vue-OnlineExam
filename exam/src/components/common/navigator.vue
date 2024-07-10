@@ -1,16 +1,25 @@
+<!-- 右侧内容 —— 顶部面包屑导航 -->
 <template>
   <div id="nav">
-    <el-breadcrumb separator-class="el-icon-arrow-right">  
-      <el-breadcrumb-item class="title">{{active.title}}</el-breadcrumb-item>
-      <el-breadcrumb-item v-if="active.item1 != null">{{active.item1}}</el-breadcrumb-item>
-      <el-breadcrumb-item v-if="active.item2 != null">{{active.item2}}</el-breadcrumb-item>
-      <el-breadcrumb-item v-if="active.item3 != null">{{active.item3}}</el-breadcrumb-item>
+    <!--    <el-breadcrumb separator-class="el-icon-arrow-right">-->
+    <!--      <el-breadcrumb-item class="title">{{ active.title }}</el-breadcrumb-item>-->
+    <!--      <el-breadcrumb-item v-if="active.item1 != null">{{ active.item1 }}</el-breadcrumb-item>-->
+    <!--      <el-breadcrumb-item v-if="active.item2 != null">{{ active.item2 }}</el-breadcrumb-item>-->
+    <!--      <el-breadcrumb-item v-if="active.item3 != null">{{ active.item3 }}</el-breadcrumb-item>-->
+    <!--    </el-breadcrumb>-->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item class="title">{{ active.title }}</el-breadcrumb-item>
+      <el-breadcrumb-item v-if="active.item1 != null">{{ active.item1 }}</el-breadcrumb-item>
+      <el-breadcrumb-item v-if="active.item2 != null">{{ active.item2 }}</el-breadcrumb-item>
+      <el-breadcrumb-item v-if="active.item3 != null">{{ active.item3 }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+
 export default {
   data() {
     return {
@@ -21,15 +30,15 @@ export default {
   computed: mapState(["menu"]),
   methods: {
     getIndex() {
-      this.bus.$on('sendIndex',(data)=>{
+      this.bus.$on('sendIndex', (data) => {
         this.index1 = data
-        if(data!=100){
+        if (data != 100) {
           this.active = this.menu[data]
-        }else{
-          this.active.title="教师公告"
+        } else {
+          this.active.title = "教师公告"
         }
-        
-        console.log(JSON.stringify(this.active)+'----')
+
+        console.log(JSON.stringify(this.active) + '----')
       })
     }
   },
@@ -48,7 +57,8 @@ export default {
   line-height: 60px;
   padding-left: 20px;
 }
-#nav .el-breadcrumb .title{
+
+#nav .el-breadcrumb .title {
   font-weight: bold;
 }
 </style>

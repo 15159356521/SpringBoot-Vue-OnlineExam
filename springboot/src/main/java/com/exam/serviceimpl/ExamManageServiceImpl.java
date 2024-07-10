@@ -55,4 +55,6 @@ public class ExamManageServiceImpl implements ExamManageService {
     public ExamManage findOnlyPaperId() {
         return examManageMapper.findOnlyPaperId();
     }
+
+
 }

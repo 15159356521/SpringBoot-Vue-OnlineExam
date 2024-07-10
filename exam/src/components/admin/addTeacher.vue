@@ -1,12 +1,12 @@
 <!-- 添加教师 -->
 <template>
   <section class="add">
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px" >
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-form-item label="姓名" prop="teacherName">
-            <el-input v-model="form.teacherName"></el-input>
-          </el-form-item>
-          <el-form-item label="所属学院">
-        <el-select v-model="form.institute" placeholder="请选择所属学院" prop="institute">
+        <el-input v-model="form.teacherName"></el-input>
+      </el-form-item>
+      <el-form-item label="所属学院" prop="institute">
+        <el-select v-model="form.institute" placeholder="请选择所属学院">
           <el-option
             v-for="item in collegeName"
             :key="item"
@@ -15,34 +15,34 @@
           </el-option>
         </el-select>
       </el-form-item>
-          <el-form-item label="性别">
-            <el-select v-model="form.sex" prop="sex">
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="电话号码" prop="tel">
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="form.email"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="pwd">
-            <el-input type="password" v-model="form.pwd"></el-input>
-          </el-form-item>
-          <el-form-item label="身份证号" prop="cardId">
-            <el-input  v-model="form.cardId"></el-input>
-          </el-form-item>
-          <el-form-item label="职称" prop="type">
-            <el-select v-model="form.type" placeholder="请选择职称">
-              <el-option
-                v-for="item in jobTitle"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-          </el-form-item>
+      <el-form-item label="性别" prop="sex">
+        <el-select v-model="form.sex">
+          <el-option label="男" value="男"></el-option>
+          <el-option label="女" value="女"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="电话号码" prop="tel">
+        <el-input v-model="form.tel"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="form.email"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="pwd">
+        <el-input type="password" v-model="form.pwd"></el-input>
+      </el-form-item>
+      <el-form-item label="身份证号" prop="cardId">
+        <el-input v-model="form.cardId"></el-input>
+      </el-form-item>
+      <el-form-item label="职称" prop="type">
+        <el-select v-model="form.type" placeholder="请选择职称">
+          <el-option
+            v-for="item in jobTitle"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit()">立即创建</el-button>
         <el-button type="text" @click="cancel()">取消</el-button>
@@ -53,6 +53,7 @@
 
 <script>
 import md5 from 'js-md5'
+
 export default {
   data() {
     return {
@@ -67,34 +68,33 @@ export default {
         pwd: null,
         cardId: null,
         sex: null,
-        role: 2
+        role: 1
       },
       collegeName: [], //存储所有学院的数组
-      subjectName:[], //存储所有科目的数组
+      subjectName: [], //存储所有科目的数组
       speciality: [], //存储所有专业的数组
       jobTitle: ["教授", "副教授", "讲师", "助教"], //职称
-      rules:{    //表单验证规则
-        teacherName: [{ required: true, message: '请输入姓名', trigger: 'blur' }
-      ],
-      institute: [{ required: true, message: '请选择所属学院', trigger: 'change' }],
-      sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-      tel: [{ required: true, message: '请输入电话号码', trigger: 'blur' },
-        { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的电话号码', trigger: 'blur' }
-      ],
-      email: [{ required: true, message: '请输入邮箱', trigger: 'blur' },
-        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-      ],
-      pwd: [{ required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, max: 20, message: '密码长度在6-20个字符之间', trigger: 'blur' }
-      ],
-      cardId: [{ required: true, message: '请输入身份证号', trigger: 'blur' },
-        { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证号', trigger: 'blur' }
-      ],
-      type: [{ required: true, message: '请选择职称', trigger: 'change' }]
+      rules: {    //表单验证规则
+        teacherName: [{required: true, message: '请输入姓名', trigger: 'blur'}
+        ],
+        institute: [{required: true, message: '请选择所属学院', trigger: 'change'}],
+        sex: [{required: true, message: '请选择性别', trigger: 'change'}],
+        tel: [{required: true, message: '请输入电话号码', trigger: 'blur'},
+          {pattern: /^1[3456789]\d{9}$/, message: '请输入正确的电话号码', trigger: 'blur'}
+        ],
+        email: [{required: true, message: '请输入邮箱', trigger: 'blur'},
+          {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
+        ],
+        pwd: [{required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 6, max: 20, message: '密码长度在6-20个字符之间', trigger: 'blur'}
+        ],
+        cardId: [{required: true, message: '请输入身份证号', trigger: 'blur'},
+          {pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证号', trigger: 'blur'}
+        ],
+        type: [{required: true, message: '请选择职称', trigger: 'change'}]
 
       },
-  
-    
+
     };
   },
   created() {
@@ -106,28 +106,30 @@ export default {
   methods: {
     onSubmit() { //数据提交
       //表单校验
-      
+
       this.$refs.form.validate((valid) => {
         if (!valid) {
           return this.$message.error('请检查输入项')
-        }
-      })
-      this.form.pwd = md5(this.form.pwd)
-      this.$axios({
-        url: '/api/teacher',
-        method: 'post',
-        data: {
-          ...this.form
-        }
-      }).then(res => {
-        if(res.data.code == 200) {
-          this.$message({
-            message: '数据添加成功',
-            type: 'success'
+        } else {
+          this.form.pwd = md5(this.form.pwd)
+          this.$axios({
+            url: '/api/teacher',
+            method: 'post',
+            data: {
+              ...this.form
+            }
+          }).then(res => {
+            if (res.data.code == 200) {
+              this.$message({
+                message: '教师添加成功',
+                type: 'success'
+              })
+              this.$router.push({path: '/teacherManage'})
+            }
           })
-          this.$router.push({path: '/teacherManage'})
         }
       })
+
     },
     cancel() { //取消按钮
       this.form = {}
@@ -153,7 +155,7 @@ export default {
         console.log(this.collegeName);
       })
     },
-    
+
   }
 };
 </script>

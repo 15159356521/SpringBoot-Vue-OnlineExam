@@ -30,15 +30,16 @@ public class MultiQuestionController {
         return ApiResultHandler.buildApiResult(200, "查询成功", res);
     }
 
+    // 添加选择题
     @PostMapping("/MultiQuestion")
     public ApiResult add(@RequestBody MultiQuestion multiQuestion) {
         int res = multiQuestionService.add(multiQuestion);
         if (res != 0) {
-
             return ApiResultHandler.buildApiResult(200, "添加成功", res);
         }
         return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
+
     //更新选择题
     @PostMapping("/updateChoiceQuestion")
     public ApiResult update(@RequestBody MultiQuestion multiQuestion) {
@@ -59,8 +60,8 @@ public class MultiQuestionController {
 
     //表格导入选择题
     @PostMapping("/importMultiQuestion")
-    public ApiResult importExcel(MultipartFile file){
-        try{
+    public ApiResult importExcel(MultipartFile file) {
+        try {
             //读取文件
             EasyExcel.read(file.getInputStream(), MultiQuestion.class, new ReadListener() {
                 @Override
@@ -80,12 +81,23 @@ public class MultiQuestionController {
 
                 }
             }).sheet().doRead();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        return ApiResultHandler.buildApiResult(200,"导入成功",null  );
+        return ApiResultHandler.buildApiResult(200, "导入成功", null);
+    }
+
+    // 添加选择题进相应科目的题库及考试中（调用之前写好的两个接口）
+    @PostMapping("/addMultiQuestionEnterExam")
+    public ApiResult addMultiQuestionEnterExam(@RequestBody MultiQuestion multiQuestion) {
+        int count = multiQuestionService.add(multiQuestion);
+        MultiQuestion res = multiQuestionService.findOnlyQuestionId();
+        if (count != 0) {
+            return ApiResultHandler.buildApiResult(200, "添加成功", res);
+        }
+        return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
 
 }

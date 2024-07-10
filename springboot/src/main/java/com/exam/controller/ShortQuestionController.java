@@ -6,6 +6,7 @@ import com.alibaba.excel.read.listener.ReadListener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.entity.ApiResult;
+import com.exam.entity.FillQuestion;
 import com.exam.entity.MultiQuestion;
 import com.exam.entity.ShortQuestion;
 import com.exam.serviceimpl.ShortQuestionServiceImpl;
@@ -69,20 +70,29 @@ public class ShortQuestionController {
     }
 
     //更新简答题
+    @PostMapping("/updateShort")
+    public ApiResult updateShort(@RequestBody ShortQuestion shortQuestion) {
+        int res = shortQuestionService.updateShort(shortQuestion);
+        return ApiResultHandler.buildApiResult(200, "更新成功", res);
+    }
+
+    //导入简答题
     @PostMapping("/importShortQuestion")
-    public ApiResult importExcel(MultipartFile file){
-        try{
+    public ApiResult importExcel(MultipartFile file) {
+        try {
             //读取文件
             EasyExcel.read(file.getInputStream(), ShortQuestion.class, new ReadListener() {
                 @Override
                 public void onException(Exception exception, AnalysisContext context) throws Exception {
                     exception.printStackTrace();
                 }
+
                 @Override
                 public void invoke(Object data, AnalysisContext context) {
                     ShortQuestion shortQuestion = (ShortQuestion) data;
                     shortQuestionService.add(shortQuestion);
                 }
+
                 @Override
                 public void doAfterAllAnalysed(AnalysisContext context) {
                     System.out.println("简答题导入成功");
@@ -99,6 +109,16 @@ public class ShortQuestionController {
     public ApiResult findShortModel(@PathVariable("questionId") Integer questionId) {
         ShortQuestion res = shortQuestionService.findShort(questionId);
         return ApiResultHandler.buildApiResult(200, "查询简答题成功", res);
+    }
+
+    @PostMapping("/addShortQuestionEnterExam")
+    public ApiResult addShortQuestionEnterExam(@RequestBody ShortQuestion shortQuestion) {
+        int count = shortQuestionService.add(shortQuestion);
+        ShortQuestion res = shortQuestionService.findOnlyQuestionId();
+        if (count != 0) {
+            return ApiResultHandler.buildApiResult(200, "添加成功", res);
+        }
+        return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
 
 

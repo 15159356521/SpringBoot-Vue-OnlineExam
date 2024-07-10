@@ -15,6 +15,7 @@ public class PaperServiceImpl implements PaperService {
 
     @Autowired
     private PaperMapper paperMapper;
+
     @Override
     public List<PaperManage> findAll() {
         return paperMapper.findAll();
@@ -29,10 +30,12 @@ public class PaperServiceImpl implements PaperService {
     public int add(PaperManage paperManage) {
         return paperMapper.add(paperManage);
     }
+
     @Override
     public int deleteQuest(Integer paperId, Integer questionId) {
         return paperMapper.deleteQuest(paperId, questionId);
     }
+
     @Override
     public int deleteAll(Integer paperId) {
         return paperMapper.deleteAll(paperId);

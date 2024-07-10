@@ -36,6 +36,13 @@ public class PaperController {
         return res;
     }
 
+    // 获取试卷题目对于的题型
+    @GetMapping("/paper/{paperId}/{questionType}")
+    public ApiResult<PaperManage> findByIdFindQuestionType(@PathVariable Integer paperId, @PathVariable String questionType) {
+        ApiResult res = ApiResultHandler.buildApiResult(200, "请求成功", paperService.findById(paperId));
+        return res;
+    }
+
     // 获取学生考卷题目信息
     @GetMapping("/paper/{paperId}")
     public Map<Integer, List<?>> findById(@PathVariable("paperId") Integer paperId) {
@@ -50,7 +57,8 @@ public class PaperController {
         map.put(4, shortQuestionRes);
         return map;
     }
-   //添加试卷
+
+    //添加题目进试卷
     @PostMapping("/paperManage")
     public ApiResult add(@RequestBody PaperManage paperManage) {
         int res = paperService.add(paperManage);
@@ -59,11 +67,12 @@ public class PaperController {
         }
         return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
+
     //删除试卷题目
     @DeleteMapping("/paperManage/{paperId}/{questionId}")
-    public ApiResult delete(@PathVariable("paperId") Integer paperId ,@PathVariable("questionId") Integer questionId) {
-        System.out.println(paperId+questionId);
-        int res = paperService.deleteQuest(paperId,questionId);
+    public ApiResult delete(@PathVariable("paperId") Integer paperId, @PathVariable("questionId") Integer questionId) {
+        System.out.println(paperId + questionId);
+        int res = paperService.deleteQuest(paperId, questionId);
         return ApiResultHandler.buildApiResult(200, "删除成功", res);
     }
 }

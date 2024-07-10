@@ -5,11 +5,11 @@
     <el-row class="main-container">
       <el-col :lg="8" :xs="16" :md="10" :span="10">
         <div class="top">
-         
+
         </div>
         <div class="bottom">
           <div class="container">
-            <p class="title">账号登录</p>
+            <p class="title">登 录</p>
             <el-form
               :label-position="labelPosition"
               label-width="80px"
@@ -30,28 +30,30 @@
               </el-form-item>
               <div class="submit">
                 <el-button type="primary" class="row-login" @click="login()"
-                  >登录</el-button
+                >登 录
+                </el-button
                 >
               </div>
-              <!-- <div class="options">
+              <div class="options">
                 <p class="find"><a href="javascript:;">找回密码</a></p>
                 <div class="register">
                   <span>没有账号?</span>
-                  <span><a href="javascript:;">去注册</a></span>
+                  <span><a href="javascript:;" @click="register()">去注册</a></span>
                 </div>
-              </div> -->
+              </div>
             </el-form>
           </div>
         </div>
       </el-col>
     </el-row>
-    <el-row class="footer"> </el-row>
+    <el-row class="footer"></el-row>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 import md5 from "js-md5";
+
 export default {
   name: "login",
   data() {
@@ -69,9 +71,9 @@ export default {
     };
   },
   methods: {
-    //用户登录请求后台处理
+    //用户注册请求后台处理
     login() {
-      console.log("登录操作执行-------");
+      console.log("注册操作执行-------");
 
       this.upUserPass = this.formLabelAlign;
 
@@ -91,18 +93,18 @@ export default {
               this.$cookies.set("cname", resData.adminName);
               this.$cookies.set("cid", resData.adminId);
               this.$cookies.set("role", 0);
-              this.$router.push({ path: "/selectExam" }); //跳转到首页
+              this.$router.push({path: "/selectExam"}); //跳转到首页
               break;
             case "1": //教师
               this.$cookies.set("cname", resData.teacherName);
               this.$cookies.set("cid", resData.teacherId);
               this.$cookies.set("role", 1);
-              this.$router.push({ path: "/selectExam" }); //跳转到教师用户
+              this.$router.push({path: "/selectExam"}); //跳转到教师用户
               break;
             case "2": //学生
               this.$cookies.set("cname", resData.studentName);
               this.$cookies.set("cid", resData.studentId);
-              this.$router.push({ path: "/student" });
+              this.$router.push({path: "/student"});
               break;
           }
         }
@@ -119,10 +121,14 @@ export default {
     clickTag(key) {
       //点击切换角色
       this.role = key;
+    },
+    register() { //跳转注册页面
+      this.$router.push({path: '/register'})
     }
   },
   computed: mapState(["userInfo"]), //获取用户信息
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
@@ -140,21 +146,26 @@ export default {
   border-left: 4px solid #409eff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 .container {
   margin-bottom: 32px;
 }
+
 .container .el-radio-group {
   margin: 30px 0px;
 }
+
 a:link {
-  color: #ff962a;
+  color: hsl(212, 89%, 53%);
   text-decoration: none;
 }
+
 #login {
   font-size: 14px;
   color: #000;
   background-color: #fff;
 }
+
 #login .bg {
   position: fixed;
   top: 0;
@@ -165,24 +176,29 @@ a:link {
   background: url("../../assets/img/bg.jpg") center top / cover no-repeat;
   background-color: #b6bccdd1 !important;
 }
+
 #login .main-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 #login .main-container .top {
-  margin-top: 100px;
+  margin-top: 160px;
   font-size: 30px;
   color: #ff962a;
   display: flex;
   justify-content: center;
 }
+
 #login .top .icon-kaoshi {
   font-size: 80px;
 }
+
 #login .top .title {
   margin-top: 20px;
 }
+
 #login .bottom {
   display: flex;
   justify-content: center;
@@ -190,47 +206,57 @@ a:link {
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 #login .bottom .title {
   text-align: center;
   font-size: 30px;
 }
+
 .bottom .container .title {
   margin: 30px 0px;
 }
+
 .bottom .submit .row-login {
   width: 100%;
-  background-color: #04468b;
-  border-color: #04468b;
+  background-color: hsl(212, 89%, 53%);
+  border-color: hsl(212, 89%, 53%);
   margin: 20px 0px 10px 0px;
   padding: 15px 20px;
 }
+
 .bottom .submit {
   display: flex;
   justify-content: center;
 }
+
 .footer {
   margin-top: 50px;
   text-align: center;
 }
+
 .footer .msg1 {
   font-size: 18px;
   color: #fff;
   margin-bottom: 15px;
 }
+
 .footer .msg2 {
   font-size: 14px;
   color: #e3e3e3;
   margin-top: 70px;
 }
+
 .bottom .options {
   margin-bottom: 40px;
   color: #ff962a;
   display: flex;
   justify-content: space-between;
 }
+
 .bottom .options > a {
   color: #ff962a;
 }
+
 .bottom .options .register span:nth-child(1) {
   color: #8c8c8c;
 }

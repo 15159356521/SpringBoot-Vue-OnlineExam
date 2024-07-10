@@ -66,7 +66,7 @@ const mutations = {
     state.userInfo = info
   },
   changeSubject(state, upSubject) {
- 
+
     state.upSubject = upSubject
     console.log(state.upSubject,"保存后科目");
   }

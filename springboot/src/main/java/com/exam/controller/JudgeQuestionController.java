@@ -45,21 +45,24 @@ public class JudgeQuestionController {
         int res = judgeQuestionService.updateJudge(judgeQuestion);
         return ApiResultHandler.buildApiResult(200, "更新成功", res);
     }
+
     //导入判断题
     @PostMapping("/importJudgeQuestion")
-    public ApiResult importExcel(MultipartFile file){
-        try{
+    public ApiResult importExcel(MultipartFile file) {
+        try {
             //读取文件
             EasyExcel.read(file.getInputStream(), JudgeQuestion.class, new ReadListener() {
                 @Override
                 public void onException(Exception exception, AnalysisContext context) throws Exception {
                     exception.printStackTrace();
                 }
+
                 @Override
                 public void invoke(Object data, AnalysisContext context) {
                     JudgeQuestion judgeQuestion = (JudgeQuestion) data;
                     judgeQuestionService.add(judgeQuestion);
                 }
+
                 @Override
                 public void doAfterAllAnalysed(AnalysisContext context) {
                     System.out.println("读取完成");
@@ -68,7 +71,7 @@ public class JudgeQuestionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ApiResultHandler.buildApiResult(200,"导入成功",null);
+        return ApiResultHandler.buildApiResult(200, "导入成功", null);
     }
 
     //查询判断题信息（用于题目更新 —— 模态框）
@@ -76,6 +79,17 @@ public class JudgeQuestionController {
     public ApiResult findJudgeModel(@PathVariable("questionId") Integer questionId) {
         JudgeQuestion res = judgeQuestionService.findJudge(questionId);
         return ApiResultHandler.buildApiResult(200, "查询判断题成功", res);
+    }
+
+    // 添加判断题进相应科目的题库及考试中（调用之前写好的两个接口）
+    @PostMapping("/addJudgeQuestionEnterExam")
+    public ApiResult addJudgeQuestionEnterExam(@RequestBody JudgeQuestion judgeQuestion) {
+        int count = judgeQuestionService.add(judgeQuestion);
+        JudgeQuestion res = judgeQuestionService.findOnlyQuestionId();
+        if (count != 0) {
+            return ApiResultHandler.buildApiResult(200, "添加成功", res);
+        }
+        return ApiResultHandler.buildApiResult(400, "添加失败", res);
     }
 
 }

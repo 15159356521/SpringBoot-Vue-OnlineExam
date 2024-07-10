@@ -23,7 +23,7 @@
     </el-select>
 
     <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
-     <!--  <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column> -->
+      <!--  <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column> -->
       <el-table-column prop="question" label="题目信息" width="490"></el-table-column>
       <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
       <el-table-column prop="section" label="所属章节" width="200"></el-table-column>
@@ -33,10 +33,10 @@
       <el-table-column fixed="right" label="操作" width="160">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row.questionId,scope.row.type)" type="primary" size="small"
-                     >编 辑
+          >编 辑
           </el-button>
           <el-button @click="deleteRecord(scope.row.questionId,scope.row.type)" type="danger" size="small"
-                     >删 除
+          >删 除
           </el-button>
         </template>
       </el-table-column>
@@ -85,22 +85,28 @@
             </el-select>
           </el-form-item>
           <el-form-item label="题目">
-            <el-input v-model="form.question"></el-input>
+            <el-input v-model="form.question" type="textarea" rows="4" placeholder="请输入选择题内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="A">
-            <el-input v-model="form.answerA"></el-input>
+            <el-input v-model="form.answerA" type="textarea" rows="2" placeholder="请输入A选项内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="B">
-            <el-input v-model="form.answerB"></el-input>
+            <el-input v-model="form.answerB" type="textarea" rows="2" placeholder="请输入B选项内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="C">
-            <el-input v-model="form.answerC"></el-input>
+            <el-input v-model="form.answerC" type="textarea" rows="2" placeholder="请输入C选项内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="D">
-            <el-input v-model="form.answerD"></el-input>
+            <el-input v-model="form.answerD" type="textarea" rows="2" placeholder="请输入D选项内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="解析">
-            <el-input v-model="form.analysis"></el-input>
+            <el-input v-model="form.analysis" type="textarea" rows="2" placeholder="请输入解析内容"
+                      resize="none"></el-input>
           </el-form-item>
         </el-form>
       </section>
@@ -133,13 +139,16 @@
             </el-select>
           </el-form-item>
           <el-form-item label="题目">
-            <el-input v-model="form.question"></el-input>
+            <el-input v-model="form.question" type="textarea" rows="4" placeholder="请输入填空题内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="正确答案">
-            <el-input v-model="form.answer"></el-input>
+            <el-input v-model="form.answer" type="textarea" rows="2" placeholder="请输入正确答案内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="解析">
-            <el-input v-model="form.analysis"></el-input>
+            <el-input v-model="form.analysis" type="textarea" rows="2" placeholder="请输入解析内容"
+                      resize="none"></el-input>
           </el-form-item>
         </el-form>
       </section>
@@ -171,7 +180,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="题目">
-            <el-input v-model="form.question"></el-input>
+            <el-input v-model="form.question" type="textarea" rows="4" placeholder="请输入判断题内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="正确答案">
             <el-select v-model="form.answer" placeholder="请选择正确答案">
@@ -184,7 +194,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="解析">
-            <el-input v-model="form.analysis"></el-input>
+            <el-input v-model="form.analysis" type="textarea" rows="2" placeholder="请输入解析内容"
+                      resize="none"></el-input>
           </el-form-item>
         </el-form>
       </section>
@@ -217,13 +228,16 @@
             </el-select>
           </el-form-item>
           <el-form-item label="题目">
-            <el-input v-model="form.question"></el-input>
+            <el-input v-model="form.question" type="textarea" rows="4" placeholder="请输入简答题内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="正确答案">
-            <el-input v-model="form.answer"></el-input>
+            <el-input v-model="form.answer" type="textarea" rows="4" placeholder="请输入正确答案内容"
+                      resize="none"></el-input>
           </el-form-item>
           <el-form-item label="解析">
-            <el-input v-model="form.analysis"></el-input>
+            <el-input v-model="form.analysis" type="textarea" rows="2" placeholder="请输入解析内容"
+                      resize="none"></el-input>
           </el-form-item>
         </el-form>
       </section>
@@ -255,14 +269,14 @@ export default {
       pduanNewType: "全部", // 判断是新的题型就分页下标重置为 1
 
       dialogVisibleChange: false, //选择题对话框状态
-      dialogVisibleFill:false, //填空题对话框状态
-      dialogVisibleJudge:false, //判断题对话框状态
-      dialogVisibleShort:false, //简答题对话框状态
+      dialogVisibleFill: false, //填空题对话框状态
+      dialogVisibleJudge: false, //判断题对话框状态
+      dialogVisibleShort: false, //简答题对话框状态
       form: {}, //保存点击以后当前题目的信息
 
-      levelList: ["1", "2", "3", "4","5"], //难度等级类型
-      rightAnswerList:["A","B","C","D"], //正确选项
-      TFList:["T","F"] // 判断题选项
+      levelList: ["1", "2", "3", "4", "5"], //难度等级类型
+      rightAnswerList: ["A", "B", "C", "D"], //正确选项
+      TFList: ["T", "F"] // 判断题选项
 
     };
   },
@@ -322,26 +336,26 @@ export default {
         return "success-row";
       }
     },
-    edit(questionId,type) { //修改题目信息
-      if (type === "选择题"){
+    edit(questionId, type) { //修改题目信息
+      if (type === "选择题") {
         this.dialogVisibleChange = true
         this.$axios(`/api/findChoiceQuestion/${questionId}/`).then(res => {
           this.form = res.data.data
         })
       }
-      if (type === "填空题"){
+      if (type === "填空题") {
         this.dialogVisibleFill = true
         this.$axios(`/api/findFillQuestion/${questionId}/`).then(res => {
           this.form = res.data.data
         })
       }
-      if (type === "判断题"){
+      if (type === "判断题") {
         this.dialogVisibleJudge = true
         this.$axios(`/api/findJudgeQuestion/${questionId}/`).then(res => {
           this.form = res.data.data
         })
       }
-      if (type === "简答题"){
+      if (type === "简答题") {
         this.dialogVisibleShort = true
         this.$axios(`/api/findShortQuestion/${questionId}/`).then(res => {
           this.form = res.data.data

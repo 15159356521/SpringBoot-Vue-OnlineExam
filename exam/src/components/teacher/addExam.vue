@@ -1,14 +1,14 @@
 <!-- 添加考试 -->
 <template>
   <section class="add">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="试卷名称">
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form-item label="试卷名称" prop="source">
         <el-input v-model="form.source"></el-input>
       </el-form-item>
       <el-form-item label="介绍">
         <el-input v-model="form.description"></el-input>
       </el-form-item>
-      <el-form-item label="所属科目">
+      <el-form-item label="所属科目" prop="subject">
         <el-select v-model="form.subject" placeholder="请选择所属科目">
           <el-option
             v-for="item in subjectName"
@@ -18,7 +18,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="所属学院">
+      <el-form-item label="所属学院" prop="institute">
         <el-select v-model="form.institute" placeholder="请选择所属学院">
           <el-option
             v-for="item in collegeName"
@@ -28,7 +28,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="所属专业">
+      <el-form-item label="所属专业" prop="major">
         <el-select v-model="form.major" placeholder="请选择所属专业">
           <el-option
             v-for="item in speciality"
@@ -38,7 +38,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年级">
+      <el-form-item label="年级" prop="grade">
         <el-select v-model="form.grade" placeholder="请选择所属年级">
           <el-option
             v-for="item in gradeList"
@@ -48,19 +48,21 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="考试日期">
+      <el-form-item label="考试日期" prop="examDate">
         <el-col :span="11">
           <el-date-picker placeholder="选择日期" v-model="form.examDate"
                           style="width: 100%;" :picker-options="pickerOptions()"></el-date-picker>
         </el-col>
       </el-form-item>
-      <el-form-item label="持续时间">
+      <el-form-item label="持续时间" prop="totalTime">
         <el-input-number v-model="form.totalTime"></el-input-number>
+        分
       </el-form-item>
-      <el-form-item label="总分">
+      <el-form-item label="总分" prop="totalScore">
         <el-input-number v-model="form.totalScore"></el-input-number>
+        分
       </el-form-item>
-      <el-form-item label="考试类型">
+      <el-form-item label="考试类型" prop="type">
         <el-select v-model="form.type" placeholder="请选择考试类型">
           <el-option
             v-for="item in examType"
@@ -82,6 +84,8 @@
 </template>
 
 <script>
+import md5 from "js-md5";
+
 export default {
   data() {
     return {
@@ -104,6 +108,39 @@ export default {
       speciality: [], //存储所有专业的数组
       gradeList: ["2023级", "2022级", "2021级", "2020级"], //年级类型
       examType: ["课堂小测", "期中考试", "期末考试"], //考试类型
+      rules: {    //表单验证规则
+        source: [{required: true, message: '请输入试卷名称', trigger: 'blur'}],
+        subject: [{required: true, message: '请选择所属科目', trigger: 'change'}],
+        institute: [{required: true, message: '请选择所属学院', trigger: 'change'}],
+        major: [{required: true, message: '请选择所属专业', trigger: 'change'}],
+        grade: [{required: true, message: '请选择年级', trigger: 'change'}],
+        examDate: [{required: true, message: '请选择考试日期', trigger: 'change'}],
+        totalTime: [{required: true, message: '请输入持续时间', trigger: 'blur'},
+          {
+            //限制只能大于等于1的数字
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error('请输入大于等于1的数字'))
+              } else {
+                callback()
+              }
+            },
+          }//正则表达式，只能输入数
+        ],
+        totalScore: [{required: true, message: '请输入总分', trigger: 'blur'},
+          {
+            //限制只能大于等于1的数字
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error('请输入大于等于1的数字'))
+              } else {
+                callback()
+              }
+            },
+          }//正则表达式，只能输入数
+        ],
+        type: [{required: true, message: '请选择考试类型', trigger: 'change'}]
+      },
     };
   },
 
@@ -147,29 +184,38 @@ export default {
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
     },
     onSubmit() {
-      let examDate = this.formatTime(this.form.examDate)
-      this.form.examDate = examDate.substr(0, 10)
-      // 先发送 axios请求，查询最后一条记录的 paperId,返回给前端达到自增效果
-      this.$axios(`/api/examManagePaperId`).then(res => {
-        this.form.paperId = res.data.data.paperId + 1 //实现paperId自增1
-        // 再发送 axios请求，添加考试信息
-        this.$axios({
-          url: '/api/exam',
-          method: 'post',
-          data: {
-            ...this.form
-          }
-        }).then(res => {
-          if (res.data.code == 200) {
-            this.$message({
-              message: '考试添加成功',
-              type: 'success'
+      //表单校验
+
+      this.$refs.form.validate((valid) => {
+        if (!valid) {
+          return this.$message.error('请检查输入项')
+        } else {
+          let examDate = this.formatTime(this.form.examDate)
+          this.form.examDate = examDate.substr(0, 10)
+          // 先发送 axios请求，查询最后一条记录的 paperId,返回给前端达到自增效果
+          this.$axios(`/api/examManagePaperId`).then(res => {
+            this.form.paperId = res.data.data.paperId + 1 //实现paperId自增1
+            // 再发送 axios请求，添加考试信息
+            this.$axios({
+              url: '/api/exam',
+              method: 'post',
+              data: {
+                ...this.form
+              }
+            }).then(res => {
+              if (res.data.code == 200) {
+                this.$message({
+                  message: '考试添加成功',
+                  type: 'success'
+                })
+                // 重定向到考试管理界面
+                this.$router.push({path: '/selectExam'})
+              }
             })
-            // 重定向到考试管理界面
-            this.$router.push({path: '/selectExam'})
-          }
-        })
+          })
+        }
       })
+
     },
     cancel() { //取消按钮
       console.log("取消");

@@ -4,20 +4,22 @@
     <el-row class="padding-50">
       <el-col :span="24">
         <ul class="list">
-          <li class="logo"><i class="iconfont icon-kaoshi"></i><span>易考通</span></li>
+          <li class="logo"><i class="iconfont icon-kaoshi el-icon-reading" style="align-self: center"></i><span
+            style="margin-left: 5px">易考通</span></li>
           <li><a href="javascript:;" @click="exam()">我的试卷</a></li>
           <li><a href="javascript:;" @click="practice()">我的练习</a></li>
           <li>
             <router-link to="/scoreTable">我的分数</router-link>
           </li>
-         <!--  <li>
-            <router-link to="/message">给我留言</router-link>
-          </li> -->
-        
+          <!--  <li>
+             <router-link to="/message">给我留言</router-link>
+           </li> -->
+
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
-            <a href="javascript:;"><i class="iconfont icon-Userselect icon"></i>{{ user.userName }}</a>
+            <a href="javascript:;"><i class="iconfont icon-Userselect icon el-icon-s-custom"
+                                      style="font-size: 20px"></i>{{ user.userName }}</a>
             <div class="msg" v-if="flag">
-              <p @click="manage()">管理中心</p>
+              <p @click="manage()">重置密码</p>
               <p class="exit" @click="exit()">退出</p>
             </div>
           </li>
@@ -71,11 +73,13 @@ export default {
     practice() { //跳转练习模式
       let isPractice = 0
       this.$store.commit("practice", isPractice)
+      this.$cookies.set("isPractice", isPractice)
       this.$router.push({path: '/startExam'})
     },
     exam() { //跳转考试模式
       let isPractice = 1
       this.$store.commit("practice", isPractice)
+      this.$cookies.set("isPractice", isPractice)
       this.$router.push({path: '/student'})
     }
   },

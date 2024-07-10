@@ -34,8 +34,8 @@
       width="30%"
       :before-close="handleClose">
       <section class="update">
-        <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="科目名称">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+          <el-form-item label="科目名称" prop="subjectName">
             <el-input v-model="form.subjectName"></el-input>
           </el-form-item>
         </el-form>
@@ -61,6 +61,9 @@ export default {
       },
       dialogVisible: false, //对话框
       form: {}, //保存点击以后当前科目的信息
+      rules: {    //表单验证规则
+        subjectName: [{required: true, message: '请输入科目', trigger: 'blur'}],
+      },
     };
   },
   created() {
@@ -102,7 +105,7 @@ export default {
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
-              message: '删除成功',
+              message: '科目删除成功',
               type: 'success'
             })
           }
@@ -113,23 +116,32 @@ export default {
       })
     },
     submit() { //提交更改
-      this.dialogVisible = false
-      this.$axios({
-        url: '/api/subject',
-        method: 'put',
-        data: {
-          ...this.form
-        }
-      }).then(res => {
-        console.log(res)
-        if (res.data.code == 200) {
-          this.$message({
-            message: '更新成功',
-            type: 'success'
+      //表单校验
+
+      this.$refs.form.validate((valid) => {
+        if (!valid) {
+          return this.$message.error('请检查输入项')
+        } else {
+          this.dialogVisible = false
+          this.$axios({
+            url: '/api/subject',
+            method: 'put',
+            data: {
+              ...this.form
+            }
+          }).then(res => {
+            console.log(res)
+            if (res.data.code == 200) {
+              this.$message({
+                message: '科目更新成功',
+                type: 'success'
+              })
+            }
+            this.getSubjectInfo()
           })
         }
-        this.getSubjectInfo()
       })
+
     },
     handleClose(done) { //关闭提醒
       this.$confirm('确认关闭？')
@@ -141,10 +153,10 @@ export default {
     add(subject) { //增加题库（重定向GET传参）
       this.$router.push({
         path: '/addAnswerChildren',
-        query: { subject: subject,}
+        query: {subject: subject,}
       })
       this.$store.commit("changeSubject", subject)
-      
+
     }
   }
 };
@@ -167,6 +179,7 @@ export default {
   .el-table tr {
     background-color: #dd5862 !important;
   }
+
   .el-button--small {
     margin-bottom: 1px;
   }

@@ -69,10 +69,10 @@ public class PaperController {
     }
 
     //删除试卷题目
-    @DeleteMapping("/paperManage/{paperId}/{questionId}")
-    public ApiResult delete(@PathVariable("paperId") Integer paperId, @PathVariable("questionId") Integer questionId) {
+    @DeleteMapping("/paperManage/{paperId}/{questionId}/{questionType}")
+    public ApiResult delete(@PathVariable("paperId") Integer paperId, @PathVariable("questionId") Integer questionId, @PathVariable("questionType") Integer questionType) {
         System.out.println(paperId + questionId);
-        int res = paperService.deleteQuest(paperId, questionId);
+        int res = paperService.deleteQuest(paperId, questionId, questionType);
         return ApiResultHandler.buildApiResult(200, "删除成功", res);
     }
 }

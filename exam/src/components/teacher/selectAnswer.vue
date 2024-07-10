@@ -2,6 +2,7 @@
 <template>
   <div class="exam">
 
+    <span>科目：</span>
     <!-- 科目选择下拉框 -->
     <el-select v-model="subjects" placeholder="请选择科目" style="width: 200px;" @change="getAnswerInfo">
       <el-option
@@ -12,6 +13,7 @@
       ></el-option>
     </el-select>
 
+    <span>题型：</span>
     <!-- 题型选择下拉框 -->
     <el-select v-model="type" placeholder="请选择题型" style="width: 200px;" @change="getAnswerInfo">
       <el-option
@@ -22,13 +24,24 @@
       ></el-option>
     </el-select>
 
+    <span>难度等级：</span>
+    <!-- 难度等级选择下拉框 -->
+    <el-select v-model="selectLevel" placeholder="请选择难度等级" style="width: 200px;" @change="getAnswerInfo">
+      <el-option
+        v-for="item in selectLevelList"
+        :key="item"
+        :label="item"
+        :value="item"
+      ></el-option>
+    </el-select>
+
     <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
       <!--  <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column> -->
       <el-table-column prop="question" label="题目信息" width="490"></el-table-column>
-      <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
+      <el-table-column prop="type" label="题目类型" width="100"></el-table-column>
       <el-table-column prop="section" label="所属章节" width="200"></el-table-column>
-      <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
-      <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
+      <el-table-column prop="score" label="试题分数" width="100"></el-table-column>
+      <el-table-column prop="level" label="难度等级" width="100"></el-table-column>
 
       <el-table-column fixed="right" label="操作" width="160">
         <template slot-scope="scope">
@@ -266,7 +279,9 @@ export default {
       subjects: "全部", // 初始化当前科目类型为：全部
       pduanNewSubject: "全部", // 判断是新的科目就分页下标重置为 1
       type: "全部", // 初始化当前科目类型为：全部
+      selectLevel: "全部",// 初始化当前难度级别为：全部
       pduanNewType: "全部", // 判断是新的题型就分页下标重置为 1
+      pduanNewSelectLevel: "全部",// 初始化当前难度级别为：1
 
       dialogVisibleChange: false, //选择题对话框状态
       dialogVisibleFill: false, //填空题对话框状态
@@ -274,6 +289,7 @@ export default {
       dialogVisibleShort: false, //简答题对话框状态
       form: {}, //保存点击以后当前题目的信息
 
+      selectLevelList: ["全部", "1", "2", "3", "4", "5"], //难度等级类型
       levelList: ["1", "2", "3", "4", "5"], //难度等级类型
       rightAnswerList: ["A", "B", "C", "D"], //正确选项
       TFList: ["T", "F"] // 判断题选项
@@ -307,10 +323,15 @@ export default {
         this.pduanNewType = this.type
         this.pagination.current = 1
       }
+      // 判断是新的难度类型就分页下标重置为 1
+      if (this.selectLevel !== this.pduanNewSelectLevel) {
+        this.pduanNewSelectLevel = this.selectLevel
+        this.pagination.current = 1
+      }
 
       //分页查询按科目实现 —— 题型归档信息
       this.$axios(
-        `/api/answers/${this.pagination.current}/${this.pagination.size}/${this.subjects}/${this.type}`
+        `/api/answers/${this.pagination.current}/${this.pagination.size}/${this.subjects}/${this.type}/${this.selectLevel}`
       )
         .then(res => {
           this.pagination = res.data.data;

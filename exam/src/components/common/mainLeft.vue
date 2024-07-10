@@ -1,17 +1,17 @@
-<!--左边下拉导航栏-->
+<!--左边下拉导航栏（管理员界面会额外出现教师管理）-->
 <template>
   <div id="left">
     <!-- 第一个为点击变色，第二个为字体颜色，第八个为背景颜色 -->
     <el-menu
       active-text-color="#dd5862"
       text-color="#000"
-      :default-active="this.$route.path" 
+      :default-active="this.$route.path"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
       :collapse="flag"
       background-color="#f2fdff"
-      menu-trigger="click" router> 
+      menu-trigger="click" router>
       <el-submenu v-for="(item,index) in menu" :index='item.index' :key="index">
         <template slot="title">
           <div class="left-width">
@@ -53,20 +53,20 @@ export default {
     },
     //点击标题传递参数给navigator组件
     handleTitle(index) {
-      this.bus.$emit('sendIndex', index) 
+      this.bus.$emit('sendIndex', index)
     },
     addData() {
-      let role = this.$cookies.get("role")  
+      let role = this.$cookies.get("role")
       if (role == 0) {
-        if(this.menu.length == 5){
-           this.menu.push({ 
-          index: '5',
-          title: '教师管理',
-          icon: 'icon-Userselect',
-          content: [{item1: '教师管理', path: '/teacherManage'}, {item2: '添加教师', path: '/addTeacher'}],
-        })
+        if (this.menu.length == 5) {
+          this.menu.push({
+            index: '5',
+            title: '教师管理',
+            icon: 'icon-Userselect el-icon-user-solid',
+            content: [{item1: '教师管理', path: '/teacherManage'}, {item2: '添加教师', path: '/addTeacher'}],
+          })
         }
-       
+
       }
     }
   },
@@ -93,7 +93,7 @@ export default {
 
 #left {
   height: 900px;
-  background-color: #f2fdff; 
+  background-color: #f2fdff;
   z-index: 0;
 }
 

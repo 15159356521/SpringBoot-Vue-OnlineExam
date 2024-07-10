@@ -44,28 +44,28 @@ public interface AnswerMapper {
     //    @Select("select question, subject, score, section,level, \"选择题\" as type from multi_question " +
 //            "union select  question, subject, score, section,level, \"判断题\" as type  from judge_question " +
 //            "union select  question, subject, score, section,level, \"填空题\" as type from fill_question")
-    String returnSql(String subjects, String type);
+    String returnSql(String subjects, String type, String level);
 
     @SelectProvider(type = AnswerDao.class, method = "findAll")
-    IPage<AnswerVO> findAll(Page page, String subjects, String type);
+    IPage<AnswerVO> findAll(Page page, String subjects, String type, String level);
 
     //分页查询按科目实现 —— 题型归档信息
     class AnswerDao {
-        public String findAll(String subjects, String type) {
+        public String findAll(String subjects, String type, String level) {
             String sql = "";
             if (type.equals("选择题")) {
-                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects}";
+                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects} and level like #{level}";
             } else if (type.equals("填空题")) {
-                sql += "select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects}";
+                sql += "select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects} and level like #{level}";
             } else if (type.equals("判断题")) {
-                sql += "select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects}";
+                sql += "select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects} and level like #{level}";
             } else if (type.equals("简答题")) {
-                sql += "select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects}";
+                sql += "select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects} and level like #{level}";
             } else {
-                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects} " +
-                        "union select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects} " +
-                        "union select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects} " +
-                        "union select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects}";
+                sql += "select questionId, question, subject, score, section,level, '选择题' as type from multi_question WHERE subject like #{subjects} and level like #{level}" +
+                        "union select questionId, question, subject, score, section,level, '判断题' as type from judge_question WHERE subject like #{subjects} and level like #{level}" +
+                        "union select questionId, question, subject, score, section,level, '填空题' as type from fill_question WHERE subject like #{subjects} and level like #{level}" +
+                        "union select questionId, question, subject, score, section,level, '简答题' as type from short_question WHERE subject like #{subjects} and level like #{level}";
             }
             return sql;
 

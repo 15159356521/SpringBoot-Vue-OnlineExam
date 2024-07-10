@@ -930,7 +930,8 @@ export default {
           this.countAnswerFillNumber += 1;
         }
         this.fillAnswer[this.index][3] = true;
-        this.$cookies.set("fillAnswer", fillAnswer)
+        console.log(this.fillAnswer + "++++++++++++++++++++")
+        this.$cookies.set("fillAnswer", this.fillAnswer)
 
       }
     },
@@ -1323,22 +1324,22 @@ export default {
       if (this.currentType == 1) {
         console.log(this.showAnswer);
         msg = await this.$axios({
-          url: `/api/paperManage/${this.paperId}/${this.showAnswer.questionId}`,
+          url: `/api/paperManage/${this.paperId}/${this.showAnswer.questionId}/${this.currentType}`,
           method: "delete"
         });
       } else if (this.currentType == 2) {
         msg = await this.$axios({
-          url: `/api/paperManage/${this.paperId}/${this.topic[2][index].questionId}`,
+          url: `/api/paperManage/${this.paperId}/${this.topic[2][index].questionId}/${this.currentType}`,
           method: "delete"
         });
       } else if (this.currentType == 3) {
         msg = await this.$axios({
-          url: `/api/paperManage/${this.paperId}/${this.topic[3][index].questionId}`,
+          url: `/api/paperManage/${this.paperId}/${this.topic[3][index].questionId}/${this.currentType}`,
           method: "delete"
         });
       } else if (this.currentType == 4) {
         msg = await this.$axios({
-          url: `/api/paperManage/${this.paperId}/${this.topic[4][index].questionId}`,
+          url: `/api/paperManage/${this.paperId}/${this.topic[4][index].questionId}/${this.currentType}`,
           method: "delete"
         });
       }

@@ -8,6 +8,7 @@
 
         <div class="exam">
 
+          <span>题型：</span>
           <!-- 题型选择下拉框 -->
           <el-select v-model="type" placeholder="请选择题型" style="width: 200px;" @change="getAnswerInfo">
             <el-option
@@ -18,15 +19,28 @@
             ></el-option>
           </el-select>
 
-          <span style="margin-left: 30px">当前试卷：选择 {{ alreadyAddExamChangeCount }} 题</span>
-          <span style="margin-left: 30px">填空 {{ alreadyAddExamFillCount }} 题</span>
-          <span style="margin-left: 30px">判断 {{ alreadyAddExamJudgeCount }} 题</span>
-          <span style="margin-left: 30px">简答 {{ alreadyAddExamShortCount }} 题</span>
-          <span style="margin-left: 30px">共计 {{
-              alreadyAddExamChangeCount + alreadyAddExamFillCount + alreadyAddExamJudgeCount + alreadyAddExamShortCount
-            }} 题 {{
-              (alreadyAddExamChangeCount + alreadyAddExamFillCount + alreadyAddExamJudgeCount) * 2 + alreadyAddExamShortCount * 4
-            }} 分</span>
+          <span>难度等级：</span>
+          <!-- 难度等级选择下拉框 -->
+          <el-select v-model="selectLevel" placeholder="请选择难度等级" style="width: 200px;" @change="getAnswerInfo">
+            <el-option
+              v-for="item in selectLevelList"
+              :key="item"
+              :label="item"
+              :value="item"
+            ></el-option>
+          </el-select>
+
+          <p style="text-align: center;margin-top: 5px;margin-bottom: 5px">
+            <span style="margin-left: 30px">当前试卷：选择 {{ alreadyAddExamChangeCount }} 题</span>
+            <span style="margin-left: 30px">填空 {{ alreadyAddExamFillCount }} 题</span>
+            <span style="margin-left: 30px">判断 {{ alreadyAddExamJudgeCount }} 题</span>
+            <span style="margin-left: 30px">简答 {{ alreadyAddExamShortCount }} 题</span>
+            <span style="margin-left: 30px">共计 {{
+                alreadyAddExamChangeCount + alreadyAddExamFillCount + alreadyAddExamJudgeCount + alreadyAddExamShortCount
+              }} 题 {{
+                (alreadyAddExamChangeCount + alreadyAddExamFillCount + alreadyAddExamJudgeCount) * 2 + alreadyAddExamShortCount * 4
+              }} 分</span>
+          </p>
 
           <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
             <!--  <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column> -->
@@ -36,16 +50,17 @@
             <el-table-column prop="level" label="难度等级" width="100"></el-table-column>
             <el-table-column prop="score" label="试题分数" width="100"></el-table-column>
 
-            <el-table-column fixed="right" label="操作" width="250">
+            <el-table-column fixed="right" label="操作" width="180">
               <template slot-scope="scope">
                 <el-button @click="edit(scope.row.questionId,scope.row.type)" type="primary" size="small"
                 >编 辑
                 </el-button>
                 <el-button @click="addExam(scope.row.questionId,scope.row.type)" type="success" size="small"
-                           v-if="!alreadyAddExamInfo.includes(scope.row.questionId)"
+                           v-if="alreadyAddExamInfo.includes(scope.row.questionId) === false"
                 >加入试卷
                 </el-button>
-                <el-button @click="deleteRecord(scope.row.questionId,scope.row.type)" type="danger" size="small" v-else
+                <el-button @click="deleteRecord(scope.row.questionId,scope.row.type)" type="danger" size="small"
+                           v-else-if="alreadyAddExamInfo.includes(scope.row.questionId) === true"
                 >移除试卷
                 </el-button>
               </template>
@@ -453,7 +468,9 @@ export default {
       typeList: ["全部", "选择题", "填空题", "判断题", "简答题"],  //存储所有题型的数组（用于单科目下的单试卷 —— 题型归档）
 
       type: "全部", // 初始化当前科目类型为：全部
+      selectLevel: "全部",// 初始化当前难度级别为：全部
       pduanNewType: "全部", // 判断是新的题型就分页下标重置为 1
+      pduanNewSelectLevel: "全部",// 初始化当前难度级别为：1
 
       dialogVisibleChange: false, //选择题对话框状态
       dialogVisibleFill: false, //填空题对话框状态
@@ -461,6 +478,7 @@ export default {
       dialogVisibleShort: false, //简答题对话框状态
       form: {}, //保存点击以后当前题目的信息
 
+      selectLevelList: ["全部", "1", "2", "3", "4", "5"], //难度等级类型
       levelList: ["1", "2", "3", "4", "5"], //难度等级类型
       rightAnswerList: ["A", "B", "C", "D"], //正确选项
       TFList: ["T", "F"], // 判断题选项
@@ -687,6 +705,8 @@ export default {
       //通过paperId获取试题题目信息(题型，获取试卷各题型的数量)
       this.$axios(`/api/paper/${this.paperId}/${this.questionType}`).then(res => {
         console.log(res)
+        // 每次调用需要置空 alreadyAddExamInfo 为空数组
+        this.alreadyAddExamInfo = [];
         let alreadyInfo = {...res.data.data};
         let shuZu = Object.keys(alreadyInfo)
         shuZu.forEach(e => {
@@ -714,9 +734,15 @@ export default {
         this.pagination.current = 1
       }
 
+      // 判断是新的难度类型就分页下标重置为 1
+      if (this.selectLevel !== this.pduanNewSelectLevel) {
+        this.pduanNewSelectLevel = this.selectLevel
+        this.pagination.current = 1
+      }
+
       //分页查询按科目实现 —— 题型归档信息
       this.$axios(
-        `/api/answers/${this.pagination.current}/${this.pagination.size}/${this.subject}/${this.type}`
+        `/api/answers/${this.pagination.current}/${this.pagination.size}/${this.subject}/${this.type}/${this.selectLevel}`
       )
         .then(res => {
           this.pagination = res.data.data;
@@ -883,17 +909,39 @@ export default {
         this.getAnswerInfo()
       })
     },
-    // 删除题目
+    // 试卷移除试题
     deleteRecord(questionId, type) {
-      this.$confirm("确定删除该题目吗,该操作不可逆！！！", "删除提示", {
-        confirmButtonText: '确定删除',
+      let questionType1 = 0
+      if (type === "选择题") {
+        questionType1 = 1
+      } else if (type === "填空题") {
+        questionType1 = 2
+      } else if (type === "判断题") {
+        questionType1 = 3
+      } else if (type === "简答题") {
+        questionType1 = 4
+      }
+      this.$confirm("确定移除该题目吗,该操作不可逆！！！", "移除提示", {
+        confirmButtonText: '确定移除',
         cancelButtonText: '算了,留着',
         type: 'danger'
-      }).then(() => { //确认删除
+      }).then(() => { //确认移除
         this.$axios({
-          url: `/api/answers/${questionId}/${type}`,
+          url: `/api/paperManage/${this.paperId}/${questionId}/${questionType1}`,
           method: 'delete',
         }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: '题目已移出试卷',
+              type: 'success'
+            })
+          }
+          // 将试卷的题数置空，重新调用 getAlreadyAddExamInfo()方法
+          this.alreadyAddExamChangeCount = 0;
+          this.alreadyAddExamFillCount = 0;
+          this.alreadyAddExamJudgeCount = 0;
+          this.alreadyAddExamShortCount = 0;
+          this.getAlreadyAddExamInfo()
           this.getAnswerInfo()
         })
       }).catch(() => {

@@ -2,6 +2,7 @@
 <template>
   <div class="exam">
 
+    <span>科目：</span>
     <!-- 科目选择下拉框 -->
     <el-select v-model="subjects" placeholder="请选择科目" style="width: 200px;" @change="getSubjectInfo">
       <el-option

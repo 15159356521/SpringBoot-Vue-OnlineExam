@@ -14,8 +14,10 @@ public interface PaperService {
 
     // 生成试卷中题目类型和题型对应的编号
     int add(PaperManage paperManage);
+
     //删除试卷中题目类型和题型对应的编号
-    int deleteQuest(Integer paperId,Integer questionId);
+    int deleteQuest(Integer paperId, Integer questionId, Integer questionType);
+
     //删除所有试卷对应的id题目
     int deleteAll(Integer paperId);
 }

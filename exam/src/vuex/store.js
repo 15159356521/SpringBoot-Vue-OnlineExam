@@ -10,25 +10,25 @@ const state = {
   menu: [{
     index: '0',
     title: '科目管理',
-    icon: 'icon-tiku',
+    icon: 'icon-tiku el-icon-notebook-1',
     content: [{item1: '科目管理', path: '/subjectManage'}, {item2: '添加科目', path: '/addSubject'}],
   },
     {
       index: '1',
       title: '考试管理',
-      icon: 'icon-kechengbiao',
+      icon: 'icon-kechengbiao el-icon-document',
       content: [{item1: '考试管理', path: '/selectExam'}, {item2: '添加考试', path: '/addExam'}],
     },
     {
       index: '2',
       title: '题库管理',
-      icon: 'icon-tiku',
+      icon: 'icon-tiku el-icon-notebook-2',
       content: [{item1: '题库管理', path: '/selectAnswer'}],
     },
     {
       index: '3',
       title: '成绩查询',
-      icon: 'icon-performance',
+      icon: 'icon-performance el-icon-medal',
       content: [{item1: '学生成绩查询', path: '/allStudentsGrade'}, {path: '/grade'}, {
         item2: '成绩分段查询',
         path: '/selectExamToPart'
@@ -37,13 +37,13 @@ const state = {
     {
       index: '4',
       title: '学生管理',
-      icon: 'icon-role',
+      icon: 'icon-role el-icon-user',
       content: [{item1: '学生管理', path: '/studentManage'}, {item2: '添加学生', path: '/addStudent'}],
     },
     // {
     //   index: '5',
     //   title: '教师管理',
-    //   icon: 'icon-Userselect',
+    //   icon: 'icon-Userselect el-icon-user-solid',
     //   content:[{item1:'教师管理',path:'/teacherManage'},{item2: '添加教师',path: '/addTeacher'}],
     // },
     // {
@@ -68,7 +68,7 @@ const mutations = {
   changeSubject(state, upSubject) {
 
     state.upSubject = upSubject
-    console.log(state.upSubject,"保存后科目");
+    console.log(state.upSubject, "保存后科目");
   }
 }
 const getters = {
@@ -79,7 +79,7 @@ const getters = {
     return state.isPractice
   },
   getSubject(state) {
-    console.log(state.upSubject,"获取科目");
+    console.log(state.upSubject, "获取科目");
     return state.upSubject
   }
 }

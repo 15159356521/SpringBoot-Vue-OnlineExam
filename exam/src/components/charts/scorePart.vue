@@ -1,13 +1,14 @@
 <template>
-  <div class="part" >
+  <div class="part">
     <div class="show" v-if="!isNull">
-  <div class="box" ref="box" ></div>
-  <el-button
-    type="primary"
-    @click="download()"
-    >导出成绩</el-button>
+      <div class="box" ref="box"></div>
+      <el-button
+        type="primary"
+        @click="download()"
+      >导出成绩
+      </el-button>
     </div>
-  
+
     <div v-if="isNull">
       <span>该门考试还没人参考哦,请提醒学生参加考试。</span>
     </div>
@@ -106,16 +107,35 @@ export default {
         }
       })
     },
+    // download() {
+    //   let examCode = this.$route.query.examCode
+    //   this.$axios({
+    //     url: `/api/tableExcel/${examCode}`,
+    //     method: 'get',
+    //
+    //   }).then(res => {
+    //     console.log(res.data);
+    //
+    //   })
+    // }
     download() {
-      let examCode = this.$route.query.examCode
+      let examCode = this.$route.query.examCode;
       this.$axios({
         url: `/api/tableExcel/${examCode}`,
         method: 'get',
-
+        responseType: 'blob' // 添加这一行，以获取二进制数据
       }).then(res => {
-        console.log(res.data);
-      
-      })
+        const blob = new Blob([res.data], {type: "application/vnd.ms-excel"}); // 将响应数据转换为Blob对象
+        const url = window.URL.createObjectURL(blob); // 创建临时URL
+        const link = document.createElement('a'); // 创建一个隐藏的<a>标签
+        link.href = url; // 设置链接地址为临时URL
+        link.download = `${this.name}成绩表.xlsx`; // 设置下载文件名
+        link.style.display = 'none'; // 隐藏<a>标签
+        document.body.appendChild(link); // 将<a>标签添加到页面中
+        link.click(); // 模拟点击事件，触发下载
+        document.body.removeChild(link); // 下载完成后，移除<a>标签
+        window.URL.revokeObjectURL(url); // 释放临时URL资源
+      });
     }
   },
 
@@ -129,6 +149,7 @@ export default {
     height: 400px;
     margin-left: 40px;
   }
+
   .show {
     display: flex;
     justify-content: center;

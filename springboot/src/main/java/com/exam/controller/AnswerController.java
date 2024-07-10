@@ -20,13 +20,16 @@ public class AnswerController {
     private AnswerServiceImpl answerService;
 
     //分页查询按科目实现 —— 题型归档信息
-    @GetMapping("/answers/{page}/{size}/{subjects}/{type}")
-    public ApiResult findAllQuestion(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("subjects") String subjects, @PathVariable("type") String type) {
+    @GetMapping("/answers/{page}/{size}/{subjects}/{type}/{level}")
+    public ApiResult findAllQuestion(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("subjects") String subjects, @PathVariable("type") String type, @PathVariable("level") String level) {
         Page<AnswerVO> answerVOPage = new Page<>(page, size);//分页查询
         if (subjects.equals("全部")) {
             subjects = "%";
         }
-        IPage<AnswerVO> answerVOIPage = answerService.findAll(answerVOPage, subjects, type);
+        if (level.equals("全部")) {
+            level = "%";
+        }
+        IPage<AnswerVO> answerVOIPage = answerService.findAll(answerVOPage, subjects, type, level);
         return ApiResultHandler.buildApiResult(200, "按科目查询题库", answerVOIPage);
 
     }

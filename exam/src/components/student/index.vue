@@ -52,6 +52,10 @@ export default {
     let isPractice = 0
     this.$store.commit("practice", isPractice)
     this.userInfo()
+    this.$cookies.remove("topic1Answer");
+              this.$cookies.remove("fillAnswer");
+              this.$cookies.remove("judgeAnswer");
+              this.$cookies.remove("shortAnswer");
   },
   methods: {
     exit() {  //退出登录

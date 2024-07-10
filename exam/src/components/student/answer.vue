@@ -5,7 +5,12 @@
     <div class="top">
       <ul class="item">
         <!-- 老师查看试卷后的返回上一页面事件 -->
-        <el-page-header v-if="isPractice == 2" @back="goBack" content="查看试卷" style="margin-right: 20px"/>
+        <el-page-header
+          v-if="isPractice == 2"
+          @back="goBack"
+          content="查看试卷"
+          style="margin-right: 20px"
+        />
         <li style="margin-right: 5px">
           <i
             class="iconfont icon-menufold icon20 el-icon-menu"
@@ -48,18 +53,24 @@
           </ul>
           <div class="l-bottom">
             <div class="item">
-              <p style="margin-bottom: 0px">题型<span style="float: right;margin-right: 20px;">作答/题数</span></p>
-              <p>选择题(共<span v-if="score[0] == null">0</span>
-                <span v-else-if="score[0] > 0">{{ score[0] }}</span>分)
-                <span v-if="topic[1] == null"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerChangeNumber
-                  }}/0</b>
+              <p style="margin-bottom: 0px">
+                题型<span style="float: right;margin-right: 20px;"
+                  >作答/题数</span
+                >
+              </p>
+              <p>
+                选择题(共<span v-if="score[0] == null">0</span>
+                <span v-else-if="score[0] > 0">{{ score[0] }}</span
+                >分)
+                <span
+                  v-if="topic[1] == null"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerChangeNumber }}/0</b>
                 </span>
-                <span v-else-if="topic[1].length > 0"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerChangeNumber
-                  }}/{{ topic[1].length }}</b>
+                <span
+                  v-else-if="topic[1].length > 0"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerChangeNumber }}/{{ topic[1].length }}</b>
                 </span>
               </p>
               <ul>
@@ -81,17 +92,19 @@
               </ul>
             </div>
             <div class="item">
-              <p>填空题(共<span v-if="score[1] == null">0</span>
-                <span v-else-if="score[1] > 0">{{ score[1] }}</span>分)
-                <span v-if="topic[2] == null"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerFillNumber
-                  }}/0</b>
+              <p>
+                填空题(共<span v-if="score[1] == null">0</span>
+                <span v-else-if="score[1] > 0">{{ score[1] }}</span
+                >分)
+                <span
+                  v-if="topic[2] == null"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerFillNumber }}/0</b>
                 </span>
-                <span v-else-if="topic[2].length > 0"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerFillNumber
-                  }}/{{ topic[2].length }}</b>
+                <span
+                  v-else-if="topic[2].length > 0"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerFillNumber }}/{{ topic[2].length }}</b>
                 </span>
               </p>
               <ul>
@@ -103,26 +116,28 @@
                       border: index == index2 && currentType == 2,
                       bg: fillAnswer[index2][3] == true
                     }"
-                  ><span
-                    :class="{ mark: topic[2][index2].isMark == true }"
-                  ></span
-                  >{{ topicCount[0] + index2 + 1 }}</a
+                    ><span
+                      :class="{ mark: topic[2][index2].isMark == true }"
+                    ></span
+                    >{{ topicCount[0] + index2 + 1 }}</a
                   >
                 </li>
               </ul>
             </div>
             <div class="item">
-              <p>判断题(共<span v-if="score[2] == null">0</span>
-                <span v-else-if="score[2] > 0">{{ score[2] }}</span>分)
-                <span v-if="topic[3] == null"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerJudgeNumber
-                  }}/0</b>
+              <p>
+                判断题(共<span v-if="score[2] == null">0</span>
+                <span v-else-if="score[2] > 0">{{ score[2] }}</span
+                >分)
+                <span
+                  v-if="topic[3] == null"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerJudgeNumber }}/0</b>
                 </span>
-                <span v-else-if="topic[3].length > 0"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerJudgeNumber
-                  }}/{{ topic[3].length }}</b>
+                <span
+                  v-else-if="topic[3].length > 0"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerJudgeNumber }}/{{ topic[3].length }}</b>
                 </span>
               </p>
               <ul>
@@ -134,26 +149,28 @@
                       border: index == index3 && currentType == 3,
                       bg: bg_flag && topic[3][index3].isClick == true
                     }"
-                  ><span
-                    :class="{ mark: topic[3][index3].isMark == true }"
-                  ></span
-                  >{{ topicCount[0] + topicCount[1] + index3 + 1 }}</a
+                    ><span
+                      :class="{ mark: topic[3][index3].isMark == true }"
+                    ></span
+                    >{{ topicCount[0] + topicCount[1] + index3 + 1 }}</a
                   >
                 </li>
               </ul>
             </div>
             <div class="item">
-              <p>简答题(共<span v-if="score[3] == null">0</span>
-                <span v-else-if="score[3] > 0">{{ score[3] }}</span>分)
-                <span v-if="topic[4] == null"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerShortNumber
-                  }}/0</b>
+              <p>
+                简答题(共<span v-if="score[3] == null">0</span>
+                <span v-else-if="score[3] > 0">{{ score[3] }}</span
+                >分)
+                <span
+                  v-if="topic[4] == null"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerShortNumber }}/0</b>
                 </span>
-                <span v-else-if="topic[4].length > 0"
-                      style="float: right;margin-right: 20px;color: #9a9a9a"><b>{{
-                    countAnswerShortNumber
-                  }}/{{ topic[4].length }}</b>
+                <span
+                  v-else-if="topic[4].length > 0"
+                  style="float: right;margin-right: 20px;color: #9a9a9a"
+                  ><b>{{ countAnswerShortNumber }}/{{ topic[4].length }}</b>
                 </span>
               </p>
               <ul>
@@ -165,17 +182,16 @@
                       border: index == index4 && currentType == 4,
                       bg: shortAnswer[index4] != null // 简答题不为空，颜色改变
                     }"
-                  ><span
-                    :class="{ mark: topic[4][index4].isMark == true }"
-                  ></span
-                  >{{
+                    ><span
+                      :class="{ mark: topic[4][index4].isMark == true }"
+                    ></span
+                    >{{
                       topicCount[0] + topicCount[1] + topicCount[2] + index4 + 1
                     }}</a
                   >
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
       </transition>
@@ -184,12 +200,17 @@
         <div class="right">
           <div class="title">
             <p>{{ title }}</p>
-            <i class="iconfont icon-right auto-right icon20 el-icon-caret-right" style="align-self: center"></i>
+            <i
+              class="iconfont icon-right auto-right icon20 el-icon-caret-right"
+              style="align-self: center"
+            ></i>
             <span
-            >全卷共{{
+              >全卷共{{
                 topicCount[0] + topicCount[1] + topicCount[2] + topicCount[3]
               }}题，满分{{ score[0] + score[1] + score[2] + score[3] }}分<i
-                class="iconfont icon-time icon20 el-icon-time"></i>倒计时：<b>{{ time }}</b
+                class="iconfont icon-time icon20 el-icon-time"
+              ></i
+              >倒计时：<b>{{ time }}</b
               >分钟</span
             >
           </div>
@@ -197,12 +218,11 @@
             <p style="padding-top: 10px;margin-left: -5px">
               <span class="number">{{ number }}</span>
               <span style="margin-left: 10px;color: #9a9a9a"
-              >分数 {{
-                  score[currentType - 1] / topicCount[currentType - 1]
-                }}</span>
+                >分数
+                {{ score[currentType - 1] / topicCount[currentType - 1] }}</span
+              >
             </p>
             <p class="topic">
-
               <span v-if="isInput" class="input">
                 <el-input
                   v-model="showQuestion"
@@ -218,38 +238,34 @@
                 type="success"
                 v-if="isPractice == 2"
                 @click="addQuestion()"
-              >添加题目
-              </el-button
-              >
+                >添加题目
+              </el-button>
               <el-button
                 type="primary"
                 v-if="isPractice == 2"
                 @click="showInput()"
-              >修改题目
-              </el-button
-              >
+                >修改题目
+              </el-button>
               <el-button
                 type="primary"
                 v-if="isPractice == 2"
                 @click="upTopic(index)"
-              >提交题目
-              </el-button
-              >
+                >提交题目
+              </el-button>
               <el-button
                 type="danger"
                 v-if="isPractice == 2"
                 @click="del(index)"
-              >删除题目
-              </el-button
-              >
+                >删除题目
+              </el-button>
             </p>
 
             <div v-if="currentType == 1">
               <div v-if="isInput">
-                <el-input v-model="showAnswer.answerA"/>
-                <el-input v-model="showAnswer.answerB"/>
-                <el-input v-model="showAnswer.answerC"/>
-                <el-input v-model="showAnswer.answerD"/>
+                <el-input v-model="showAnswer.answerA" />
+                <el-input v-model="showAnswer.answerB" />
+                <el-input v-model="showAnswer.answerC" />
+                <el-input v-model="showAnswer.answerD" />
               </div>
               <div v-else>
                 <el-radio-group v-model="radio[index]" @change="getChangeLabel">
@@ -264,13 +280,13 @@
                   <div v-if="isInput">
                     <li>
                       <el-tag type="success">正确答案：</el-tag>
-                      <el-input v-model="showAnswer.rightAnswer"/>
+                      <el-input v-model="showAnswer.rightAnswer" />
                     </li>
                     <li>
                       <el-tag>题目解析：</el-tag>
                     </li>
                     <li>
-                      <el-input v-model="reduceAnswer.analysis"/>
+                      <el-input v-model="reduceAnswer.analysis" />
                     </li>
                   </div>
                   <div v-else>
@@ -310,13 +326,13 @@
                   <div v-if="isInput">
                     <li>
                       <el-tag type="success">正确答案：</el-tag>
-                      <el-input v-model="topic[2][index].answer"/>
+                      <el-input v-model="topic[2][index].answer" />
                     </li>
                     <li>
                       <el-tag>题目解析：</el-tag>
                     </li>
                     <li>
-                      <el-input v-model="topic[2][index].analysis"/>
+                      <el-input v-model="topic[2][index].analysis" />
                     </li>
                   </div>
                   <div v-else>
@@ -367,14 +383,12 @@
                       <el-tag>题目解析：</el-tag>
                     </li>
                     <li>
-                      <el-input v-model="topic[3][index].analysis"/>
+                      <el-input v-model="topic[3][index].analysis" />
                     </li>
                   </div>
                   <div v-else>
                     <li>
-                      <el-tag type="success">正确答案：
-                      </el-tag
-                      >
+                      <el-tag type="success">正确答案： </el-tag>
                       <span class="right">{{ topic[3][index].answer }}</span>
                     </li>
                     <li>
@@ -409,20 +423,18 @@
                   <div v-if="isInput">
                     <li>
                       <el-tag type="success">正确答案：</el-tag>
-                      <el-input v-model="topic[4][index].answer"/>
+                      <el-input v-model="topic[4][index].answer" />
                     </li>
                     <li>
                       <el-tag>题目解析：</el-tag>
                     </li>
                     <li>
-                      <el-input v-model="topic[4][index].analysis"/>
+                      <el-input v-model="topic[4][index].analysis" />
                     </li>
                   </div>
                   <div v-else>
                     <li>
-                      <el-tag type="success">正确答案：
-                      </el-tag
-                      >
+                      <el-tag type="success">正确答案： </el-tag>
                       <span class="right">{{ topic[4][index].answer }}</span>
                     </li>
                     <li>
@@ -439,18 +451,20 @@
                 </ul>
               </div>
             </div>
-
           </div>
           <div class="operation">
             <ul class="end">
               <li @click="previous()">
-                <i class="iconfont icon-previous el-icon-arrow-left"></i><span>上一题</span>
+                <i class="iconfont icon-previous el-icon-arrow-left"></i
+                ><span>上一题</span>
               </li>
               <li @click="mark()">
-                <i class="iconfont icon-mark-o el-icon-collection-tag"></i><span>标记</span>
+                <i class="iconfont icon-mark-o el-icon-collection-tag"></i
+                ><span>标记</span>
               </li>
               <li @click="next()">
-                <span>下一题</span><i class="iconfont icon-next el-icon-arrow-right"></i>
+                <span>下一题</span
+                ><i class="iconfont icon-next el-icon-arrow-right"></i>
               </li>
             </ul>
           </div>
@@ -464,12 +478,16 @@
             <section class="update">
               <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="题目类型">
-                  <el-select v-model="form.optionValue" placeholder="请选择题目类型">
+                  <el-select
+                    v-model="form.optionValue"
+                    placeholder="请选择题目类型"
+                  >
                     <el-option
                       v-for="item in optionValueList"
                       :key="item"
                       :label="item"
-                      :value="item">
+                      :value="item"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -482,51 +500,102 @@
                       v-for="item in levelList"
                       :key="item"
                       :label="item"
-                      :value="item">
+                      :value="item"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="正确选项" v-if="form.optionValue =='选择题'">
-                  <el-select v-model="form.rightAnswer" placeholder="请选择正确选项">
+                <el-form-item
+                  label="正确选项"
+                  v-if="form.optionValue == '选择题'"
+                >
+                  <el-select
+                    v-model="form.rightAnswer"
+                    placeholder="请选择正确选项"
+                  >
                     <el-option
                       v-for="item in rightAnswerList"
                       :key="item"
                       :label="item"
-                      :value="item">
+                      :value="item"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="题目">
-                  <el-input v-model="form.question" type="textarea" rows="4" placeholder="请输入题目内容"></el-input>
-                </el-form-item>
-                <el-form-item label="A" v-if="form.optionValue =='选择题'">
-                  <el-input v-model="form.answerA" type="textarea" rows="2" placeholder="请输入A选项内容"></el-input>
-                </el-form-item>
-                <el-form-item label="B" v-if="form.optionValue =='选择题'">
-                  <el-input v-model="form.answerB" type="textarea" rows="2" placeholder="请输入B选项内容"></el-input>
-                </el-form-item>
-                <el-form-item label="C" v-if="form.optionValue =='选择题'">
-                  <el-input v-model="form.answerC" type="textarea" rows="2" placeholder="请输入C选项内容"></el-input>
-                </el-form-item>
-                <el-form-item label="D" v-if="form.optionValue =='选择题'">
-                  <el-input v-model="form.answerD" type="textarea" rows="2" placeholder="请输入D选项内容"></el-input>
-                </el-form-item>
-                <el-form-item label="正确答案" v-if="form.optionValue == '填空题' || form.optionValue == '简答题'">
-                  <el-input v-model="form.answer" type="textarea" rows="2" placeholder="请输入正确答案内容"
+                  <el-input
+                    v-model="form.question"
+                    type="textarea"
+                    rows="4"
+                    placeholder="请输入题目内容"
                   ></el-input>
                 </el-form-item>
-                <el-form-item label="正确答案" v-if="form.optionValue == '判断题'">
+                <el-form-item label="A" v-if="form.optionValue == '选择题'">
+                  <el-input
+                    v-model="form.answerA"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入A选项内容"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="B" v-if="form.optionValue == '选择题'">
+                  <el-input
+                    v-model="form.answerB"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入B选项内容"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="C" v-if="form.optionValue == '选择题'">
+                  <el-input
+                    v-model="form.answerC"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入C选项内容"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="D" v-if="form.optionValue == '选择题'">
+                  <el-input
+                    v-model="form.answerD"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入D选项内容"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item
+                  label="正确答案"
+                  v-if="
+                    form.optionValue == '填空题' || form.optionValue == '简答题'
+                  "
+                >
+                  <el-input
+                    v-model="form.answer"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入正确答案内容"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item
+                  label="正确答案"
+                  v-if="form.optionValue == '判断题'"
+                >
                   <el-select v-model="form.answer" placeholder="请选择正确答案">
                     <el-option
                       v-for="item in TFList"
                       :key="item"
                       :label="item"
-                      :value="item">
+                      :value="item"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="解析">
-                  <el-input v-model="form.analysis" type="textarea" rows="2" placeholder="请输入解析内容"></el-input>
+                  <el-input
+                    v-model="form.analysis"
+                    type="textarea"
+                    rows="2"
+                    placeholder="请输入解析内容"
+                  ></el-input>
                 </el-form-item>
               </el-form>
             </section>
@@ -535,17 +604,14 @@
               <el-button type="primary" @click="submit()">确 定</el-button>
             </span>
           </el-dialog>
-
-
         </div>
       </transition>
     </div>
-
   </div>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -592,7 +658,7 @@ export default {
       paperId: null, //试卷编号
 
       dialogVisible: false, //题目对话框状态
-      form: {subject: this.$route.query.subject, optionValue: "选择题"}, //保存点击以后当前题目的信息
+      form: { subject: this.$route.query.subject, optionValue: "选择题" }, //保存点击以后当前题目的信息
       levelList: ["1", "2", "3", "4", "5"], //难度等级类型
       optionValueList: ["选择题", "填空题", "判断题", "简答题"], //题型选中值
       rightAnswerList: ["A", "B", "C", "D"], //正确选项
@@ -600,7 +666,7 @@ export default {
       countAnswerChangeNumber: 0, //计数选择题被回答的数量
       countAnswerFillNumber: 0, //计数填空题被回答的数量
       countAnswerJudgeNumber: 0, //计数判断题被回答的数量
-      countAnswerShortNumber: 0, //计数简答题被回答的数量
+      countAnswerShortNumber: 0 //计数简答题被回答的数量
     };
   },
   created() {
@@ -609,35 +675,40 @@ export default {
     this.showTime();
   },
   mounted() {
-    document.addEventListener('copy', this.handleCopy);
-    document.addEventListener('paste', this.handlePaste);
-    document.addEventListener('visibilitychange', this.handleVisiable);
+    document.addEventListener("copy", this.handleCopy);
+    document.addEventListener("paste", this.handlePaste);
+    document.addEventListener("visibilitychange", this.handleVisiable);
   },
   beforeDestroy() {
-    document.removeEventListener('copy', this.handleCopy);
-    document.removeEventListener('paste', this.handlePaste);
+    document.removeEventListener("copy", this.handleCopy);
+    document.removeEventListener("paste", this.handlePaste);
   },
-  destroyed() { //组件销毁时移除事件监听
-    document.removeEventListener('visibilitychange', this.handleVisiable);
+  destroyed() {
+    //组件销毁时移除事件监听
+    document.removeEventListener("visibilitychange", this.handleVisiable);
   },
   methods: {
     // 老师查看试卷时，返回上一页面时间
     goBack() {
-      console.log('go back');
-      this.$router.go(-1)
+      console.log("go back");
+      this.$cookies.remove("topic1Answer");
+              this.$cookies.remove("fillAnswer");
+              this.$cookies.remove("judgeAnswer");
+              this.$cookies.remove("shortAnswer");
+      this.$router.go(-1);
     },
     handleVisiable(e) {
       console.log("页面变化");
       switch (e.target.visibilityState) {
-        case 'prerender':
-          console.log('网页预渲染，内容不可见')
+        case "prerender":
+          console.log("网页预渲染，内容不可见");
           break;
-        case 'hidden':
-          console.log('内容不可见，处理后台、最小化、锁屏状态')
-          alert('警告！你已经离开当前答题页面');
+        case "hidden":
+          console.log("内容不可见，处理后台、最小化、锁屏状态");
+          alert("警告！你已经离开当前答题页面");
           break;
-        case 'visible':
-          console.log('处于正常打开')
+        case "visible":
+          console.log("处于正常打开");
           break;
       }
     },
@@ -685,22 +756,31 @@ export default {
       //获取cookie
       this.userInfo.name = this.$cookies.get("cname");
       this.userInfo.id = this.$cookies.get("cid");
-      this.isPractice = this.$cookies.get("isPractice")
-      console.log(this.$cookies.get("topic1Answer"))
-      if (this.topic1Answer == []) {
-        this.topic1Answer = this.$cookies.get("topic1Answer")
-        if (val) {
-          let data = this.topic[1];
-          //判断用户是否答了该选择题，进行已答选择题的计数（去除任一点击计数bug）
-          if (this.radio[this.index] > 0 && data[this.index]["isClick"] !== true) {
-            this.countAnswerChangeNumber += 1;
-          }
-          this.bg_flag = true;
-          data[this.index]["isClick"] = true;
-        }
+      this.isPractice = this.$cookies.get("isPractice");
+      console.log(this.$cookies.get("topic1Answer"));
+
+      if (this.$cookies.get("topic1Answer") != null) {
+        this.topic1Answer = this.$cookies.get("topic1Answer");
+     
       }
-      console.log(this.$cookies.get("isPractice") + "cokky")
+      if (this.$cookies.get("fillAnswer") != null) {
+       
+        this.fillAnswer = this.$cookies.get("fillAnswer");
+      }
+      
+
+   
+      if (this.$cookies.get("judgeAnswer") != null) {
+        this.judgeAnswer = this.$cookies.get("judgeAnswer");
+      }
+        
+    if(this.$cookies.get("shortAnswer")!= null){
+      this.shortAnswer = this.$cookies.get("shortAnswer");
+    }
+
+      console.log(this.shortAnswer );
     },
+
     calcuScore() {
       //计算答题分数
     },
@@ -711,17 +791,53 @@ export default {
       let examCode = this.$route.query.examCode; //获取路由传递过来的试卷编号
       this.$axios(`/api/exam/${examCode}`).then(res => {
         //通过examCode请求试卷详细信息
-        this.examData = {...res.data.data}; //获取考试详情
+        this.examData = { ...res.data.data }; //获取考试详情
         this.index = 0;
         this.time = this.examData.totalScore; //获取分钟数
         this.timeLog = this.time;
         this.paperId = this.examData.paperId;
         this.$axios(`/api/paper/${this.paperId}`).then(res => {
           //通过paperId获取试题题目信息(及答案，后续提交进行判断出分数)
-          this.topic = {...res.data};
+          this.topic = { ...res.data };
+          console.log(this.topic[2]);
           let reduceAnswer = this.topic[1][this.index];
           this.reduceAnswer = reduceAnswer;
           let keys = Object.keys(this.topic); //对象转数组
+          try{
+            if (this.topic1Answer.length > 0) {
+            for (let i = 0; i < this.topic1Answer.length; i++) {
+              if (this.topic1Answer[i] != null) {
+                let data = this.topic[1];
+                this.radio[i] = this.topic1Answer[i];
+
+                this.bg_flag = true;
+                data[i]["isClick"] = true;
+              }
+            }
+          }
+          this.countAnswerChangeNumber += this.topic1Answer.length;
+          }catch(e){
+            this.topic1Answer = [];
+          }
+          try{
+       if (this.judgeAnswer.length > 0) {
+            for (let i = 0; i < this.judgeAnswer.length; i++) {
+              let data = this.topic[3];
+              //判断用户是否答了该选择题，进行已答选择题的计数（去除任一点击计数bug）
+              if (
+                this.judgeAnswer[i] !== null
+              ) {
+                this.bg_flag = true;
+              data[i]["isClick"] = true;
+              }
+             
+            }
+            this.countAnswerJudgeNumber += this.judgeAnswer.length;
+           
+          }
+          }catch(e){
+            this.fillAnswer = [[]];
+          }
           keys.forEach(e => {
             let data = this.topic[e];
             this.topicCount.push(data.length);
@@ -732,7 +848,20 @@ export default {
             }
             this.score.push(currentScore); //把每种题型总分存入score
           });
-          // 填空
+             //填空
+             try{
+            if (this.fillAnswer[0].length > 0) {
+            for (let i = 0; i < this.fillAnswer.length; i++) {
+              if (this.fillAnswer[i][0] != null) {
+                let data = this.topic[2];
+                this.countAnswerFillNumber += 1;
+                console.log(data[i]);
+              }
+            }
+            console.log(this.fillAnswer.length+"填空题d长度");
+            console.log(this.fillAnswer);
+          }else{
+                   // 填空
           let len = this.topicCount[1];
           let father = [];
           for (let i = 0; i < len; i++) {
@@ -741,6 +870,21 @@ export default {
             father.push(children);
           }
           this.fillAnswer = father;
+          console.log(this.fillAnswer.length+"填空题else长度");
+          }
+          }catch(e){
+                     // 填空
+          let len = this.topicCount[1];
+          let father = [];
+          for (let i = 0; i < len; i++) {
+            //根据填空题数量创建二维空数组存放每道题答案
+            let children = [null, null, null, null];
+            father.push(children);
+          }
+          this.fillAnswer = father;
+          console.log(this.fillAnswer.length+"填空题catch长度");
+          }
+   
           // 简答
           let shortLen = this.topicCount[3];
           let shortList = [];
@@ -748,7 +892,12 @@ export default {
             //根据简答题数量创建二维空数组存放每道题答案
             shortList.push(null);
           }
-          this.shortAnswer = shortList;
+          if(this.$cookies.get("shortAnswer")!=null){
+            this.shortAnswer = this.$cookies.get("shortAnswer");
+          }else{
+            this.shortAnswer = shortList;
+          }
+          
 
           let dataInit = this.topic[1];
           this.number = 1;
@@ -759,143 +908,155 @@ export default {
     },
     addQuestion() {
       //添加题目对话框（显示）
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
-    submit() { //在试卷中提交题目，进行添加题目进试卷
-      this.dialogVisible = false
+    submit() {
+      //在试卷中提交题目，进行添加题目进试卷
+      this.dialogVisible = false;
       if (this.form.optionValue == "选择题") {
         this.$axios({
-          url: '/api/addMultiQuestionEnterExam',
-          method: 'post',
+          url: "/api/addMultiQuestionEnterExam",
+          method: "post",
           data: {
             ...this.form
           }
         }).then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.code == 200) {
-            var questionId = res.data.data.questionId
+            var questionId = res.data.data.questionId;
             this.$axios({
-              url: '/api/paperManage',
-              method: 'post',
+              url: "/api/paperManage",
+              method: "post",
               data: {
                 paperId: this.paperId,
                 questionType: 1,
                 questionId: questionId
               }
             }).then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == 200) {
-                this.form = {subject: this.$route.query.subject, optionValue: "选择题"}
+                this.form = {
+                  subject: this.$route.query.subject,
+                  optionValue: "选择题"
+                };
                 this.$message({
-                  message: '选择题已添加进试卷',
-                  type: 'success'
-                })
+                  message: "选择题已添加进试卷",
+                  type: "success"
+                });
               }
-              this.getExamData()
-            })
+              this.getExamData();
+            });
           }
-        })
+        });
       }
       if (this.form.optionValue == "填空题") {
         this.$axios({
-          url: '/api/addFillQuestionEnterExam',
-          method: 'post',
+          url: "/api/addFillQuestionEnterExam",
+          method: "post",
           data: {
             ...this.form
           }
         }).then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.code == 200) {
-            var questionId = res.data.data.questionId
+            var questionId = res.data.data.questionId;
             this.$axios({
-              url: '/api/paperManage',
-              method: 'post',
+              url: "/api/paperManage",
+              method: "post",
               data: {
                 paperId: this.paperId,
                 questionType: 2,
                 questionId: questionId
               }
             }).then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == 200) {
-                this.form = {subject: this.$route.query.subject, optionValue: "选择题"}
+                this.form = {
+                  subject: this.$route.query.subject,
+                  optionValue: "选择题"
+                };
                 this.$message({
-                  message: '填空题已添加进试卷',
-                  type: 'success'
-                })
+                  message: "填空题已添加进试卷",
+                  type: "success"
+                });
               }
-              this.getExamData()
-            })
+              this.getExamData();
+            });
           }
-        })
+        });
       }
       if (this.form.optionValue == "判断题") {
         this.$axios({
-          url: '/api/addJudgeQuestionEnterExam',
-          method: 'post',
+          url: "/api/addJudgeQuestionEnterExam",
+          method: "post",
           data: {
             ...this.form
           }
         }).then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.code == 200) {
-            var questionId = res.data.data.questionId
+            var questionId = res.data.data.questionId;
             this.$axios({
-              url: '/api/paperManage',
-              method: 'post',
+              url: "/api/paperManage",
+              method: "post",
               data: {
                 paperId: this.paperId,
                 questionType: 3,
                 questionId: questionId
               }
             }).then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == 200) {
-                this.form = {subject: this.$route.query.subject, optionValue: "选择题"}
+                this.form = {
+                  subject: this.$route.query.subject,
+                  optionValue: "选择题"
+                };
                 this.$message({
-                  message: '判断题已添加进试卷',
-                  type: 'success'
-                })
+                  message: "判断题已添加进试卷",
+                  type: "success"
+                });
               }
-              this.getExamData()
-            })
+              this.getExamData();
+            });
           }
-        })
+        });
       }
       if (this.form.optionValue == "简答题") {
         this.$axios({
-          url: '/api/addShortQuestionEnterExam',
-          method: 'post',
+          url: "/api/addShortQuestionEnterExam",
+          method: "post",
           data: {
             ...this.form
           }
         }).then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.code == 200) {
-            var questionId = res.data.data.questionId
+            var questionId = res.data.data.questionId;
             this.$axios({
-              url: '/api/paperManage',
-              method: 'post',
+              url: "/api/paperManage",
+              method: "post",
               data: {
                 paperId: this.paperId,
                 questionType: 4,
                 questionId: questionId
               }
             }).then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == 200) {
-                this.form = {subject: this.$route.query.subject, optionValue: "选择题"}
+                this.form = {
+                  subject: this.$route.query.subject,
+                  optionValue: "选择题"
+                };
                 this.$message({
-                  message: '简答题已添加进试卷',
-                  type: 'success'
-                })
+                  message: "简答题已添加进试卷",
+                  type: "success"
+                });
               }
-              this.getExamData()
-            })
+              this.getExamData();
+            });
           }
-        })
+        });
       }
-
     },
     change(index) {
       //选择题
@@ -909,8 +1070,8 @@ export default {
         if (this.index <= 0) {
           this.index = 0;
         }
-        console.log(`总长度${len}`);
-        console.log(`当前index:${index}`);
+        // console.log(`总长度${len}`);
+        //console.log(`当前index:${index}`);
         this.title = "请选择正确的选项";
         let Data = this.topic[1];
         // console.log(Data)
@@ -930,8 +1091,8 @@ export default {
           this.countAnswerFillNumber += 1;
         }
         this.fillAnswer[this.index][3] = true;
-        this.$cookies.set("fillAnswer", fillAnswer)
-
+        console.log(this.fillAnswer);
+        this.$cookies.set("fillAnswer", this.fillAnswer);
       }
     },
     shortBG() {
@@ -939,11 +1100,13 @@ export default {
       if (this.shortAnswer[this.index] != null) {
         //判断用户是否答了该简答题，进行已答简答题的计数（去除任一点击计数bug）
         this.countAnswerShortNumber += 1;
+        this.$cookies.set("shortAnswer", this.shortAnswer);
       }
     },
     fill(index) {
       //填空题
       let len = this.topic[2].length;
+      console.log(this.fillAnswer);
       this.currentType = 2;
       this.index = index;
       if (index < len) {
@@ -983,7 +1146,6 @@ export default {
           console.log(Data);
           this.showQuestion = Data[index].question; //获取题目信息
           this.number = this.topicCount[0] + this.topicCount[1] + index + 1;
-
         }
       } else if (this.index >= len) {
         this.index = 0;
@@ -1024,7 +1186,10 @@ export default {
       if (val) {
         let data = this.topic[1];
         //判断用户是否答了该选择题，进行已答选择题的计数（去除任一点击计数bug）
-        if (this.radio[this.index] > 0 && data[this.index]["isClick"] !== true) {
+        if (
+          this.radio[this.index] > 0 &&
+          data[this.index]["isClick"] !== true
+        ) {
           this.countAnswerChangeNumber += 1;
         }
         this.bg_flag = true;
@@ -1033,22 +1198,19 @@ export default {
 
       /* 保存学生选择题答题选项到 topic1Answer列表中 */
       this.topic1Answer[this.index] = val;
-      let logTopic1Answer = this.topic1Answer
-      let topic1AnswerObj = {
-        topic1Answer: logTopic1Answer,
-      }
-      this.topic1AnswerObj.push(topic1AnswerObj)
-      this.$cookies.set("topic1Answer", this.topic1AnswerObj)
-      console.log(this.topic1AnswerObj)
+      this.$cookies.set("topic1Answer", this.topic1Answer);
     },
     getJudgeLabel(val) {
       //获取判断题作答选项
       this.judgeAnswer[this.index] = val;
-      this.$cookies.set("judgeAnswer", judgeAnswer)
+      this.$cookies.set("judgeAnswer", this.judgeAnswer);
       if (val) {
         let data = this.topic[3];
         //判断用户是否答了该选择题，进行已答选择题的计数（去除任一点击计数bug）
-        if (this.judgeAnswer[this.index] > 0 && data[this.index]["isClick"] !== true) {
+        if (
+          this.judgeAnswer[this.index] > 0 &&
+          data[this.index]["isClick"] !== true
+        ) {
           this.countAnswerJudgeNumber += 1;
         }
         this.bg_flag = true;
@@ -1097,22 +1259,22 @@ export default {
         case 1:
           this.topic[1][this.index]["isMark"] = !this.topic[1][this.index][
             "isMark"
-            ]; //选择题标记
+          ]; //选择题标记
           break;
         case 2:
           this.topic[2][this.index]["isMark"] = !this.topic[2][this.index][
             "isMark"
-            ]; //填空题标记
+          ]; //填空题标记
           break;
         case 3:
           this.topic[3][this.index]["isMark"] = !this.topic[3][this.index][
             "isMark"
-            ]; //判断题标记
+          ]; //判断题标记
           break;
         case 4:
           this.topic[4][this.index]["isMark"] = !this.topic[4][this.index][
             "isMark"
-            ]; //简答题标记
+          ]; //简答题标记
       }
     },
     commit() {
@@ -1135,7 +1297,7 @@ export default {
               if (element != null) {
                 switch (
                   element //选项1,2,3,4 转换为 "A","B","C","D"
-                  ) {
+                ) {
                   case 1:
                     right = "A";
                     break;
@@ -1158,8 +1320,8 @@ export default {
             });
 
             /**计算填空题总分 */
-              // console.log(`this.fillAnswer${this.fillAnswer}`)
-              // console.log(this.topic[2][this.index])
+            // console.log(`this.fillAnswer${this.fillAnswer}`)
+            // console.log(this.topic[2][this.index])
             let fillAnswer = this.fillAnswer;
             fillAnswer.forEach((element, index) => {
               //此处index和 this.index数据不一致，注意
@@ -1173,8 +1335,8 @@ export default {
             });
 
             /**计算简答题总分 */
-              // console.log(`this.fillAnswer${this.fillAnswer}`)
-              // console.log(this.topic[2][this.index])
+            // console.log(`this.fillAnswer${this.fillAnswer}`)
+            // console.log(this.topic[2][this.index])
             let shortAnswer = this.shortAnswer;
             shortAnswer.forEach((element, index) => {
               //此处index和 this.index数据不一致，注意
@@ -1242,6 +1404,10 @@ export default {
                   }
                 });
               }
+              this.$cookies.remove("topic1Answer");
+              this.$cookies.remove("fillAnswer");
+              this.$cookies.remove("judgeAnswer");
+              this.$cookies.remove("shortAnswer");
             });
           })
           .catch(() => {
@@ -1351,10 +1517,9 @@ export default {
         this.isInput = false;
         this.getExamData();
       }
-    },
+    }
     // 监听页面被切出或最小化，页面出现弹窗警告
-
-  },
+  }
   // computed: mapState(["isPractice"])
 };
 </script>
@@ -1382,7 +1547,7 @@ export default {
   }
 
   ul li:nth-child(3) {
-    color: #409EFF;
+    color: #409eff;
     font-size: 18px;
     border: 2px solid #d9ecff;
     padding: 0px 6px;

@@ -71,9 +71,8 @@ export default {
     };
   },
   methods: {
-    //用户注册请求后台处理
+    //用户登录请求后台处理
     login() {
-      console.log("注册操作执行-------");
 
       this.upUserPass = this.formLabelAlign;
 

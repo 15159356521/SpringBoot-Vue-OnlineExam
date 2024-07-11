@@ -872,7 +872,7 @@ export default {
         this.getAnswerInfo()
       })
     },
-    //试题添加进试卷
+    //手动组卷 —— 试题添加进试卷
     addExam(questionId, type) {
       let questionType = 0
       if (type === "选择题") {
@@ -909,7 +909,7 @@ export default {
         this.getAnswerInfo()
       })
     },
-    // 试卷移除试题
+    //手动组卷 —— 试卷移除试题
     deleteRecord(questionId, type) {
       let questionType1 = 0
       if (type === "选择题") {
@@ -949,28 +949,28 @@ export default {
       })
     },
 
-    // 手动组卷发送axios请求
+    // 随机组卷发送axios请求
     create() {
       this.$axios({
         url: "/api/item",
         method: "post",
         data: {
-          // 手动组卷 —— 选择题模块
+          // 随机组卷 —— 选择题模块
           esayChangeNumber: this.esayChangeNumber, //简单选择题出题数量
           commonChangeNumber: this.commonChangeNumber, //一般选择题出题数量
           difficultyChangeNumber: this.difficultyChangeNumber, //困难选择题出题数量
           changeScore: this.changeScore, //选择题分数
-          // 手动组卷 —— 填空题模块
+          // 随机组卷 —— 填空题模块
           esayFillNumber: this.esayFillNumber,
           commonFillNumber: this.commonFillNumber,
           difficultyFillNumber: this.difficultyFillNumber,
           fillScore: this.fillScore,
-          // 手动组卷 —— 判断题模块
+          // 随机组卷 —— 判断题模块
           esayJudgeNumber: this.esayJudgeNumber,
           commonJudgeNumber: this.commonJudgeNumber,
           difficultyJudgeNumber: this.difficultyJudgeNumber,
           judgeScore: this.judgeScore,
-          // 手动组卷 —— 简答题模块
+          // 随机组卷 —— 简答题模块
           esayShorNumber: this.esayShorNumber,
           commonShorNumber: this.commonShorNumber,
           difficultyShorNumber: this.difficultyShorNumber,
@@ -1017,7 +1017,7 @@ export default {
         this.difficultyUp()
       }
     },
-    // 简单随机组卷
+    // 简单智能组卷
     simpleUp() {
       this.$axios({
         url: "/api/simpleItem",
@@ -1057,7 +1057,7 @@ export default {
         }
       });
     },
-    // 一般随机组卷
+    // 一般智能组卷
     commonUp() {
       this.$axios({
         url: "/api/commonItem",
@@ -1097,7 +1097,7 @@ export default {
         }
       });
     },
-    // 困难随机组卷
+    // 困难智能组卷
     difficultyUp() {
       this.$axios({
         url: "/api/difficultyItem",

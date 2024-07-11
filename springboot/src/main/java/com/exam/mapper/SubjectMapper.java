@@ -42,5 +42,7 @@ public interface SubjectMapper {
     // 查询所有科目名称（用于下拉框信息获取）
     @Select("select * from subject")
     List<Subject> findBySubjectName();
+    @Select("select * from subject where subjectName like concat('%',#{subName},'%')")
+    List<Subject> findBySubName(String subName);
 
 }

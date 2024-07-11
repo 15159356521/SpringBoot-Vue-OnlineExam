@@ -13,6 +13,10 @@ import java.util.List;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
+    @Override
+    public List<Subject> findBySubName(String subName) {
+        return subjectMapper.findBySubName(subName);
+    }
 
     @Autowired
     private SubjectMapper subjectMapper;

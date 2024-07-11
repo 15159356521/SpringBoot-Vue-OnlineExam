@@ -4,7 +4,8 @@
 
     <span>科目：</span>
     <!-- 科目选择下拉框 -->
-    <el-select v-model="subjects" placeholder="请选择科目" style="width: 200px;" @change="getSubjectInfo">
+    <div class="header">
+         <el-select v-model="subjects" placeholder="请选择科目" style="width: 200px;" @change="getSubjectInfo">
       <el-option
         v-for="item in subjectList"
         :key="item"
@@ -12,6 +13,19 @@
         :value="item"
       ></el-option>
     </el-select>
+
+          <div class="icon">
+            <el-input type="text" placeholder="试卷名称" class="search" v-model="key"
+           />
+           <el-button type="primary" @click="search()">搜索试卷</el-button>
+           </div>
+   
+        
+  
+    </div>
+ 
+  
+        
 
     <el-table :data="pagination.records" border>
       <el-table-column fixed="left" prop="source" label="试卷名称" width="180"></el-table-column>
@@ -157,6 +171,7 @@ export default {
         total: null, //记录条数
         size: 4 //每页条数
       },
+      key: "", //搜索框的值
       subjects: "全部", // 初始化当前科目类型为：全部
       pduanNewSubject: "全部", // 判断是新的科目就分页下标重置为 1
       subjectList: ["全部"], //存储所有科目的数组（用于分科目归档）
@@ -331,6 +346,17 @@ export default {
       }).catch(error => {
       })
     },
+    search() {
+      this.$axios('/api/exams').then(res => {
+        if (res.data.code == 200) {
+          let allExam = res.data.data
+          let newPage = allExam.filter(item => {
+            return item.source.includes(this.key)
+          })
+          this.pagination.records = newPage
+        }
+      })
+    },
     //改变当前记录条数
     handleSizeChange(val) {
       this.pagination.size = val
@@ -372,6 +398,16 @@ export default {
 <style lang="less" scoped>
 .exam {
   padding: 0px 40px;
+  .header {
+ display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .icon {
+    display: flex;
+    margin-right: 6px;
+}
 
   .page {
     margin-top: 20px;

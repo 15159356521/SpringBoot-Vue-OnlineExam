@@ -36,6 +36,11 @@ public class SubjectController {
         IPage<Subject> res = subjectService.findAll(subjectPage);
         return ApiResultHandler.buildApiResult(200, "分页查询所有科目信息", res);
     }
+    @GetMapping("/subjects/find/{subName}")
+    public ApiResult findSubName(@PathVariable("subName") String subName) {
+        List<Subject> res = subjectService.findBySubName(subName);
+        return ApiResultHandler.buildApiResult(200, "查询所有科目信息", res);
+    }
 
     // 找需要修改的科目编号
     @GetMapping("/subject/{subjectId}")

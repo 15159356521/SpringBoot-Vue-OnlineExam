@@ -3,8 +3,24 @@
   <div class="all">
 
     <el-table :data="pagination.records" border>
-      <el-table-column fixed="left" prop="subjectName" label="科目" width="1000"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="300">
+      <el-table-column fixed="left" prop="subjectName" label="科目" width="800"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="400"
+      
+      >
+      <template slot="header" slot-scope="scope">
+        <div class="right">
+          <div class="msg">
+            <p>科目管理</p>
+            </div>  
+
+          <div class="icon">
+            <el-input type="text" placeholder="科目名称" class="search" v-model="key"
+           />
+           <el-button type="primary" @click="search()">搜索科目</el-button>
+           </div>
+        </div>
+       
+      </template>
         <template slot-scope="scope">
           <el-button @click="add(scope.row.subjectName)" type="primary" size="small">
             增加题库
@@ -59,6 +75,7 @@ export default {
         total: null, //记录条数
         size: 6, //每页条数
       },
+      key: '', //搜索关键字
       dialogVisible: false, //对话框
       form: {}, //保存点击以后当前科目的信息
       rules: {    //表单验证规则
@@ -157,13 +174,34 @@ export default {
       })
       this.$store.commit("changeSubject", subject)
 
-    }
+    },
+        //搜索试卷
+        search() {
+      this.$axios(`/api/subjects/find/${this.key}`).then(res => {
+        if (res.data.code == 200) {
+          this.pagination = res.data.data;
+        }
+      })
+    },
   }
 };
 </script>
 <style lang="less" scoped>
 .all {
   padding: 0px 40px;
+  .right{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .msg {
+      font-size: 16px;
+    }
+    .icon {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 
   .page {
     margin-top: 20px;

@@ -354,6 +354,7 @@ export default {
             return item.source.includes(this.key)
           })
           this.pagination.records = newPage
+          this.key=""
         }
       })
     },

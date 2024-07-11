@@ -25,4 +25,6 @@ public interface SubjectService {
 
     // 查询所有科目名称（用于下拉框信息获取）
     List<Subject> findBySubjectName();
+
+    List<Subject> findBySubName(String subName);
 }
